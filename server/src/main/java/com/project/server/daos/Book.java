@@ -15,7 +15,7 @@ public class Book {
     @Id
     private String id;
     private String name;
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(
             name = "Book_Author",
             joinColumns =
@@ -24,9 +24,10 @@ public class Book {
                     @JoinColumn(name = "author_id", referencedColumnName = "id")
     )
     private Set<Author> authors = new HashSet<>();
-    private Date releasedDate;
+    private Long releasedYear;
     private int edition;
     private Date placedAt;
+    private Long quantity;
 
     public void addAuthor(Author author) {
         authors.add(author);
