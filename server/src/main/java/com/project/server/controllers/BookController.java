@@ -1,6 +1,7 @@
 package com.project.server.controllers;
 
 import com.project.server.daos.Book;
+import com.project.server.dtos.BookDto;
 import com.project.server.services.BookService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,13 +19,13 @@ public class BookController {
     }
 
     @GetMapping
-    public List<Book> getAllBooks() {
+    public List<BookDto> getAllBooks() {
         return bookService.getAll();
     }
 
     @PostMapping
-    public ResponseEntity<Book> addBook(
-            @RequestBody Book book
+    public ResponseEntity<BookDto> addBook(
+            @RequestBody BookDto book
     ) {
         bookService.addBook(book);
         return ResponseEntity
