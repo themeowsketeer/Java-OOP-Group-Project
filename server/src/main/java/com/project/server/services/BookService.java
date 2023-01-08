@@ -1,6 +1,6 @@
 package com.project.server.services;
 
-import com.project.server.models.Book;
+import com.project.server.daos.Book;
 
 import org.springframework.stereotype.Service;
 
@@ -12,9 +12,9 @@ import java.util.List;
 public class BookService {
     private List<Book> bookRepository = new ArrayList<>(
         Arrays.asList(
-                new Book("Norwegian Woods", "Haruki", 2002, 1),
-                new Book("Love", "sth", 2002, 12),
-                new Book("Yay", "af)", 2001, 12)
+                new Book("1", "Norwegian Woods", "Haruki", 2002, 1),
+                new Book("2", "Love", "sth", 2002, 12),
+                new Book("3", "Yay", "af)", 2001, 12)
         )
     );
 

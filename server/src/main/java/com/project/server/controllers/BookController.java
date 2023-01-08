@@ -1,6 +1,6 @@
 package com.project.server.controllers;
 
-import com.project.server.models.Book;
+import com.project.server.daos.Book;
 import com.project.server.services.BookService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
