@@ -1,6 +1,5 @@
 package com.project.server.controllers;
 
-import com.project.server.daos.Book;
 import com.project.server.dtos.BookDto;
 import com.project.server.services.BookService;
 import org.springframework.http.HttpStatus;
@@ -10,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/books")
+@RequestMapping("/api/books")
 public class BookController {
     private final BookService bookService;
 
@@ -27,10 +26,10 @@ public class BookController {
     public ResponseEntity<BookDto> addBook(
             @RequestBody BookDto book
     ) {
-        bookService.addBook(book);
+        BookDto persistedBook = bookService.addBook(book);
         return ResponseEntity
                 .status(HttpStatus.ACCEPTED)
-                .body(book);
+                .body(persistedBook);
     }
 
 }

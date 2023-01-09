@@ -8,9 +8,7 @@ import com.project.server.mappers.BookMapper;
 import com.project.server.repository.BookRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.Arrays;
+;
 import java.util.List;
 
 @Service
@@ -34,8 +32,8 @@ public class BookService {
     }
 
     @Transactional
-    public void addBook(BookDto book) {
+    public BookDto addBook(BookDto book) {
         Book entity = bookMapper.map(book);
-        bookRepository.save(entity);
+        return bookMapper.map(bookRepository.save(entity));
     }
 }

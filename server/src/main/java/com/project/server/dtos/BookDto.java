@@ -2,12 +2,9 @@ package com.project.server.dtos;
 
 
 import com.project.server.daos.Author;
-import jakarta.persistence.*;
 import lombok.Data;
 
-import java.time.Year;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Set;
 
 @Data
