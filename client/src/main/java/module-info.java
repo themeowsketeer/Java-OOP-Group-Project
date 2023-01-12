@@ -8,5 +8,5 @@ module com.project.client {
 
     opens com.project.client to javafx.fxml;
     exports com.project.client;
-    exports com.project.client.restapiClient;
+    exports com.project.client.RESTapiclients;
 }

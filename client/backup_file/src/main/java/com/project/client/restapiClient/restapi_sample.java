@@ -1,4 +1,4 @@
-package com.project.client.restapiClient;
+package com.project.client.RESTapiclients;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.core.type.TypeReference;
