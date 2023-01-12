@@ -1,13 +1,12 @@
-module org.modernclient.javafx_test {
+module com.project.client {
     requires javafx.controls;
-    requires javafx.graphics;
     requires javafx.fxml;
-
-    requires org.controlsfx.controls;
-    requires org.kordamp.bootstrapfx.core;
-    requires com.fasterxml.jackson.databind;
     requires java.net.http;
+    requires com.fasterxml.jackson.annotation;
+    requires com.fasterxml.jackson.core;
+    requires com.fasterxml.jackson.databind;
 
-    opens org.modernclient.javafx_test;
-    exports org.modernclient.javafx_test.model to com.fasterxml.jackson.databind;
+    opens com.project.client to javafx.fxml;
+    exports com.project.client;
+    exports com.project.client.restapiClient;
 }
