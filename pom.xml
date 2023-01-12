@@ -8,7 +8,7 @@
   <packaging>pom</packaging>
 
   <name>Java-OOP-Group-Project</name>
-  <url>http://maven.apache.org</url>
+  <url>https://maven.apache.org</url>
 
   <modules>
     <module>server</module>

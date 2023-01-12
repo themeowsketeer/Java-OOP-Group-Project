@@ -5,9 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.modernclient</groupId>
-    <artifactId>javafx_test</artifactId>
+    <artifactId>java_project</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>javafx_test</name>
+    <name>java_project</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

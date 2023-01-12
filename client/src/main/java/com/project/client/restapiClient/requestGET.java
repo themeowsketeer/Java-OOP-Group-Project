@@ -1,29 +1,28 @@
 package com.project.client.restapiClient;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import com.project.client.object.Book;
 
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-import com.project.client.object.Book;
-
-public class restapi_sample {
+public class requestGET {
 
     @JsonIgnoreProperties(ignoreUnknown = true)
-    private static void addBook(Book book) {
+    private static void getJSON() {
         try {
             String restUrl =
-                    "api/books"
+                    "http://localhost:8080/api/books"
                             ;
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder()
-                    .POST(HttpRequest.BodyPublishers.ofString(book.toString()))
-                    .header("content-type","application/json")
+                    .GET()
+                    .header("accept","application/json")
                     .uri(URI.create(restUrl))
                     .build();
             HttpResponse<String> response = client.send(request,HttpResponse.BodyHandlers.ofString());
@@ -36,7 +35,6 @@ public class restapi_sample {
         }
     }
     public static void main(String[] arg){
-        Book book_1 = new Book();
-        addBook(book_1);
+        getJSON();
     }
 }
