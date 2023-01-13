@@ -1,6 +1,7 @@
 package com.project.client.RESTapiclients;
 
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -20,6 +21,6 @@ class BookRESTRequestTest {
                 .uri(URI.create(url))
                 .build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        fail("FIXME");
+        assertEquals(200,response.statusCode());
     }
 }
