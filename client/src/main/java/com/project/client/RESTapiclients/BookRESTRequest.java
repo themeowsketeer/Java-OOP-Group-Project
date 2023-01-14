@@ -14,7 +14,7 @@ import java.net.http.HttpResponse;
 class BookRESTRequest {
 
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public static HttpResponse<String> getJSON() {
+    public static void getJSON() {
         try {
             String restUrl =
                     "http://localhost:8080/api/books";
@@ -27,16 +27,14 @@ class BookRESTRequest {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-            return response;
         } catch (Throwable e) {
             System.out.println("Error: " + e);
             e.printStackTrace();
-            return null;
         }
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public static HttpResponse<String> addJSON(Book book) {
+    public static void addJSON(Book book) {
         try {
             String restUrl =
                     "http://localhost:8080/api/books";
@@ -47,11 +45,27 @@ class BookRESTRequest {
                     .uri(URI.create(restUrl))
                     .build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            return response;
         } catch (Throwable e) {
             System.out.println("Error: " + e);
             e.printStackTrace();
-            return null;
+        }
+    }
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static void deleteJSON(String id) {
+        try {
+            String restUrl =
+                    "http://localhost:8080/api/books";
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .DELETE()
+                    .header("Content-Type", "application/json")
+                    .uri(URI.create(restUrl))
+                    .build();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (Throwable e) {
+            System.out.println("Error: " + e);
+            e.printStackTrace();
         }
     }
 }
