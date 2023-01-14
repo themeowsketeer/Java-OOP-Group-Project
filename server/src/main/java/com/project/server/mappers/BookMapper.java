@@ -5,6 +5,8 @@ import com.project.server.daos.Book;
 import com.project.server.dtos.AuthorDto;
 import com.project.server.dtos.BookDto;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 import java.util.List;
 import java.util.Set;
@@ -19,4 +21,7 @@ public interface BookMapper {
     Book map(BookDto book);
     Author map(AuthorDto author);
     List<BookDto> map(List<Book> books);
+
+    @Mapping(ignore = true, target = "id")
+    void mapTo(@MappingTarget Book entity, BookDto book);
 }

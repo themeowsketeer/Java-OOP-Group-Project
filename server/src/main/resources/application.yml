@@ -19,3 +19,9 @@ spring:
       path: /h2-console
       settings.trace: false
       settings.web-allow-others: false
+  server:
+    error:
+      include-message: always
+      include-binding-errors: always
+      include-stacktrace: never
+      include-exception: false

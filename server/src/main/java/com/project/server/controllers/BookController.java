@@ -22,7 +22,13 @@ public class BookController {
         return bookService.getAll();
     }
 
+    @GetMapping(value = "/{id}")
+    public BookDto addBook(@PathVariable String id) {
+        return bookService.getBookById(id);
+    }
+
     @PostMapping
+    @ResponseStatus(HttpStatus.ACCEPTED)
     public ResponseEntity<BookDto> addBook(
             @RequestBody BookDto book
     ) {
@@ -30,6 +36,23 @@ public class BookController {
         return ResponseEntity
                 .status(HttpStatus.ACCEPTED)
                 .body(persistedBook);
+    }
+
+    @PutMapping(value = "/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public BookDto updateBook(
+            @PathVariable("id") String id,
+            @RequestBody BookDto book
+    ) {
+        return bookService.updateBook(id, book);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteBook(
+            @PathVariable("id") String id
+    ) {
+        bookService.deleteBook(id);
     }
 
 }
