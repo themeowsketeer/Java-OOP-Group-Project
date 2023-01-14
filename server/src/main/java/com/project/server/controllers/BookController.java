@@ -22,14 +22,37 @@ public class BookController {
         return bookService.getAll();
     }
 
+    @GetMapping(value = "/{id}")
+    public BookDto addBook(@PathVariable String id) {
+        return bookService.getBookById(id);
+    }
+
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<BookDto> addBook(
             @RequestBody BookDto book
     ) {
         BookDto persistedBook = bookService.addBook(book);
         return ResponseEntity
-                .status(HttpStatus.ACCEPTED)
+                .status(HttpStatus.CREATED)
                 .body(persistedBook);
+    }
+
+    @PutMapping(value = "/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public BookDto updateBook(
+            @PathVariable("id") String id,
+            @RequestBody BookDto book
+    ) {
+        return bookService.updateBook(id, book);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteBook(
+            @PathVariable("id") String id
+    ) {
+        bookService.deleteBook(id);
     }
 
 }

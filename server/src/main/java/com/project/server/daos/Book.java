@@ -11,6 +11,7 @@ import java.util.Set;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Book {
     @Id
     private String id;
@@ -26,6 +27,7 @@ public class Book {
     private Set<Author> authors = new HashSet<>();
     private Long releasedYear;
     private int edition;
+//    @Temporal(TemporalType.DATE)
     private Date placedAt;
     private Long quantity;
 

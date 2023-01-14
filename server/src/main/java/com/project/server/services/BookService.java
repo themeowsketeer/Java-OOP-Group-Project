@@ -28,12 +28,27 @@ public class BookService {
     public BookDto getBookById(String id) {
         return bookRepository.findById(id)
                 .map(bookMapper::map)
-                .orElseThrow(() -> new RecordNotFoundException(1, "Book Not Found"));
+                .orElseThrow(() -> new RecordNotFoundException("Book Not Found"));
     }
 
     @Transactional
     public BookDto addBook(BookDto book) {
         Book entity = bookMapper.map(book);
         return bookMapper.map(bookRepository.save(entity));
+    }
+
+    @Transactional
+    public BookDto updateBook(String id, BookDto book) {
+        Book entity = bookRepository.findById(id)
+               .orElseThrow(() -> new RecordNotFoundException("Book Not Found"));
+
+        bookMapper.mapTo(entity, book);
+        bookRepository.save(entity);
+        return bookMapper.map(entity);
+    }
+
+    @Transactional
+    public void deleteBook(String id) {
+        bookRepository.deleteById(id);
     }
 }
