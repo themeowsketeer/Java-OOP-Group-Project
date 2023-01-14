@@ -2,12 +2,14 @@ package com.project.server.dtos;
 
 
 import com.project.server.daos.Author;
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.Date;
 import java.util.Set;
 
 @Data
+@Builder
 public class BookDto {
     private String id;
     private String name;

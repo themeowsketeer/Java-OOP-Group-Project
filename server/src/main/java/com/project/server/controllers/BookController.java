@@ -28,13 +28,13 @@ public class BookController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<BookDto> addBook(
             @RequestBody BookDto book
     ) {
         BookDto persistedBook = bookService.addBook(book);
         return ResponseEntity
-                .status(HttpStatus.ACCEPTED)
+                .status(HttpStatus.CREATED)
                 .body(persistedBook);
     }
 

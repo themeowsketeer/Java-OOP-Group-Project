@@ -1,15 +1,13 @@
 package com.project.server.daos;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Generated;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Author {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
