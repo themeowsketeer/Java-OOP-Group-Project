@@ -1,6 +1,5 @@
 package com.project.client.RESTapiclients;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.client.object.Book;
 
