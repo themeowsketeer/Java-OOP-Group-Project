@@ -48,7 +48,7 @@ public class BookController {
     }
 
     @DeleteMapping(value = "/{id}")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteBook(
             @PathVariable("id") String id
     ) {

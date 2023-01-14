@@ -28,7 +28,7 @@ public class BookService {
     public BookDto getBookById(String id) {
         return bookRepository.findById(id)
                 .map(bookMapper::map)
-                .orElseThrow(() -> new RecordNotFoundException(1, "Book Not Found"));
+                .orElseThrow(() -> new RecordNotFoundException("Book Not Found"));
     }
 
     @Transactional
@@ -40,7 +40,7 @@ public class BookService {
     @Transactional
     public BookDto updateBook(String id, BookDto book) {
         Book entity = bookRepository.findById(id)
-               .orElseThrow(() -> new RecordNotFoundException(1, "Book Not Found"));
+               .orElseThrow(() -> new RecordNotFoundException("Book Not Found"));
 
         bookMapper.mapTo(entity, book);
         bookRepository.save(entity);

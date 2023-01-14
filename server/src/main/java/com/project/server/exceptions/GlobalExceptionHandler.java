@@ -11,8 +11,8 @@ public class GlobalExceptionHandler {
     @ResponseBody
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(RecordNotFoundException.class)
-    public String recordNotFoundHandler(RecordNotFoundException ex) {
-        return ex.getMessage();
+    public ErrorResponse recordNotFoundHandler(RecordNotFoundException ex) {
+        return new ErrorResponse(HttpStatus.NOT_FOUND.value(), ex.getMessage());
     }
 }
 
