@@ -1,55 +1,17 @@
 package com.project.client.object;
 
-import java.util.Objects;
+import java.util.Date;
+import java.util.Set;
 
 public class Book {
 
     private String id;
-    private String Name;
-    private String Author;
+    private String name;
+    private Set<Author> authors;
     private Long releasedYear;
-    private Integer edition;
-    private Integer quantity;
-
-    public String getName() {
-        return Name;
-    }
-
-    public void setName(String name) {
-        Name = name;
-    }
-
-    public String getAuthor() {
-        return Author;
-    }
-
-    public void setAuthor(String author) {
-        Author = author;
-    }
-
-    public Long getreleasedYear() {
-        return releasedYear;
-    }
-
-    public void setreleasedYear(Long releasedYear) {
-        this.releasedYear = releasedYear;
-    }
-
-    public Integer getEdition() {
-        return edition;
-    }
-
-    public void setEdition(Integer edition) {
-        this.edition = edition;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
+    private int edition;
+    private Date placedAt;
+    private int quantity;
 
     public String getId() {
         return id;
@@ -59,27 +21,85 @@ public class Book {
         this.id = id;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Set<Author> getAuthors() {
+        return authors;
+    }
+
+    public void setAuthors(Set<Author> authors) {
+        this.authors = authors;
+    }
+
+    public Long getReleasedYear() {
+        return releasedYear;
+    }
+
+    public void setReleasedYear(Long releasedYear) {
+        this.releasedYear = releasedYear;
+    }
+
+    public int getEdition() {
+        return edition;
+    }
+
+    public void setEdition(int edition) {
+        this.edition = edition;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public Date getPlacedAt() {
+        return placedAt;
+    }
+
+    public void setPlacedAt(Date placedAt) {
+        this.placedAt = placedAt;
+    }
+
+    public Book(String id, String name, Set<Author> authors, Long releasedYear, int edition, int quantity, Date placedAt) {
+        this.id = id;
+        this.name = name;
+        this.authors = authors;
+        this.releasedYear = releasedYear;
+        this.edition = edition;
+        this.quantity = quantity;
+        this.placedAt = placedAt;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Book book)) return false;
 
+        if (getEdition() != book.getEdition()) return false;
+        if (getQuantity() != book.getQuantity()) return false;
         if (getId() != null ? !getId().equals(book.getId()) : book.getId() != null) return false;
         if (getName() != null ? !getName().equals(book.getName()) : book.getName() != null) return false;
-        if (getAuthor() != null ? !getAuthor().equals(book.getAuthor()) : book.getAuthor() != null) return false;
-        if (!Objects.equals(releasedYear, book.releasedYear)) return false;
-        if (getEdition() != null ? !getEdition().equals(book.getEdition()) : book.getEdition() != null) return false;
-        return getQuantity() != null ? getQuantity().equals(book.getQuantity()) : book.getQuantity() == null;
+        if (getAuthors() != null ? !getAuthors().equals(book.getAuthors()) : book.getAuthors() != null) return false;
+        return getReleasedYear() != null ? getReleasedYear().equals(book.getReleasedYear()) : book.getReleasedYear() == null;
     }
 
     @Override
     public int hashCode() {
         int result = getId() != null ? getId().hashCode() : 0;
         result = 31 * result + (getName() != null ? getName().hashCode() : 0);
-        result = 31 * result + (getAuthor() != null ? getAuthor().hashCode() : 0);
-        result = 31 * result + (releasedYear != null ? releasedYear.hashCode() : 0);
-        result = 31 * result + (getEdition() != null ? getEdition().hashCode() : 0);
-        result = 31 * result + (getQuantity() != null ? getQuantity().hashCode() : 0);
+        result = 31 * result + (getAuthors() != null ? getAuthors().hashCode() : 0);
+        result = 31 * result + (getReleasedYear() != null ? getReleasedYear().hashCode() : 0);
+        result = 31 * result + getEdition();
+        result = 31 * result + getQuantity();
         return result;
     }
 
@@ -87,11 +107,12 @@ public class Book {
     public String toString() {
         return "Book{" +
                 "id='" + id + '\'' +
-                ", Name='" + Name + '\'' +
-                ", Author='" + Author + '\'' +
+                ", name='" + name + '\'' +
+                ", authors=" + authors +
                 ", releasedYear=" + releasedYear +
                 ", edition=" + edition +
                 ", quantity=" + quantity +
+                ", placedAt=" + placedAt +
                 '}';
     }
 }

@@ -1,5 +1,6 @@
 package com.project.client.RESTapiclients;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.client.object.Book;
 
@@ -14,10 +15,10 @@ class BookRESTRequest {
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
-    public static void getJSON() {
+    public static void getBookByID(int bookID) {
         try {
             String restUrl =
-                    "http://localhost:8080/api/books";
+                    "http://localhost:8080/api/books" + bookID;
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder()
                     .GET()
@@ -25,13 +26,14 @@ class BookRESTRequest {
                     .uri(URI.create(restUrl))
                     .build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            Book book = objectMapper.readValue(response.body(), new TypeReference<>() {});
         } catch (Throwable e) {
             System.out.println("Error: " + e);
             e.printStackTrace();
         }
     }
 
-    public static void addJSON(Book book) {
+    public static void addBook(Book book) {
         try {
             String restUrl =
                     "http://localhost:8080/api/books";
@@ -47,10 +49,10 @@ class BookRESTRequest {
         }
     }
 
-    public static void deleteJSON(String id) {
+    public static void deleteBookByID(int id) {
         try {
             String restUrl =
-                    "http://localhost:8080/api/books" + id;
+                    "http://localhost:8080/api/books/" + id;
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder()
                     .DELETE()

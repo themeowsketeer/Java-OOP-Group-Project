@@ -6,7 +6,5 @@ module com.project.client {
     requires com.fasterxml.jackson.core;
     requires com.fasterxml.jackson.databind;
 
-    opens com.project.client to javafx.fxml;
-    exports com.project.client;
-    exports com.project.client.RESTapiclients;
+    exports com.project.client.object to com.fasterxml.jackson.databind;
 }
