@@ -15,54 +15,72 @@ class BookRESTRequest {
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
-    public static void getBookByID(int bookID) {
+    private static final String baseUrl = "http://localhost:8080/api/books";
+
+    public static HttpResponse<String> getBookByID(int bookID) {
         try {
-            String restUrl =
-                    "http://localhost:8080/api/books" + bookID;
+            String restUrl = baseUrl + "/" + bookID;
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder()
                     .GET()
                     .header("Accept", "application/json")
                     .uri(URI.create(restUrl))
                     .build();
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            Book book = objectMapper.readValue(response.body(), new TypeReference<>() {});
+            //            Book book = objectMapper.readValue(response.body(), new TypeReference<>() {});
+            return client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Throwable e) {
             System.out.println("Error: " + e);
             e.printStackTrace();
+            return null;
         }
     }
 
-    public static void addBook(Book book) {
+    public static HttpResponse<String> addnewBook(Book book) {
         try {
-            String restUrl =
-                    "http://localhost:8080/api/books";
             HttpRequest request = HttpRequest.newBuilder()
-                    .POST(HttpRequest.BodyPublishers.ofString(book.toString()))
+                    .POST(HttpRequest.BodyPublishers.ofString(objectMapper.writeValueAsString(book)))
+                    .header("Content-Type", "application/json")
+                    .uri(URI.create(baseUrl))
+                    .build();
+            return client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (Throwable e) {
+            System.out.println("Error: " + e);
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static HttpResponse<String> updateBookByID(int bookID, Book book) {
+        try {
+            String restUrl = baseUrl + "/" + bookID;
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .PUT(HttpRequest.BodyPublishers.ofString(objectMapper.writeValueAsString(book)))
                     .header("Content-Type", "application/json")
                     .uri(URI.create(restUrl))
                     .build();
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            return client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Throwable e) {
             System.out.println("Error: " + e);
             e.printStackTrace();
+            return null;
         }
     }
 
-    public static void deleteBookByID(int id) {
+    public static HttpResponse<String> deleteBookByID(int bookID) {
         try {
-            String restUrl =
-                    "http://localhost:8080/api/books/" + id;
+            String restUrl = baseUrl + "/" + bookID;
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder()
                     .DELETE()
                     .header("Content-Type", "application/json")
                     .uri(URI.create(restUrl))
                     .build();
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            return client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Throwable e) {
             System.out.println("Error: " + e);
             e.printStackTrace();
+            return null;
         }
     }
 }
