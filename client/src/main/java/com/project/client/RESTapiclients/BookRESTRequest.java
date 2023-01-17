@@ -1,6 +1,5 @@
 package com.project.client.RESTapiclients;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.client.object.Book;
 
@@ -35,7 +34,7 @@ class BookRESTRequest {
         }
     }
 
-    public static HttpResponse<String> addnewBook(Book book) {
+    public static HttpResponse<String> addNewBook(Book book) {
         try {
             HttpRequest request = HttpRequest.newBuilder()
                     .POST(HttpRequest.BodyPublishers.ofString(objectMapper.writeValueAsString(book)))
