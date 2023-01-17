@@ -16,7 +16,7 @@ class BookRESTRequest {
 
     private static final String baseUrl = "http://localhost:8080/api/books";
 
-    public static HttpResponse<String> getBookByID(int bookID) {
+    public static HttpResponse<String> getBookByID(String bookID) {
         try {
             String restUrl = baseUrl + "/" + bookID;
             HttpClient client = HttpClient.newHttpClient();
