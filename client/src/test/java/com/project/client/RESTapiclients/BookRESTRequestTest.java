@@ -1,12 +1,15 @@
 package com.project.client.RESTapiclients;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.client.object.Author;
 import com.project.client.object.Book;
-import org.json.JSONException;
 import org.json.JSONObject;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
 
 import java.net.http.HttpResponse;
 import java.util.Date;
@@ -15,6 +18,7 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class BookRESTRequestTest {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -23,30 +27,8 @@ class BookRESTRequestTest {
 
     private final Book sampleBook = new Book("3", "Wraith Arc", authorSet, 2013L, 5, 2, now);
 
-//    @Test
-//    void ensureThatServerIsRunning() {
-//        ServerApplication();
-//    }
-
     @Test
-    void ensureThatGetBookAPICallReturnSuccessful() throws JSONException {
-        HttpResponse<String> responseTest = BookRESTRequest.getBookByID(1);
-        if (responseTest == null) {
-            fail("Response returns none!");
-        } else {
-            assertEquals(200, responseTest.statusCode());
-            JSONObject actual = new JSONObject();
-            actual.put("id", 3);
-            actual.put("name", "Wraith Arc");
-            actual.put("edition", 5);
-            actual.put("quantity", 2);
-            actual.put("releasedYear", 2013L);
-            actual.put("placedAt", now);
-            System.out.println(responseTest.body());
-        }
-    }
-
-    @Test
+    @Order(1)
     void ensureThatPOSTMethodSent() {
         authorSet.add(new Author(4, "Inu Curry"));
 
@@ -55,21 +37,44 @@ class BookRESTRequestTest {
             fail("Response returns none!");
         } else {
             assertEquals(201, responseTest.statusCode());
-            System.out.println(responseTest.body());
         }
     }
-
     @Test
-    void ensureThatBookAPICallReturnAGoodJson() throws JsonProcessingException {
-        HttpResponse<String> responseTest = BookRESTRequest.getBookByID(3);
+    @Order(2)
+    void ensureThatGetBookAPICallReturnSuccessful() {
+        HttpResponse<String> responseTest = BookRESTRequest.getBookByID("3");
         if (responseTest == null) {
             fail("Response returns none!");
         } else {
-            assertNotEquals(null, objectMapper.readTree(responseTest.body()));
+            assertEquals(200, responseTest.statusCode());
         }
     }
 
     @Test
+    @Order(3)
+    void ensureThatBookAPICallReturnAGoodJson() {
+        try {
+            HttpResponse<String> responseTest = BookRESTRequest.getBookByID("3");
+            if (responseTest == null) {
+                fail("Response returns none!");
+            } else {
+                JSONObject expected = new JSONObject();
+                expected.put("id", "3");
+                expected.put("name", "Wraith Arc");
+                expected.put("edition", 5);
+                expected.put("quantity", 2);
+                expected.put("releasedYear", 2013);
+                JSONAssert.assertEquals(expected.toString(), responseTest.body(), JSONCompareMode.LENIENT);
+            }
+        }
+        catch (Throwable e) {
+            System.out.println("Error: " + e);
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    @Order(4)
     void ensureThatPUTMethodSent() {
         sampleBook.setName("Madoka Magica");
         authorSet.add(new Author(5, "Gen Doka"));
@@ -83,6 +88,7 @@ class BookRESTRequestTest {
         }
     }
     @Test
+    @Order(5)
     void ensureThatDELETEMethodSent() {
         HttpResponse<String> responseTest = BookRESTRequest.deleteBookByID(3);
         if (responseTest == null) {

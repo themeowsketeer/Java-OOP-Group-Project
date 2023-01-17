@@ -8,7 +8,7 @@ public class Book {
     private String id;
     private String name;
     private Set<Author> authors;
-    private Long releasedYear;
+    private long releasedYear;
     private int edition;
     private Date placedAt;
     private int quantity;
