@@ -1,6 +1,5 @@
 package com.project.client.RESTapiclients;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.client.object.Author;
 import com.project.client.object.Book;
 import org.json.JSONObject;
@@ -16,11 +15,11 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class BookRESTRequestTest {
-    private final ObjectMapper objectMapper = new ObjectMapper();
 
     Set<Author> authorSet = new HashSet<>();
     Date now = new Date();
