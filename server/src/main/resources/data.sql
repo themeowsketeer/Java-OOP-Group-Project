@@ -1,6 +1,6 @@
+delete from Book_Author;
 delete from Book;
 delete from Author;
-delete from Book_Author;
 
 insert into Book (id, name, released_year, edition, quantity, placed_at)
             values ('1', 'The Art Of Loving', 1995, 3, 20, '2023-01-08');
