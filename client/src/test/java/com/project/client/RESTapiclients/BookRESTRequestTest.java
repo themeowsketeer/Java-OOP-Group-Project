@@ -23,7 +23,6 @@ class BookRESTRequestTest {
 
     Set<Author> authorSet = new HashSet<>();
     Date now = new Date();
-
     private final Book sampleBook = new Book("3", "Wraith Arc", authorSet, 2013L, 5, 2, now);
 
     @Test

@@ -1,10 +1,17 @@
 package com.project.client;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
-import java.util.ResourceBundle;
-import java.util.logging.Logger;
+import java.net.http.HttpResponse;
+import java.util.*;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.project.client.RESTapiclients.BookRESTRequest;
+import com.project.client.object.Author;
+import com.project.client.object.Book;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,9 +19,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
+import static javafx.collections.FXCollections.observableArrayList;
+
 public class MainController {
+
+    private ObservableList<Book> book = observableArrayList();
 
     @FXML
     private ResourceBundle resources;
@@ -35,34 +47,34 @@ public class MainController {
     private Button userMenu;
 
     @FXML
-    private TableView<?> bookTable;
+    private TableView<Book> bookTable;
     @FXML
-    private TableColumn<?, ?> idCol;
+    private TableColumn<Book, String> idCol;
 
     @FXML
-    private TableColumn<?, ?> nameCol;
+    private TableColumn<Book, String> nameCol;
 
     @FXML
-    private TableColumn<?, ?> authorCol;
+    private TableColumn<Book, String> authorCol;
 
     @FXML
-    private TableColumn<?, ?> quantityCol;
+    private TableColumn<Book, Integer> quantityCol;
 
     @FXML
-    private TableColumn<?, ?> yearCol;
+    private TableColumn<Book, Long> yearCol;
 
     @FXML
-    private TableColumn<?, ?> editionCol;
+    private TableColumn<Book, Integer> editionCol;
 
     @FXML
-    private TableColumn<?, ?> uploadCol;
+    private TableColumn<Book, Date> uploadCol;
+
+    //@FXML
+    //private TableColumn<?, ?> actionCol;
 
     @FXML
-    private TableColumn<?, ?> actionCol;
-
-    @FXML
-    void initialize() {
-        assert actionCol != null : "fx:id=\"actionCol\" was not injected: check your FXML file 'main.fxml'.";
+    void initialize() throws JsonProcessingException {
+        //assert actionCol != null : "fx:id=\"actionCol\" was not injected: check your FXML file 'main.fxml'.";
         assert addBookButton != null : "fx:id=\"addBookButton\" was not injected: check your FXML file 'main.fxml'.";
         assert authorCol != null : "fx:id=\"authorCol\" was not injected: check your FXML file 'main.fxml'.";
         assert bookMenu != null : "fx:id=\"bookMenu\" was not injected: check your FXML file 'main.fxml'.";
@@ -75,6 +87,7 @@ public class MainController {
         assert uploadCol != null : "fx:id=\"uploadCol\" was not injected: check your FXML file 'main.fxml'.";
         assert userMenu != null : "fx:id=\"userMenu\" was not injected: check your FXML file 'main.fxml'.";
         assert yearCol != null : "fx:id=\"yearCol\" was not injected: check your FXML file 'main.fxml'.";
+        setTable();
     }
 
     @FXML
@@ -106,6 +119,32 @@ public class MainController {
         } catch (IOException e) {
             System.out.println("Error: " + e);
             e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void setTable() throws JsonProcessingException {
+        TableView bookTable = new TableView();
+        idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        authorCol.setCellValueFactory(new PropertyValueFactory<>("authors"));
+        yearCol.setCellValueFactory(new PropertyValueFactory<>("releasedYear"));
+        editionCol.setCellValueFactory(new PropertyValueFactory<>("edition"));
+        uploadCol.setCellValueFactory(new PropertyValueFactory<>("placedAt"));
+        quantityCol.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        updateData();
+        bookTable.setItems(book);
+    }
+
+    private void updateData() throws JsonProcessingException {
+        HttpResponse<String> response = BookRESTRequest.getBookByID(String.valueOf(0));
+        assert response != null;
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<Book> bookListDatabase = objectMapper.readValue(response.body(), new TypeReference<>() {
+        });
+        ObservableList<Book> bookList = bookTable.getItems();
+        for (Book book : bookListDatabase) {
+            bookList.add(book);
         }
     }
 }

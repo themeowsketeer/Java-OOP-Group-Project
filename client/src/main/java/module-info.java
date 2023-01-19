@@ -8,6 +8,7 @@ module com.project.client {
     requires java.logging;
 
     opens com.project.client to javafx.fxml;
+    opens com.project.client.object to javafx.base;
     exports com.project.client.object to com.fasterxml.jackson.databind;
     exports com.project.client to javafx.graphics;
 }

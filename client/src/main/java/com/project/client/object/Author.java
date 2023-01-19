@@ -27,6 +27,9 @@ public class Author {
         this.name = name;
     }
 
+    public Author() {
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -45,9 +48,10 @@ public class Author {
 
     @Override
     public String toString() {
-        return "Author{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
+//        return "Author{" +
+//                "id=" + id +
+//                ", name='" + name + '\'' +
+//                '}';
+        return name;
     }
 }

@@ -69,6 +69,9 @@ public class Book {
         this.placedAt = placedAt;
     }
 
+    public Book() {
+    }
+
     public Book(String id, String name, Set<Author> authors, Long releasedYear, int edition, int quantity, Date placedAt) {
         this.id = id;
         this.name = name;

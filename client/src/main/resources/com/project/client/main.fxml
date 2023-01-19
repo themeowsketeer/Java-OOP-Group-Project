@@ -68,12 +68,12 @@
               <columns>
                   <TableColumn fx:id="idCol" prefWidth="75.0" text="ID" />
                 <TableColumn fx:id="nameCol" prefWidth="200.0" text="Name" />
-                <TableColumn fx:id="authorCol" minWidth="0.0" prefWidth="200.0" text="Author" />
+                <TableColumn fx:id="authorCol" minWidth="0.0" prefWidth="190.0" text="Author" />
                   <TableColumn fx:id="quantityCol" prefWidth="60.0" text="Quantity" />
-                  <TableColumn fx:id="yearCol" prefWidth="75.0" text="Year" />
-                  <TableColumn fx:id="editionCol" prefWidth="60.0" text="Edition" />
-                  <TableColumn fx:id="uploadCol" prefWidth="100.0" text="Upload date" />
-                  <TableColumn fx:id="actionCol" prefWidth="110.0" text="Action" />
+                  <TableColumn fx:id="yearCol" prefWidth="50.0" text="Year" />
+                  <TableColumn fx:id="editionCol" prefWidth="50.0" text="Edition" />
+                  <TableColumn fx:id="uploadCol" prefWidth="170.0" text="Upload date" />
+                  <TableColumn fx:id="actionCol" prefWidth="75.0" text="Action" />
               </columns>
             </TableView>
          </center>
