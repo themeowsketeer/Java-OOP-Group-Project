@@ -8,7 +8,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-class BookRESTRequest {
+public class BookRESTRequest {
 
     private static final HttpClient client = HttpClient.newHttpClient();
 
@@ -18,14 +18,17 @@ class BookRESTRequest {
 
     public static HttpResponse<String> getBookByID(String bookID) {
         try {
-            String restUrl = baseUrl + "/" + bookID;
+            String restUrl = baseUrl;
+            if (!bookID.equals("0"))
+            {
+                restUrl += "/" + bookID;
+            }
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder()
                     .GET()
                     .header("Accept", "application/json")
                     .uri(URI.create(restUrl))
                     .build();
-            //            Book book = objectMapper.readValue(response.body(), new TypeReference<>() {});
             return client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Throwable e) {
             System.out.println("Error: " + e);

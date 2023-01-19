@@ -1,0 +1,80 @@
+.button {
+    -fx-background-color: #093162;
+    -fx-background-radius: 0.75em;
+    -fx-font-family: 'Segoe UI';
+    -fx-font-weight: BOLD;
+    -fx-text-fill: #fefefe;
+}
+
+.button:hover {
+    -fx-background-color: #0f4f9c;
+}
+
+/* Right button */
+.rightButton {
+    -fx-background-color: #009245;
+    -fx-background-radius: 0.75em;
+    -fx-font-family: 'Segoe UI';
+    -fx-font-weight: BOLD;
+    -fx-text-fill: #fefefe;
+}
+
+.rightButton:hover {
+    -fx-background-color: #39b54a;
+}
+
+/* Right button */
+.wrongButton {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0.75em;
+    -fx-font-family: 'Segoe UI';
+    -fx-font-weight: BOLD;
+    -fx-text-fill: #cb270a;
+}
+
+.rightButton:hover {
+    -fx-background-color: #999999;
+}
+
+/* Menu button */
+.menuButton {
+    -fx-background-color: #0f4f9c;
+}
+
+.menuButton:hover {
+    -fx-background-color: #093162;
+}
+
+.menuButton.pressed {
+    -fx-background-color: #093162;
+}
+
+.table-view.column-header,
+.table-view.column-header-background.filler {
+    -fx-cell-size: 20pt;
+}
+
+.table-view.column-header.label {
+    -fx-text-fill: #093162;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.table-view.cell {
+    -fx-cell-size: 30pt;
+    -fx-alignment: center_left;
+    -fx-text-fill: #999999;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.table.row.cell:selected {
+    -fx-background-color: #0f4f9c;
+}
+
+
+/* scroll bar starts here */
+/* increment and decrement button CSS class of scroll bar*/
+.table-view.increment-button,
+.table-view.decrement-button {
+
+}
