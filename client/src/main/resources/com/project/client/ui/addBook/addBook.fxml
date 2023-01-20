@@ -13,13 +13,13 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" stylesheets="@css/styling.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.client.AddBookController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" stylesheets="@../../../../../../resources/com/project/client/css/styling.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.client.ui.addBook.AddBookController">
    <top>
       <AnchorPane prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #093162;" BorderPane.alignment="CENTER">
          <children>
             <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="15.0">
                <image>
-                  <Image url="@icon/logo_white_blue.png" />
+                  <Image url="@../../../../../../resources/com/project/client/icon/logo_white_blue.png" />
                </image>
             </ImageView>
             <Label text="Add book" textFill="#a1bce7" AnchorPane.leftAnchor="60.0" AnchorPane.topAnchor="15.0">
@@ -79,7 +79,7 @@
                <graphic>
                   <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@icon/add_white.png" />
+                        <Image url="@../../../../../../resources/com/project/client/icon/add_white.png" />
                      </image>
                   </ImageView>
                </graphic>

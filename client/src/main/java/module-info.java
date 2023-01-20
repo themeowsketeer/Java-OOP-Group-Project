@@ -7,8 +7,12 @@ module com.project.client {
     requires com.fasterxml.jackson.databind;
     requires java.logging;
 
-    opens com.project.client to javafx.fxml;
     opens com.project.client.object to javafx.base;
+    opens com.project.client.ui.addBook;
+    opens com.project.client.ui.mainMenu;
+    opens com.project.client.ui.loginMenu;
     exports com.project.client.object to com.fasterxml.jackson.databind;
-    exports com.project.client to javafx.graphics;
+    exports com.project.client.ui.addBook;
+    exports com.project.client.ui.mainMenu;
+    exports com.project.client.ui.loginMenu;
 }

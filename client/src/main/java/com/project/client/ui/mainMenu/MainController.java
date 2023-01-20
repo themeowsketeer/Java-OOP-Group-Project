@@ -1,15 +1,9 @@
-package com.project.client;
-
-import java.io.*;
-import java.net.URL;
-import java.net.http.HttpResponse;
-import java.util.*;
+package com.project.client.ui.mainMenu;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.client.RESTapiclients.BookRESTRequest;
-import com.project.client.object.Author;
 import com.project.client.object.Book;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,6 +15,13 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.net.URL;
+import java.net.http.HttpResponse;
+import java.util.Date;
+import java.util.List;
+import java.util.ResourceBundle;
 
 import static javafx.collections.FXCollections.observableArrayList;
 
@@ -93,7 +94,7 @@ public class MainController {
     @FXML
     private void openAddBook(ActionEvent event) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(MainController.class.getResource("addBook.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(MainController.class.getResource("/com/project/client/ui/addBook/addBook.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 400, 400);
             Stage stage = new Stage();
             stage.setTitle("Add book");
@@ -110,7 +111,7 @@ public class MainController {
         try {
             Stage staging = (Stage) logoutButton.getScene().getWindow();
             staging.close();
-            FXMLLoader fxmlLoader = new FXMLLoader(MainController.class.getResource("login.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(MainController.class.getResource("/com/project/client/ui/loginMenu/login.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 600, 400);
             Stage stage = new Stage();
             stage.setTitle("Login");
@@ -143,8 +144,6 @@ public class MainController {
         List<Book> bookListDatabase = objectMapper.readValue(response.body(), new TypeReference<>() {
         });
         ObservableList<Book> bookList = bookTable.getItems();
-        for (Book book : bookListDatabase) {
-            bookList.add(book);
-        }
+        bookList.addAll(bookListDatabase);
     }
 }

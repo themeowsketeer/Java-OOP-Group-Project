@@ -1,9 +1,10 @@
-package com.project.client;
+package com.project.client.ui.loginMenu;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import com.project.client.ui.mainMenu.MainController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

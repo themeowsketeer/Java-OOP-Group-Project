@@ -1,4 +1,4 @@
-package com.project.client;
+package com.project.client.ui.loginMenu;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
