@@ -13,6 +13,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Builder
 public class Book {
+    private static final long serialVersionUID = 2396654715019746670L;
     @Id
     private String id;
     private String name;
