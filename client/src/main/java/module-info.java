@@ -8,9 +8,9 @@ module com.project.client {
     requires java.logging;
 
     opens com.project.client.object to javafx.base;
-    opens com.project.client.ui.addBook;
-    opens com.project.client.ui.mainMenu;
-    opens com.project.client.ui.loginMenu;
+    opens com.project.client.ui.addBook to javafx.fxml, javafx.graphics;
+    opens com.project.client.ui.mainMenu to javafx.fxml, javafx.graphics;
+    opens com.project.client.ui.loginMenu to javafx.fxml, javafx.graphics;
     exports com.project.client.object to com.fasterxml.jackson.databind;
     exports com.project.client.ui.addBook;
     exports com.project.client.ui.mainMenu;

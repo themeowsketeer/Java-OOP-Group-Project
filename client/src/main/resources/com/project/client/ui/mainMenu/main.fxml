@@ -17,7 +17,7 @@
          <children>
             <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="15.0">
                <image>
-                  <Image url="/com/project/client/icon/logo_white_blue.png" />
+                  <Image url="@../../icon/logo_white_blue.png" />
                </image>
             </ImageView>
             <Label layoutX="87.0" layoutY="15.0" text="FRA-UAS LIBRARY" textFill="#a1bce7" AnchorPane.leftAnchor="87.0" AnchorPane.topAnchor="15.0">
@@ -25,11 +25,11 @@
                   <Font name="Segoe UI Bold" size="24.0" />
                </font>
             </Label>
-            <Button fx:id="logoutButton" layoutX="912.0" layoutY="11.0" mnemonicParsing="false" onAction="#logout" stylesheets="/com/project/client/css/styling.css" AnchorPane.rightAnchor="15.0">
+            <Button fx:id="logoutButton" layoutX="912.0" layoutY="11.0" mnemonicParsing="false" onAction="#logout" stylesheets="@../../css/styling.css" AnchorPane.rightAnchor="15.0">
                <graphic>
                   <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="/com/project/client/icon/logout.png" />
+                        <Image url="@../../icon/logout.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -40,20 +40,20 @@
    <left>
       <AnchorPane prefHeight="200.0" prefWidth="90.0" style="-fx-background-color: #0f4f9c;" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="bookMenu" mnemonicParsing="false" prefHeight="26.0" prefWidth="90.0" styleClass="menuButton" stylesheets="/com/project/client/css/styling.css" AnchorPane.topAnchor="25.0">
+            <Button fx:id="bookMenu" mnemonicParsing="false" prefHeight="26.0" prefWidth="90.0" styleClass="menuButton" stylesheets="@../../css/styling.css" AnchorPane.topAnchor="25.0">
                <graphic>
                   <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="/com/project/client/icon/book.png" />
+                        <Image url="@../../icon/book.png" />
                      </image>
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="userMenu" layoutX="1.0" layoutY="82.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="90.0" styleClass="menuButton" stylesheets="/com/project/client/css/styling.css" AnchorPane.topAnchor="100.0">
+            <Button fx:id="userMenu" layoutX="1.0" layoutY="82.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="90.0" styleClass="menuButton" stylesheets="@../../css/styling.css" AnchorPane.topAnchor="100.0">
                <graphic>
                   <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="/com/project/client/icon/users.png" />
+                        <Image url="@../../icon/users.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -64,7 +64,7 @@
    <center>
       <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <center>
-            <TableView fx:id="bookTable" prefHeight="400.0" prefWidth="884.0" styleClass="column-header" stylesheets="/com/project/client/css/styling.css" BorderPane.alignment="CENTER">
+            <TableView fx:id="bookTable" prefHeight="400.0" prefWidth="884.0" styleClass="column-header" stylesheets="@../../css/styling.css" BorderPane.alignment="CENTER">
               <columns>
                   <TableColumn fx:id="idCol" prefWidth="75.0" text="ID" />
                 <TableColumn fx:id="nameCol" prefWidth="200.0" text="Name" />
@@ -80,14 +80,14 @@
          <top>
             <AnchorPane prefHeight="75.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button fx:id="addBookButton" mnemonicParsing="false" onAction="#openAddBook" stylesheets="/com/project/client/css/styling.css" text=" ADD" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="15.0">
+                  <Button fx:id="addBookButton" mnemonicParsing="false" onAction="#openAddBook" stylesheets="@../../css/styling.css" text=" ADD" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="15.0">
                      <padding>
                         <Insets bottom="10.0" left="30.0" right="30.0" top="10.0" />
                      </padding>
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="/com/project/client/icon/add_white.png" />
+                              <Image url="@../../icon/add_white.png" />
                            </image>
                         </ImageView>
                      </graphic>
