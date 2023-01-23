@@ -49,6 +49,7 @@ public class BookService {
 
     @Transactional
     public void deleteBook(String id) {
+        if (!bookRepository.existsById(id)) throw new RecordNotFoundException("Book Not Found");
         bookRepository.deleteById(id);
     }
 }
