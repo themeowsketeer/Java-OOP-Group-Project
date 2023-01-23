@@ -2,7 +2,7 @@
   <configuration default="false" name="ServerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
     <option name="ACTIVE_PROFILES" />
     <envs>
-      <env name="SPRING_PROFILES_ACTIVE" value="testing" />
+      <env name="SPRING_PROFILES_ACTIVE" value="production" />
     </envs>
     <module name="server" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="com.project.server.ServerApplication" />
