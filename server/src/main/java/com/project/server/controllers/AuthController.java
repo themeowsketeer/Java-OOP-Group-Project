@@ -75,6 +75,7 @@ public class AuthController {
                 .password(passwordEncoder.encode(authReqDto.getPassword()))
                 .roles(Collections.singleton(roles))
                 .build();
+        userRepository.save(user);
 
         return new ResponseEntity<>("User registered success", HttpStatus.CREATED);
     }

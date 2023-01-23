@@ -16,6 +16,7 @@ public class Book {
     private static final long serialVersionUID = 2396654715019746670L;
     @Id
     private String id;
+    @Column(name = "book_name", nullable = false)
     private String name;
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(
