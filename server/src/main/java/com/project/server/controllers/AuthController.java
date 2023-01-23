@@ -4,6 +4,7 @@ import com.project.server.daos.Role;
 import com.project.server.daos.UserEntity;
 import com.project.server.dtos.AuthReqDto;
 import com.project.server.dtos.AuthResponseDto;
+import com.project.server.mappers.UserMapper;
 import com.project.server.repository.RoleRepository;
 import com.project.server.repository.UserRepository;
 import com.project.server.security.JwtProvider;
@@ -27,6 +28,8 @@ public class AuthController {
     private RoleRepository roleRepository;
     private PasswordEncoder passwordEncoder;
     private JwtProvider tokenProvider;
+    @Autowired
+    private UserMapper mapper;
 
     @Autowired
     public AuthController(
@@ -56,7 +59,8 @@ public class AuthController {
 //        So that user doesn't have to login again
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = tokenProvider.generateToken(authentication);
-        return new ResponseEntity<>(new AuthResponseDto(token), HttpStatus.OK);
+        UserEntity entity = userRepository.findByUsername(loginDto.getUsername()).get();
+        return new ResponseEntity<>(new AuthResponseDto(token, mapper.map(entity)), HttpStatus.OK);
     }
 
     @PostMapping("register")
@@ -67,7 +71,7 @@ public class AuthController {
             return new ResponseEntity<>("Username is taken", HttpStatus.BAD_REQUEST);
         }
 
-        Role roles = roleRepository.findByName("USER").get();
+        Role roles = roleRepository.findRoleByName("USER").get();
 
         UserEntity user = UserEntity
                 .builder()
