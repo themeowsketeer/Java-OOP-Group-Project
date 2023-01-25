@@ -1,5 +1,6 @@
 package com.project.client.ui.addBook;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.project.client.RESTapiclients.BookRESTRequest;
 import com.project.client.object.Author;
 import com.project.client.object.Book;
@@ -62,7 +63,7 @@ public class AddBookController {
             String authors = authorInput.getText();
             List<String> authorName = new ArrayList<>(Arrays.asList(authors.split(", ")));
             Set<Author> authorList = new HashSet<>();
-            long authorID = 1;
+            long authorID = 7;
             for (String s : authorName) {
                 authorList.add(new Author(authorID, s));
                 authorID++;
@@ -83,7 +84,7 @@ public class AddBookController {
             }
 
             Date now = new Date();
-            String bookID = "4";
+            String bookID = "5";
             Book book = new Book(bookID,
                     name,
                     authorList,

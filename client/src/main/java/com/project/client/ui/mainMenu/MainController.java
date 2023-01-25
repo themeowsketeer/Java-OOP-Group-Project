@@ -39,6 +39,9 @@ public class MainController {
     private Button addBookButton;
 
     @FXML
+    private Button refreshButton;
+
+    @FXML
     private Button bookMenu;
 
     @FXML
@@ -77,6 +80,7 @@ public class MainController {
     void initialize() throws JsonProcessingException {
         //assert actionCol != null : "fx:id=\"actionCol\" was not injected: check your FXML file 'main.fxml'.";
         assert addBookButton != null : "fx:id=\"addBookButton\" was not injected: check your FXML file 'main.fxml'.";
+        assert refreshButton != null : "fx:id=\"addBookButton\" was not injected: check your FXML file 'main.fxml'.";
         assert authorCol != null : "fx:id=\"authorCol\" was not injected: check your FXML file 'main.fxml'.";
         assert bookMenu != null : "fx:id=\"bookMenu\" was not injected: check your FXML file 'main.fxml'.";
         assert bookTable != null : "fx:id=\"bookTable\" was not injected: check your FXML file 'main.fxml'.";
@@ -88,7 +92,6 @@ public class MainController {
         assert uploadCol != null : "fx:id=\"uploadCol\" was not injected: check your FXML file 'main.fxml'.";
         assert userMenu != null : "fx:id=\"userMenu\" was not injected: check your FXML file 'main.fxml'.";
         assert yearCol != null : "fx:id=\"yearCol\" was not injected: check your FXML file 'main.fxml'.";
-        setTable();
     }
 
     @FXML
@@ -125,7 +128,6 @@ public class MainController {
 
     @FXML
     private void setTable() throws JsonProcessingException {
-        TableView bookTable = new TableView();
         idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         authorCol.setCellValueFactory(new PropertyValueFactory<>("authors"));
@@ -145,5 +147,15 @@ public class MainController {
         });
         ObservableList<Book> bookList = bookTable.getItems();
         bookList.addAll(bookListDatabase);
+    }
+
+    @FXML
+    private void refreshTable(ActionEvent event) {
+        book.clear();
+        try {
+            setTable();
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

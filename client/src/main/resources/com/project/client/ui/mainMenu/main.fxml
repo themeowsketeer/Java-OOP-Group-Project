@@ -80,7 +80,7 @@
          <top>
             <AnchorPane prefHeight="75.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button fx:id="addBookButton" mnemonicParsing="false" onAction="#openAddBook" stylesheets="@../../css/styling.css" text=" ADD" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="15.0">
+                  <Button fx:id="addBookButton" mnemonicParsing="false" onAction="#openAddBook" styleClass="rightButton" stylesheets="@../../css/styling.css" text=" ADD" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="15.0">
                      <padding>
                         <Insets bottom="10.0" left="30.0" right="30.0" top="10.0" />
                      </padding>
@@ -88,6 +88,18 @@
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../icon/add_white.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="refreshButton" layoutX="20.0" layoutY="20.0" mnemonicParsing="false" onAction="#refreshTable" stylesheets="@../../css/styling.css" text=" REFRESH" AnchorPane.leftAnchor="140.0" AnchorPane.topAnchor="15.0">
+                     <padding>
+                        <Insets bottom="10.0" left="30.0" right="30.0" top="10.0" />
+                     </padding>
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../icon/refresh.png" />
                            </image>
                         </ImageView>
                      </graphic>
