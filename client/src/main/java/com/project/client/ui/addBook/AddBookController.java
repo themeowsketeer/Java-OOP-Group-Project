@@ -1,5 +1,6 @@
 package com.project.client.ui.addBook;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.project.client.RESTapiclients.BookRESTRequest;
 import com.project.client.object.Author;
 import com.project.client.object.Book;
@@ -45,13 +46,16 @@ public class AddBookController {
 
     @FXML
     void initialize() {
+        // button
         assert addButton != null : "fx:id=\"addButton\" was not injected: check your FXML file 'addBook.fxml'.";
-        assert authorInput != null : "fx:id=\"authorInput\" was not injected: check your FXML file 'addBook.fxml'.";
         assert cancelButton != null : "fx:id=\"cancelButton\" was not injected: check your FXML file 'addBook.fxml'.";
-        assert editionInput != null : "fx:id=\"editionInput\" was not injected: check your FXML file 'addBook.fxml'.";
+
+        // book input
         assert nameInput != null : "fx:id=\"nameInput\" was not injected: check your FXML file 'addBook.fxml'.";
-        assert quantityInput != null : "fx:id=\"quantityInput\" was not injected: check your FXML file 'addBook.fxml'.";
+        assert authorInput != null : "fx:id=\"authorInput\" was not injected: check your FXML file 'addBook.fxml'.";
         assert yearInput != null : "fx:id=\"yearInput\" was not injected: check your FXML file 'addBook.fxml'.";
+        assert editionInput != null : "fx:id=\"editionInput\" was not injected: check your FXML file 'addBook.fxml'.";
+        assert quantityInput != null : "fx:id=\"quantityInput\" was not injected: check your FXML file 'addBook.fxml'.";
     }
 
 
@@ -62,7 +66,7 @@ public class AddBookController {
             String authors = authorInput.getText();
             List<String> authorName = new ArrayList<>(Arrays.asList(authors.split(", ")));
             Set<Author> authorList = new HashSet<>();
-            long authorID = 1;
+            long authorID = 7;
             for (String s : authorName) {
                 authorList.add(new Author(authorID, s));
                 authorID++;
@@ -83,7 +87,7 @@ public class AddBookController {
             }
 
             Date now = new Date();
-            String bookID = "4";
+            String bookID = "5";
             Book book = new Book(bookID,
                     name,
                     authorList,
