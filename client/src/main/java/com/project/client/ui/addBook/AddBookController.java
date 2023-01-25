@@ -46,13 +46,16 @@ public class AddBookController {
 
     @FXML
     void initialize() {
+        // button
         assert addButton != null : "fx:id=\"addButton\" was not injected: check your FXML file 'addBook.fxml'.";
-        assert authorInput != null : "fx:id=\"authorInput\" was not injected: check your FXML file 'addBook.fxml'.";
         assert cancelButton != null : "fx:id=\"cancelButton\" was not injected: check your FXML file 'addBook.fxml'.";
-        assert editionInput != null : "fx:id=\"editionInput\" was not injected: check your FXML file 'addBook.fxml'.";
+
+        // book input
         assert nameInput != null : "fx:id=\"nameInput\" was not injected: check your FXML file 'addBook.fxml'.";
-        assert quantityInput != null : "fx:id=\"quantityInput\" was not injected: check your FXML file 'addBook.fxml'.";
+        assert authorInput != null : "fx:id=\"authorInput\" was not injected: check your FXML file 'addBook.fxml'.";
         assert yearInput != null : "fx:id=\"yearInput\" was not injected: check your FXML file 'addBook.fxml'.";
+        assert editionInput != null : "fx:id=\"editionInput\" was not injected: check your FXML file 'addBook.fxml'.";
+        assert quantityInput != null : "fx:id=\"quantityInput\" was not injected: check your FXML file 'addBook.fxml'.";
     }
 
 

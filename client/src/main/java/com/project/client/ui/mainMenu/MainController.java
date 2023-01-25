@@ -78,20 +78,55 @@ public class MainController {
 
     @FXML
     void initialize() throws JsonProcessingException {
-        //assert actionCol != null : "fx:id=\"actionCol\" was not injected: check your FXML file 'main.fxml'.";
+        // buttons
         assert addBookButton != null : "fx:id=\"addBookButton\" was not injected: check your FXML file 'main.fxml'.";
         assert refreshButton != null : "fx:id=\"addBookButton\" was not injected: check your FXML file 'main.fxml'.";
-        assert authorCol != null : "fx:id=\"authorCol\" was not injected: check your FXML file 'main.fxml'.";
-        assert bookMenu != null : "fx:id=\"bookMenu\" was not injected: check your FXML file 'main.fxml'.";
-        assert bookTable != null : "fx:id=\"bookTable\" was not injected: check your FXML file 'main.fxml'.";
-        assert editionCol != null : "fx:id=\"editionCol\" was not injected: check your FXML file 'main.fxml'.";
-        assert idCol != null : "fx:id=\"idCol\" was not injected: check your FXML file 'main.fxml'.";
         assert logoutButton != null : "fx:id=\"logoutButton\" was not injected: check your FXML file 'main.fxml'.";
-        assert nameCol != null : "fx:id=\"nameCol\" was not injected: check your FXML file 'main.fxml'.";
-        assert quantityCol != null : "fx:id=\"quantityCol\" was not injected: check your FXML file 'main.fxml'.";
-        assert uploadCol != null : "fx:id=\"uploadCol\" was not injected: check your FXML file 'main.fxml'.";
+
+        //menu
+        assert bookMenu != null : "fx:id=\"bookMenu\" was not injected: check your FXML file 'main.fxml'.";
         assert userMenu != null : "fx:id=\"userMenu\" was not injected: check your FXML file 'main.fxml'.";
+
+        // book table
+        assert bookTable != null : "fx:id=\"bookTable\" was not injected: check your FXML file 'main.fxml'.";
+        assert idCol != null : "fx:id=\"idCol\" was not injected: check your FXML file 'main.fxml'.";
+        assert nameCol != null : "fx:id=\"nameCol\" was not injected: check your FXML file 'main.fxml'.";
+        assert authorCol != null : "fx:id=\"authorCol\" was not injected: check your FXML file 'main.fxml'.";
+        assert quantityCol != null : "fx:id=\"quantityCol\" was not injected: check your FXML file 'main.fxml'.";
         assert yearCol != null : "fx:id=\"yearCol\" was not injected: check your FXML file 'main.fxml'.";
+        assert editionCol != null : "fx:id=\"editionCol\" was not injected: check your FXML file 'main.fxml'.";
+        assert uploadCol != null : "fx:id=\"uploadCol\" was not injected: check your FXML file 'main.fxml'.";
+        //assert actionCol != null : "fx:id=\"actionCol\" was not injected: check your FXML file 'main.fxml'.";
+    }
+
+    @FXML
+    private void openBookMenu (ActionEvent event) {
+        try {
+            Stage stage = (Stage) bookMenu.getScene().getWindow();
+            FXMLLoader fxmlLoader = new FXMLLoader(MainController.class.getResource("/com/project/client/ui/mainMenu/main.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
+            stage.setTitle("FRA-UAS Library");
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            System.out.println("Error: " + e);
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void openUserMenu (ActionEvent event) {
+        try {
+            Stage stage = (Stage) userMenu.getScene().getWindow();
+            FXMLLoader fxmlLoader = new FXMLLoader(MainController.class.getResource("/com/project/client/ui/mainUserMenu/mainUserMenu.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
+            stage.setTitle("FRA-UAS Library");
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            System.out.println("Error: " + e);
+            e.printStackTrace();
+        }
     }
 
     @FXML
