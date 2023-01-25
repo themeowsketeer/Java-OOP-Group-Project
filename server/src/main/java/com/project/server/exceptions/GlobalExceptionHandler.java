@@ -14,5 +14,12 @@ public class GlobalExceptionHandler {
     public ErrorResponse recordNotFoundHandler(RecordNotFoundException ex) {
         return new ErrorResponse(HttpStatus.NOT_FOUND.value(), ex.getMessage());
     }
+
+    @ResponseBody
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(OutOfBookException.class)
+    public ErrorResponse outOfBookHandler(OutOfBookException ex) {
+        return new ErrorResponse(HttpStatus.BAD_REQUEST.value(), ex.getMessage());
+    }
 }
 

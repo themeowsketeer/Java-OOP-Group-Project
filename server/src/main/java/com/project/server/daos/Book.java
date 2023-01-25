@@ -33,6 +33,9 @@ public class Book {
     private Date placedAt;
     private Long quantity;
 
+    @OneToMany(mappedBy = "book")
+    Set<BorrowBook> borrowBooks;
+
     public void addAuthor(Author author) {
         authors.add(author);
     }

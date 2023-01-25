@@ -28,14 +28,15 @@ public class BookRepositoryTest {
                 new Author(null, "Christina Hobbs"),
                 new Author(null, "Lauren Billings")
         );
-        Book book = new Book(
-                "3", "The Unhoneymooners",
-                authors,
-                2019L,
-                1,
-                new Date(),
-                10L
-        );
+        Book book = Book.builder()
+                .id("3")
+                .name("The Unhoneymooners")
+                .authors(authors)
+                .releasedYear(2019L)
+                .edition(1)
+                .placedAt(new Date())
+                .quantity(10L)
+                .build();
         Book persistedBook = bookRepository.save(book);
         assertThat(persistedBook).isNotNull();
         assertThat(persistedBook.getAuthors()).isNotNull()
