@@ -1,20 +1,27 @@
 package com.project.client.ui.loginMenu;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.project.client.RESTapiclients.LoginRESTRequest;
+import com.project.client.object.userAuth;
 import com.project.client.ui.mainMenu.MainController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+import java.net.URL;
+import java.net.http.HttpResponse;
+import java.util.ResourceBundle;
+
 public class LoginController {
+
+    ObjectMapper objectMapper = new ObjectMapper();
 
     @FXML
     private ResourceBundle resources;
@@ -45,6 +52,25 @@ public class LoginController {
 
     @FXML
     private void login(ActionEvent event) {
+        String username = usernameInput.getText();
+        String password = passwordInput.getText();
+        userAuth user = new userAuth(username, password);
+        HttpResponse<String> response = LoginRESTRequest.loginRequest(user);
+        if (response.statusCode() == 200) {
+            loginSuccess(event);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText(null);
+            alert.setContentText("Successfully logged in.");
+            alert.showAndWait();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(null);
+            alert.setContentText("Incorrect username or password. Please try again.");
+            alert.showAndWait();
+        }
+    }
+
+    private void loginSuccess(ActionEvent event) {
         try {
             Stage staging = (Stage) loginButton.getScene().getWindow();
             staging.close();

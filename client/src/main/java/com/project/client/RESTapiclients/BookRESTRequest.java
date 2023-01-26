@@ -8,6 +8,8 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
+import com.project.client.object.accessToken;
+
 public class BookRESTRequest {
 
     private static final HttpClient client = HttpClient.newHttpClient();
@@ -27,6 +29,7 @@ public class BookRESTRequest {
             HttpRequest request = HttpRequest.newBuilder()
                     .GET()
                     .header("Accept", "application/json")
+                    .header("Authorization","Bearer " + accessToken.getToken())
                     .uri(URI.create(restUrl))
                     .build();
             return client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -42,6 +45,7 @@ public class BookRESTRequest {
             HttpRequest request = HttpRequest.newBuilder()
                     .POST(HttpRequest.BodyPublishers.ofString(objectMapper.writeValueAsString(book)))
                     .header("Content-Type", "application/json")
+                    .header("Authorization","Bearer " + accessToken.getToken())
                     .uri(URI.create(baseUrl))
                     .build();
             return client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -59,6 +63,7 @@ public class BookRESTRequest {
             HttpRequest request = HttpRequest.newBuilder()
                     .PUT(HttpRequest.BodyPublishers.ofString(objectMapper.writeValueAsString(book)))
                     .header("Content-Type", "application/json")
+                    .header("Authorization","Bearer " + accessToken.getToken())
                     .uri(URI.create(restUrl))
                     .build();
             return client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -76,6 +81,7 @@ public class BookRESTRequest {
             HttpRequest request = HttpRequest.newBuilder()
                     .DELETE()
                     .header("Content-Type", "application/json")
+                    .header("Authorization","Bearer " + accessToken.getToken())
                     .uri(URI.create(restUrl))
                     .build();
             return client.send(request, HttpResponse.BodyHandlers.ofString());

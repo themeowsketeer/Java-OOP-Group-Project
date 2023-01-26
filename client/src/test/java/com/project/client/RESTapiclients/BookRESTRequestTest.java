@@ -15,6 +15,9 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.project.client.object.accessToken;
+import com.project.client.object.userAuth;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -27,6 +30,19 @@ class BookRESTRequestTest {
 
     @Test
     @Order(1)
+
+    void ensureThatLoginSuccessful() {
+        userAuth sample = new userAuth("minhduy","123456");
+        HttpResponse<String> responseTest = LoginRESTRequest.loginRequest(sample);
+        if (responseTest == null) {
+            fail("Response returns none!");
+        } else {
+            assertEquals(200, responseTest.statusCode());
+        }
+    }
+
+    @Test
+    @Order(2)
     void ensureThatPOSTMethodSent() {
         authorSet.add(new Author(4, "Inu Curry"));
 
@@ -38,7 +54,7 @@ class BookRESTRequestTest {
         }
     }
     @Test
-    @Order(2)
+    @Order(3)
     void ensureThatGetBookAPICallReturnSuccessful() {
         HttpResponse<String> responseTest = BookRESTRequest.getBookByID("3");
         if (responseTest == null) {
@@ -49,7 +65,7 @@ class BookRESTRequestTest {
     }
 
     @Test
-    @Order(3)
+    @Order(4)
     void ensureThatBookAPICallReturnAGoodJson() {
         try {
             HttpResponse<String> responseTest = BookRESTRequest.getBookByID("3");
@@ -72,7 +88,7 @@ class BookRESTRequestTest {
     }
 
     @Test
-    @Order(4)
+    @Order(5)
     void ensureThatPUTMethodSent() {
         sampleBook.setName("Madoka Magica");
         authorSet.add(new Author(5, "Gen Doka"));
@@ -86,7 +102,7 @@ class BookRESTRequestTest {
         }
     }
     @Test
-    @Order(5)
+    @Order(6)
     void ensureThatDELETEMethodSent() {
         HttpResponse<String> responseTest = BookRESTRequest.deleteBookByID(3);
         if (responseTest == null) {

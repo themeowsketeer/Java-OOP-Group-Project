@@ -1,6 +1,5 @@
 package com.project.client.ui.addBook;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.project.client.RESTapiclients.BookRESTRequest;
 import com.project.client.object.Author;
 import com.project.client.object.Book;
