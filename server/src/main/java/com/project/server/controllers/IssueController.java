@@ -53,6 +53,29 @@ public class IssueController {
             @RequestParam("userid") long userId,
             @RequestParam("bookid") String bookId
      ) {
-        return borrowService.issueBookByUsernameAndBookName(bookId, userId);
+        return borrowService.issueBookByUserIdAndBookId(bookId, userId);
      }
+
+    /**
+     * Handle URL: /api/issue/return
+     */
+    @GetMapping("/return")
+    public List<BorrowDto> getReturnedBooks() {
+         return borrowService.getAllReturnedBooks();
+    }
+
+    /**
+     * Handle URL: /api/issue/return?borrowid=?
+     * Example: /api/issue/return?borrowid=1
+     * 200 Ok: Successfully issue a book
+     * 401 Unauthorized: missing query parameters
+     * 404 Not Found: Borrow book not found
+     * @param borrowId
+     */
+    @PostMapping("/return")
+    public BorrowDto returnBook(
+            @RequestParam("borrowid") long borrowId
+    ) {
+        return borrowService.returnedBookByBorrowBookId(borrowId);
+    }
 }
