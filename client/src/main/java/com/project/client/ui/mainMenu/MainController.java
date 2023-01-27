@@ -11,10 +11,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
@@ -37,6 +39,9 @@ public class MainController {
 
     @FXML
     private Button addBookButton;
+
+    @FXML
+    private Button viewIssuedButton;
 
     @FXML
     private Button refreshButton;
@@ -73,13 +78,14 @@ public class MainController {
     @FXML
     private TableColumn<Book, Date> uploadCol;
 
-    //@FXML
-    //private TableColumn<?, ?> actionCol;
+    @FXML
+    private TableColumn<Book, Void> actionCol;
 
     @FXML
     void initialize() throws JsonProcessingException {
         // buttons
         assert addBookButton != null : "fx:id=\"addBookButton\" was not injected: check your FXML file 'main.fxml'.";
+        assert viewIssuedButton != null : "fx:id=\"viewBorrowButton\" was not injected: check your FXML file 'main.fxml'.";
         assert refreshButton != null : "fx:id=\"addBookButton\" was not injected: check your FXML file 'main.fxml'.";
         assert logoutButton != null : "fx:id=\"logoutButton\" was not injected: check your FXML file 'main.fxml'.";
 
@@ -96,7 +102,7 @@ public class MainController {
         assert yearCol != null : "fx:id=\"yearCol\" was not injected: check your FXML file 'main.fxml'.";
         assert editionCol != null : "fx:id=\"editionCol\" was not injected: check your FXML file 'main.fxml'.";
         assert uploadCol != null : "fx:id=\"uploadCol\" was not injected: check your FXML file 'main.fxml'.";
-        //assert actionCol != null : "fx:id=\"actionCol\" was not injected: check your FXML file 'main.fxml'.";
+        assert actionCol != null : "fx:id=\"actionCol\" was not injected: check your FXML file 'main.fxml'.";
     }
 
     @FXML
@@ -119,6 +125,21 @@ public class MainController {
         try {
             Stage stage = (Stage) userMenu.getScene().getWindow();
             FXMLLoader fxmlLoader = new FXMLLoader(MainController.class.getResource("/com/project/client/ui/mainUserMenu/mainUserMenu.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
+            stage.setTitle("FRA-UAS Library");
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            System.out.println("Error: " + e);
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void openViewIssuedMenu (ActionEvent event) {
+        try {
+            Stage stage = (Stage) viewIssuedButton.getScene().getWindow();
+            FXMLLoader fxmlLoader = new FXMLLoader(MainController.class.getResource("/com/project/client/ui/viewIssuedMenu/viewIssuedMenu.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
             stage.setTitle("FRA-UAS Library");
             stage.setScene(scene);
@@ -170,6 +191,37 @@ public class MainController {
         editionCol.setCellValueFactory(new PropertyValueFactory<>("edition"));
         uploadCol.setCellValueFactory(new PropertyValueFactory<>("placedAt"));
         quantityCol.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+
+        // actionCol
+        Callback<TableColumn<Book, Void>, TableCell<Book, Void>> cellFactory = new Callback<TableColumn<Book, Void>, TableCell<Book, Void>>() {
+            @Override
+            public TableCell<Book, Void> call(final TableColumn<Book, Void> param) {
+                final TableCell<Book, Void> cell = new TableCell<Book, Void>() {
+
+                    private final Button borrowButton = new Button("Borrow");
+
+                    {
+                        borrowButton.setOnAction((ActionEvent event) -> {
+                            Book data = getTableView().getItems().get(getIndex());
+                            System.out.println("Book has been added to borrow list: " + data);
+                        });
+                    }
+
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(borrowButton);
+                        }
+                    }
+                };
+                return cell;
+            }
+        };
+        actionCol.setCellFactory(cellFactory);
+
         updateData();
         bookTable.setItems(book);
     }
