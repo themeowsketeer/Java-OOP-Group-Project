@@ -68,10 +68,9 @@
                     <columns>
                         <TableColumn fx:id="userIdCol" prefWidth="75.0" text="ID" />
                         <TableColumn fx:id="userNameCol" prefWidth="200.0" text="Name" />
-                        <TableColumn fx:id="birthdayCol" minWidth="0.0" prefWidth="100.0" text="DOB" />
-                        <TableColumn fx:id="addressCol" prefWidth="170.0" text="Address" />
-                        <TableColumn fx:id="civilIdCol" prefWidth="115.0" text="Civil. ID" />
-                        <TableColumn fx:id="phoneCol" prefWidth="115.0" text="Phone No." />
+                        <TableColumn fx:id="birthdayCol" minWidth="0.0" prefWidth="150.0" text="DOB" />
+                        <TableColumn fx:id="addressCol" prefWidth="200.0" text="Address" />
+                        <TableColumn fx:id="phoneCol" prefWidth="150.0" text="Phone No." />
                         <TableColumn fx:id="roleCol" prefWidth="100.0" text="Role" />
                     </columns>
                 </TableView>

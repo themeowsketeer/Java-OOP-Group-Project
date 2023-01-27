@@ -38,9 +38,6 @@ public class mainUserMenuController {
     private TableView<?> userTable;
 
     @FXML
-    private TableColumn<?, ?> civilIdCol;
-
-    @FXML
     private Button logoutButton;
 
     @FXML
@@ -78,7 +75,6 @@ public class mainUserMenuController {
         assert userNameCol != null : "fx:id=\"userNameCol\" was not injected: check your FXML file 'mainUserMenu.fxml'.";
         assert birthdayCol != null : "fx:id=\"birthdayCol\" was not injected: check your FXML file 'mainUserMenu.fxml'.";
         assert addressCol != null : "fx:id=\"addressCol\" was not injected: check your FXML file 'mainUserMenu.fxml'.";
-        assert civilIdCol != null : "fx:id=\"civilIdCol\" was not injected: check your FXML file 'mainUserMenu.fxml'.";
         assert phoneCol != null : "fx:id=\"phoneCol\" was not injected: check your FXML file 'mainUserMenu.fxml'.";
         assert roleCol != null : "fx:id=\"roleCol\" was not injected: check your FXML file 'mainUserMenu.fxml'.";
 
