@@ -14,4 +14,5 @@ public class BorrowDto {
     private Date issuedAt;
     private BookDto book;
     private UserDto user;
+    private Date returnedAt;
 }

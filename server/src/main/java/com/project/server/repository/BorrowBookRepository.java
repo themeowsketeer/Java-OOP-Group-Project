@@ -6,8 +6,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface BorrowBookRepository extends JpaRepository<BorrowBook, Long> {
     List<BorrowBook> findBorrowBooksByUser(UserEntity user);
+    List<BorrowBook> findBorrowBooksByReturnedAtNotNull();
+    List<BorrowBook> findBorrowBooksByReturnedAtIsNull();
+    Optional<BorrowBook> findBorrowBookByIdAndReturnedAtIsNull(long id);
 }

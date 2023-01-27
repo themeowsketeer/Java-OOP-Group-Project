@@ -28,4 +28,7 @@ public class BorrowBook {
 
     @Column(name = "issued_at")
     private Date issuedAt = new Date();
+
+    @Column(name = "returned_at")
+    private Date returnedAt;
 }

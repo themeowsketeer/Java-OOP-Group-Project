@@ -37,7 +37,7 @@ public class BorrowService {
     }
 
     public List<BorrowDto> getAllIssuedBooks() {
-        return borrowMapper.map(borrowBookRepository.findAll());
+        return borrowMapper.map(borrowBookRepository.findBorrowBooksByReturnedAtIsNull());
     }
 
     public List<BorrowDto> getIssuedBookForUser(long id) {
@@ -47,7 +47,7 @@ public class BorrowService {
     }
 
     @Transactional
-    public BorrowDto issueBookByUsernameAndBookName(String bookId, long userId) {
+    public BorrowDto issueBookByUserIdAndBookId(String bookId, long userId) {
         Book bookEntity = bookRepository.findById(bookId)
                 .orElseThrow(() -> new RecordNotFoundException("Book not found"));
         UserEntity userEntity = userRepository.findById(userId)
@@ -64,5 +64,21 @@ public class BorrowService {
                 .issuedAt(new Date())
                 .build();
         return borrowMapper.map(borrowBookRepository.save(borrowBook));
+    }
+
+    public List<BorrowDto> getAllReturnedBooks() {
+        return borrowMapper.map(borrowBookRepository.findBorrowBooksByReturnedAtNotNull());
+    }
+
+    @Transactional
+    public BorrowDto returnedBookByBorrowBookId(long id) {
+        BorrowBook borrowEntity = borrowBookRepository
+                .findBorrowBookByIdAndReturnedAtIsNull(id)
+                .orElseThrow(() -> new RecordNotFoundException("Borrow book not found"));
+        Book bookEntity = borrowEntity.getBook();
+        bookEntity.setQuantity(bookEntity.getQuantity() + 1);
+        bookRepository.save(bookEntity);
+        borrowEntity.setReturnedAt(new Date());
+        return borrowMapper.map(borrowBookRepository.save(borrowEntity));
     }
 }
