@@ -2,6 +2,7 @@ package com.project.client.RESTapiclients;
 
 import com.project.client.object.Author;
 import com.project.client.object.Book;
+import com.project.client.object.userAuth;
 import org.json.JSONObject;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
@@ -14,9 +15,6 @@ import java.net.http.HttpResponse;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-
-import com.project.client.object.accessToken;
-import com.project.client.object.userAuth;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -44,7 +42,7 @@ class BookRESTRequestTest {
     @Test
     @Order(2)
     void ensureThatPOSTMethodSent() {
-        authorSet.add(new Author(4, "Inu Curry"));
+        authorSet.add(new Author("Inu Curry"));
 
         HttpResponse<String> responseTest = BookRESTRequest.addNewBook(sampleBook);
         if (responseTest == null) {
@@ -91,7 +89,7 @@ class BookRESTRequestTest {
     @Order(5)
     void ensureThatPUTMethodSent() {
         sampleBook.setName("Madoka Magica");
-        authorSet.add(new Author(5, "Gen Doka"));
+        authorSet.add(new Author("Gen Doka"));
 
         HttpResponse<String> responseTest = BookRESTRequest.updateBookByID(3,sampleBook);
         if (responseTest == null) {

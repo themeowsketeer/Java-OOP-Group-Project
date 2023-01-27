@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.net.http.HttpResponse;
 import java.util.*;
+import java.util.Random;
 
 public class AddBookController {
 
@@ -65,10 +66,8 @@ public class AddBookController {
             String authors = authorInput.getText();
             List<String> authorName = new ArrayList<>(Arrays.asList(authors.split(", ")));
             Set<Author> authorList = new HashSet<>();
-            long authorID = 7;
-            for (String s : authorName) {
-                authorList.add(new Author(authorID, s));
-                authorID++;
+            for (String nameAuth : authorName) {
+                authorList.add(new Author(nameAuth));
             }
             String releasedYear = yearInput.getText();
             String edition = editionInput.getText();
@@ -84,9 +83,10 @@ public class AddBookController {
                 alert.setContentText("Please enter all fields and try again!");
                 alert.showAndWait();
             }
+            Random random = new Random();
 
             Date now = new Date();
-            String bookID = "5";
+            String bookID = String.valueOf(random.nextInt(1000));
             Book book = new Book(bookID,
                     name,
                     authorList,
