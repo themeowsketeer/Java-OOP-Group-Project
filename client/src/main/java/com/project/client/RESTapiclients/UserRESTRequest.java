@@ -2,6 +2,7 @@ package com.project.client.RESTapiclients;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.client.object.User;
+import com.project.client.object.accessToken;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -12,7 +13,7 @@ public class UserRESTRequest {
 
     private static final HttpClient client = HttpClient.newHttpClient();
 
-    private static final String authToken = "bla bla bla";
+    private static final String authToken = accessToken.getToken();
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
 

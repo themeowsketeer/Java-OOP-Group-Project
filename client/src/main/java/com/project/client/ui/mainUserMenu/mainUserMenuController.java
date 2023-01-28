@@ -1,10 +1,13 @@
 package com.project.client.ui.mainUserMenu;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.project.client.RESTapiclients.UserRESTRequest;
+import com.project.client.object.User;
 import com.project.client.ui.mainMenu.MainController;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,9 +15,21 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+import java.net.URL;
+import java.net.http.HttpResponse;
+import java.util.Date;
+import java.util.List;
+import java.util.ResourceBundle;
+
+import static javafx.collections.FXCollections.observableArrayList;
+
 public class mainUserMenuController {
+
+    private ObservableList<User> users = observableArrayList();
 
     @FXML
     private ResourceBundle resources;
@@ -26,37 +41,37 @@ public class mainUserMenuController {
     private Button addUserButton;
 
     @FXML
-    private TableColumn<?, ?> addressCol;
+    private TableColumn<User, String> addressCol;
 
     @FXML
-    private TableColumn<?, ?> birthdayCol;
+    private TableColumn<User, Date> birthdayCol;
 
     @FXML
     private Button bookMenu;
 
     @FXML
-    private TableView<?> userTable;
+    private TableView<User> userTable;
 
     @FXML
     private Button logoutButton;
 
     @FXML
-    private TableColumn<?, ?> phoneCol;
+    private TableColumn<User, String> phoneCol;
 
     @FXML
     private Button refreshButton;
 
     @FXML
-    private TableColumn<?, ?> roleCol;
+    private TableColumn<User, String> roleCol;
 
     @FXML
-    private TableColumn<?, ?> userIdCol;
+    private TableColumn<User, Long> userIdCol;
 
     @FXML
     private Button userMenu;
 
     @FXML
-    private TableColumn<?, ?> userNameCol;
+    private TableColumn<User, String> userNameCol;
 
     @FXML
     void initialize() {
@@ -138,6 +153,36 @@ public class mainUserMenuController {
         } catch (IOException e) {
             System.out.println("Error: " + e);
             e.printStackTrace();
+        }
+    }
+    @FXML
+    private void setTable() throws JsonProcessingException {
+        userIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        userNameCol.setCellValueFactory(new PropertyValueFactory<>("username"));
+        birthdayCol.setCellValueFactory(new PropertyValueFactory<>("dateOfBirth"));
+        addressCol.setCellValueFactory(new PropertyValueFactory<>("address"));
+        phoneCol.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
+        roleCol.setCellValueFactory(new PropertyValueFactory<>("roles"));
+        updateData();
+        userTable.setItems(users);
+    }
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    private void updateData() throws JsonProcessingException {
+        HttpResponse<String> response = UserRESTRequest.getUserByID(String.valueOf(0));
+        assert response != null;
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<User> userListDatabase = objectMapper.readValue(response.body(), new TypeReference<>() {});
+        ObservableList<User> userList = userTable.getItems();
+        userList.addAll(userListDatabase);
+    }
+
+    @FXML
+    private void refreshTable(ActionEvent event) {
+        users.clear();
+        try {
+            setTable();
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
         }
     }
 }

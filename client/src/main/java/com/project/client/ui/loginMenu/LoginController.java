@@ -47,25 +47,32 @@ public class LoginController {
         assert passwordInput != null : "fx:id=\"passwordInput\" was not injected: check your FXML file 'login.fxml'.";
         assert registerButton != null : "fx:id=\"registerButton\" was not injected: check your FXML file 'login.fxml'.";
         assert usernameInput != null : "fx:id=\"usernameInput\" was not injected: check your FXML file 'login.fxml'.";
-
+        loginButton.setDefaultButton(true);
     }
 
     @FXML
     private void login(ActionEvent event) {
         String username = usernameInput.getText();
         String password = passwordInput.getText();
+        Alert alert;
+        if (username.isEmpty() || password.isEmpty()) {
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(null);
+            alert.setContentText("Please enter all fields and try again!");
+            alert.showAndWait();
+        }
         userAuth user = new userAuth(username, password);
         HttpResponse<String> response = LoginRESTRequest.loginRequest(user);
-        if (response.statusCode() == 200) {
-            loginSuccess(event);
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setHeaderText(null);
-            alert.setContentText("Successfully logged in.");
-            alert.showAndWait();
-        } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+        if (response == null || response.statusCode() != 200) {
+            alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText(null);
             alert.setContentText("Incorrect username or password. Please try again.");
+            alert.showAndWait();
+        } else {
+            loginSuccess(event);
+            alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText(null);
+            alert.setContentText("Successfully logged in.");
             alert.showAndWait();
         }
     }

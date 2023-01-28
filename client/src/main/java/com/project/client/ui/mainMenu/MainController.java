@@ -82,7 +82,7 @@ public class MainController {
     private TableColumn<Book, Void> actionCol;
 
     @FXML
-    void initialize() throws JsonProcessingException {
+    void initialize() {
         // buttons
         assert addBookButton != null : "fx:id=\"addBookButton\" was not injected: check your FXML file 'main.fxml'.";
         assert viewIssuedButton != null : "fx:id=\"viewBorrowButton\" was not injected: check your FXML file 'main.fxml'.";
@@ -193,10 +193,10 @@ public class MainController {
         quantityCol.setCellValueFactory(new PropertyValueFactory<>("quantity"));
 
         // actionCol
-        Callback<TableColumn<Book, Void>, TableCell<Book, Void>> cellFactory = new Callback<TableColumn<Book, Void>, TableCell<Book, Void>>() {
+        Callback<TableColumn<Book, Void>, TableCell<Book, Void>> cellFactory = new Callback<>() {
             @Override
             public TableCell<Book, Void> call(final TableColumn<Book, Void> param) {
-                final TableCell<Book, Void> cell = new TableCell<Book, Void>() {
+                final TableCell<Book, Void> cell = new TableCell<>() {
 
                     private final Button borrowButton = new Button("Borrow");
 

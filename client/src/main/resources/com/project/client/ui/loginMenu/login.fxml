@@ -49,7 +49,7 @@
                <GridPane.margin>
                   <Insets left="40.0" />
                </GridPane.margin></Button>
-            <Button fx:id="loginButton" mnemonicParsing="false" onAction="#login" prefHeight="30.0" prefWidth="85.0" styleClass="rightButton" stylesheets="/com/project/client/ui/addBook" text="Log in" textFill="WHITE" GridPane.rowIndex="2">
+            <Button fx:id="loginButton" defaultButton="true" mnemonicParsing="false" onAction="#login" prefHeight="30.0" prefWidth="85.0" styleClass="rightButton" stylesheets="/com/project/client/ui/addBook" text="Log in" textFill="WHITE" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets left="60.0" />
                </GridPane.margin>

@@ -67,10 +67,10 @@
                 <TableView fx:id="userTable" prefHeight="400.0" prefWidth="884.0" styleClass="column-header" stylesheets="@../../css/styling.css" BorderPane.alignment="CENTER">
                     <columns>
                         <TableColumn fx:id="userIdCol" prefWidth="75.0" text="ID" />
-                        <TableColumn fx:id="userNameCol" prefWidth="200.0" text="Name" />
-                        <TableColumn fx:id="birthdayCol" minWidth="0.0" prefWidth="150.0" text="DOB" />
+                        <TableColumn fx:id="userNameCol" prefWidth="150.0" text="Username" />
+                        <TableColumn fx:id="birthdayCol" minWidth="0.0" prefWidth="160.0" text="DOB" />
                         <TableColumn fx:id="addressCol" prefWidth="200.0" text="Address" />
-                        <TableColumn fx:id="phoneCol" prefWidth="150.0" text="Phone No." />
+                        <TableColumn fx:id="phoneCol" prefWidth="170.0" text="Phone No." />
                         <TableColumn fx:id="roleCol" prefWidth="100.0" text="Role" />
                     </columns>
                 </TableView>
@@ -90,7 +90,7 @@
                                 </ImageView>
                             </graphic>
                         </Button>
-                        <Button fx:id="refreshButton" layoutX="20.0" layoutY="20.0" mnemonicParsing="false" stylesheets="@../../css/styling.css" text=" REFRESH" AnchorPane.leftAnchor="140.0" AnchorPane.topAnchor="15.0">
+                        <Button fx:id="refreshButton" layoutX="20.0" layoutY="20.0" mnemonicParsing="false" onAction="#refreshTable" stylesheets="@../../css/styling.css" text=" REFRESH" AnchorPane.leftAnchor="140.0" AnchorPane.topAnchor="15.0">
                             <padding>
                                 <Insets bottom="10.0" left="30.0" right="30.0" top="10.0" />
                             </padding>

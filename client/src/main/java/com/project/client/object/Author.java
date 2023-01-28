@@ -3,6 +3,7 @@ package com.project.client.object;
 import java.util.Objects;
 
 public class Author {
+    private long id;
     private String name;
     public String getName() {
         return name;
@@ -10,6 +11,14 @@ public class Author {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public Author(String name) {
