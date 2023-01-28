@@ -1,5 +1,6 @@
 package com.project.client.RESTapiclients;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.client.object.userAuth;
@@ -27,9 +28,7 @@ public class LoginRESTRequest {
                     .uri(URI.create(restUrl))
                     .build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            JsonNode jsonNode = objectMapper.readTree(response.body());
-            accessToken.setToken(jsonNode.get("accessToken").asText());
-            accessToken.setUserID(Long.valueOf(jsonNode.path("user").path("id").asText()));
+            authTokenSetUp(response);
             return response;
         } catch (Throwable e) {
             System.out.println("Error: " + e);
@@ -52,5 +51,15 @@ public class LoginRESTRequest {
             e.printStackTrace();
             return null;
         }
+    }
+    public static void authTokenSetUp (HttpResponse<String> userInfo) throws JsonProcessingException {
+        JsonNode jsonNode = objectMapper.readTree(userInfo.body());
+
+        accessToken.setToken(jsonNode.get("accessToken").asText());
+        accessToken.setUserID(Long.valueOf(jsonNode.path("user").path("id").asText()));
+
+        JsonNode roleArray = jsonNode.path("user").path("roles");
+        JsonNode roleID = roleArray.get(0);
+        accessToken.setRoleID(Long.parseLong(roleID.get("id").asText()));
     }
 }

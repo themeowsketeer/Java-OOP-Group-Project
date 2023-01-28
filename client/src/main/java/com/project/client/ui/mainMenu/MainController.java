@@ -24,6 +24,7 @@ import java.net.http.HttpResponse;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
+import com.project.client.object.accessToken;
 
 import static javafx.collections.FXCollections.observableArrayList;
 
@@ -103,6 +104,14 @@ public class MainController {
         assert editionCol != null : "fx:id=\"editionCol\" was not injected: check your FXML file 'main.fxml'.";
         assert uploadCol != null : "fx:id=\"uploadCol\" was not injected: check your FXML file 'main.fxml'.";
         assert actionCol != null : "fx:id=\"actionCol\" was not injected: check your FXML file 'main.fxml'.";
+
+        if (accessToken.getRoleID()==2L)
+        {
+            addBookButton.setVisible(false);
+            addBookButton.setManaged(false);
+            userMenu.setVisible(false);
+            userMenu.setManaged(false);
+        }
     }
 
     @FXML
