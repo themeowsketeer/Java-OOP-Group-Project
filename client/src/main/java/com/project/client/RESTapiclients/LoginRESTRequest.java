@@ -29,6 +29,7 @@ public class LoginRESTRequest {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             JsonNode jsonNode = objectMapper.readTree(response.body());
             accessToken.setToken(jsonNode.get("accessToken").asText());
+            accessToken.setUserID(Long.valueOf(jsonNode.path("user").path("id").asText()));
             return response;
         } catch (Throwable e) {
             System.out.println("Error: " + e);
