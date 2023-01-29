@@ -33,7 +33,6 @@ public class issueBookController {
 
     }
 
-
     @FXML
     private void issueBook(ActionEvent event) throws NumberFormatException {
         try {
@@ -49,7 +48,7 @@ public class issueBookController {
             }
 
             HttpResponse<String> response = issueBookRESTRequest.
-                    issueBookToUser(borrowedBookID,Long.parseLong(borrowerID));
+                    issueBookToUser(Long.parseLong(borrowerID), borrowedBookID);
             assert response != null;
             int responseCode = response.statusCode();
 

@@ -97,17 +97,17 @@ public class AddBookController {
             assert response != null;
             int responseCode = response.statusCode();
 
+            Alert alert;
             if (responseCode == 201) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setHeaderText(null);
                 alert.setContentText("Book has been added.");
-                alert.showAndWait();
             } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert = new Alert(Alert.AlertType.ERROR);
                 alert.setHeaderText(null);
                 alert.setContentText("Please try again.");
-                alert.showAndWait();
             }
+            alert.showAndWait();
         }
         catch (NumberFormatException numEx)
         {

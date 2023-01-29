@@ -4,20 +4,18 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.client.RESTapiclients.BookRESTRequest;
+import com.project.client.RESTapiclients.issueBookRESTRequest;
 import com.project.client.object.Book;
+import com.project.client.object.accessToken;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import com.project.client.ui.issueBook.issueBookApplication;
 
 import java.io.IOException;
 import java.net.URL;
@@ -25,13 +23,12 @@ import java.net.http.HttpResponse;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
-import com.project.client.object.accessToken;
 
 import static javafx.collections.FXCollections.observableArrayList;
 
 public class MainController {
 
-    private ObservableList<Book> book = observableArrayList();
+    private final ObservableList<Book> book = observableArrayList();
 
     @FXML
     private ResourceBundle resources;
@@ -124,7 +121,9 @@ public class MainController {
     private void openBookMenu (ActionEvent event) {
         try {
             Stage stage = (Stage) bookMenu.getScene().getWindow();
-            FXMLLoader fxmlLoader = new FXMLLoader(MainController.class.getResource("/com/project/client/ui/mainMenu/main.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(MainController
+                    .class
+                    .getResource("/com/project/client/ui/mainMenu/main.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
             stage.setTitle("FRA-UAS Library");
             stage.setScene(scene);
@@ -139,7 +138,9 @@ public class MainController {
     private void openUserMenu (ActionEvent event) {
         try {
             Stage stage = (Stage) userMenu.getScene().getWindow();
-            FXMLLoader fxmlLoader = new FXMLLoader(MainController.class.getResource("/com/project/client/ui/mainUserMenu/mainUserMenu.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(MainController
+                    .class
+                    .getResource("/com/project/client/ui/mainUserMenu/mainUserMenu.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
             stage.setTitle("FRA-UAS Library");
             stage.setScene(scene);
@@ -154,7 +155,9 @@ public class MainController {
     private void openViewIssuedMenu (ActionEvent event) {
         try {
             Stage stage = (Stage) viewIssuedButton.getScene().getWindow();
-            FXMLLoader fxmlLoader = new FXMLLoader(MainController.class.getResource("/com/project/client/ui/viewIssuedMenu/viewIssuedMenu.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(MainController
+                    .class
+                    .getResource("/com/project/client/ui/viewIssuedMenu/viewIssuedMenu.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
             stage.setTitle("FRA-UAS Library");
             stage.setScene(scene);
@@ -183,7 +186,9 @@ public class MainController {
     @FXML
     private void openAddBook(ActionEvent event) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(MainController.class.getResource("/com/project/client/ui/addBook/addBook.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(MainController
+                    .class
+                    .getResource("/com/project/client/ui/addBook/addBook.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 400, 400);
             Stage stage = new Stage();
             stage.setTitle("Add book");
@@ -200,7 +205,9 @@ public class MainController {
         try {
             Stage staging = (Stage) logoutButton.getScene().getWindow();
             staging.close();
-            FXMLLoader fxmlLoader = new FXMLLoader(MainController.class.getResource("/com/project/client/ui/loginMenu/login.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(MainController
+                    .class
+                    .getResource("/com/project/client/ui/loginMenu/login.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 600, 400);
             Stage stage = new Stage();
             stage.setTitle("Login");
@@ -226,17 +233,18 @@ public class MainController {
         Callback<TableColumn<Book, Void>, TableCell<Book, Void>> cellFactory = new Callback<>() {
             @Override
             public TableCell<Book, Void> call(final TableColumn<Book, Void> param) {
-                final TableCell<Book, Void> cell = new TableCell<>() {
-
-                    private final Button borrowButton = new Button("Borrow");
-
+                return new TableCell<>() {
+                    private final Button borrowButton = new Button("Issue");
+                    final TextInputDialog issueConfirm = new TextInputDialog();
                     {
-                        borrowButton.setOnAction((ActionEvent event) -> {
+                        borrowButton.setOnAction((ActionEvent event) ->
+                        {
                             Book data = getTableView().getItems().get(getIndex());
-                            System.out.println("Book has been added to borrow list: " + data.getId());
+                            issueConfirm.setHeaderText("To whose ID you want to issue this book: " + data.getId()+ "?");
+                            issueConfirm.showAndWait();
+                            sendBookToUser(Long.parseLong(issueConfirm.getEditor().getText()),(data.getId()));
                         });
                     }
-
                     @Override
                     public void updateItem(Void item, boolean empty) {
                         super.updateItem(item, empty);
@@ -247,11 +255,9 @@ public class MainController {
                         }
                     }
                 };
-                return cell;
             }
         };
         actionCol.setCellFactory(cellFactory);
-
         updateData();
         bookTable.setItems(book);
     }
@@ -274,5 +280,41 @@ public class MainController {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private void sendBookToUser(long userID, String bookID)
+    {
+        HttpResponse<String> response = issueBookRESTRequest
+                .issueBookToUser(userID,bookID);
+        Alert alert;
+        if(response == null)
+        {
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(null);
+            alert.setContentText("Empty response. Please try again.");
+        }
+        assert response != null;
+        if(response.statusCode() == 401)
+        {
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(null);
+            alert.setContentText("Session timed out. Please log in again.");
+        }
+        else if (response.statusCode() == 200) {
+            alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setHeaderText(null);
+            alert.setContentText("Book has been issued to user");
+        }
+        else if (response.statusCode() == 400) {
+            alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText(null);
+            alert.setContentText("Book is out of stock");
+        }
+        else {
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(null);
+            alert.setContentText("An error has occurred. Please try again");
+        }
+        alert.showAndWait();
     }
 }

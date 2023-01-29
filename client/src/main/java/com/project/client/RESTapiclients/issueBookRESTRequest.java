@@ -46,7 +46,7 @@ public class issueBookRESTRequest {
         }
     }
 
-    public static HttpResponse<String> issueBookToUser(String bookID, long userID) {
+    public static HttpResponse<String> issueBookToUser(long userID, String bookID) {
         try {
             String restUrl = baseUrl + "?"
                     + "userid=" + userID + "&"

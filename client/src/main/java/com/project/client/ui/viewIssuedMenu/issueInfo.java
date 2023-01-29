@@ -3,14 +3,14 @@ package com.project.client.ui.viewIssuedMenu;
 import java.util.Date;
 
 public class issueInfo {
-    private long borrowId;
+    private String borrowId;
     private Date issueAt;
-    private long bookId;
+    private String bookId;
     private String bookName;
-    private long userId;
+    private String userId;
     private String userName;
 
-    public issueInfo(long borrowId, Date issueAt, long bookId, String bookName, long userId, String userName) {
+    public issueInfo(String borrowId, Date issueAt, String bookId, String bookName, String userId, String userName) {
         this.borrowId = borrowId;
         this.issueAt = issueAt;
         this.bookId = bookId;
@@ -22,11 +22,11 @@ public class issueInfo {
     public issueInfo() {
     }
 
-    public long getBorrowId() {
+    public String getBorrowId() {
         return borrowId;
     }
 
-    public void setBorrowId(long borrowId) {
+    public void setBorrowId(String borrowId) {
         this.borrowId = borrowId;
     }
 
@@ -38,11 +38,11 @@ public class issueInfo {
         this.issueAt = issueAt;
     }
 
-    public long getBookId() {
+    public String getBookId() {
         return bookId;
     }
 
-    public void setBookId(long bookId) {
+    public void setBookId(String bookId) {
         this.bookId = bookId;
     }
 
@@ -54,11 +54,11 @@ public class issueInfo {
         this.bookName = bookName;
     }
 
-    public long getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(long userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
@@ -75,23 +75,26 @@ public class issueInfo {
         if (this == o) return true;
         if (!(o instanceof issueInfo issueInfo)) return false;
 
-        if (getBorrowId() != issueInfo.getBorrowId()) return false;
-        if (getBookId() != issueInfo.getBookId()) return false;
-        if (getUserId() != issueInfo.getUserId()) return false;
+        if (getBorrowId() != null ? !getBorrowId().equals(issueInfo.getBorrowId()) : issueInfo.getBorrowId() != null)
+            return false;
         if (getIssueAt() != null ? !getIssueAt().equals(issueInfo.getIssueAt()) : issueInfo.getIssueAt() != null)
             return false;
+        if (getBookId() != null ? !getBookId().equals(issueInfo.getBookId()) : issueInfo.getBookId() != null)
+            return false;
         if (getBookName() != null ? !getBookName().equals(issueInfo.getBookName()) : issueInfo.getBookName() != null)
+            return false;
+        if (getUserId() != null ? !getUserId().equals(issueInfo.getUserId()) : issueInfo.getUserId() != null)
             return false;
         return getUserName() != null ? getUserName().equals(issueInfo.getUserName()) : issueInfo.getUserName() == null;
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (getBorrowId() ^ (getBorrowId() >>> 32));
+        int result = getBorrowId() != null ? getBorrowId().hashCode() : 0;
         result = 31 * result + (getIssueAt() != null ? getIssueAt().hashCode() : 0);
-        result = 31 * result + (int) (getBookId() ^ (getBookId() >>> 32));
+        result = 31 * result + (getBookId() != null ? getBookId().hashCode() : 0);
         result = 31 * result + (getBookName() != null ? getBookName().hashCode() : 0);
-        result = 31 * result + (int) (getUserId() ^ (getUserId() >>> 32));
+        result = 31 * result + (getUserId() != null ? getUserId().hashCode() : 0);
         result = 31 * result + (getUserName() != null ? getUserName().hashCode() : 0);
         return result;
     }

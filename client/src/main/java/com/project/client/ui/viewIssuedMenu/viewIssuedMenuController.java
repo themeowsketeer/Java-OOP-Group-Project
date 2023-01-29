@@ -1,5 +1,9 @@
 package com.project.client.ui.viewIssuedMenu;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.project.client.RESTapiclients.issueBookRESTRequest;
 import com.project.client.object.accessToken;
 import com.project.client.ui.mainMenu.MainController;
 import javafx.collections.ObservableList;
@@ -7,19 +11,28 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
+import java.net.http.HttpResponse;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import static javafx.collections.FXCollections.observableArrayList;
 
 public class viewIssuedMenuController {
+
+    String isoDatePattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX";
+
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat(isoDatePattern);
 
     private final ObservableList<issueInfo> issuedList = observableArrayList();
 
@@ -33,7 +46,7 @@ public class viewIssuedMenuController {
     private TableColumn<issueInfo, Void> actionCol;
 
     @FXML
-    private TableColumn<issueInfo, Long> bookIDCol;
+    private TableColumn<issueInfo, String> bookIDCol;
 
     @FXML
     private Button bookMenu;
@@ -42,7 +55,7 @@ public class viewIssuedMenuController {
     private TableColumn<issueInfo, String> bookNameCol;
 
     @FXML
-    private TableColumn<issueInfo, Long> borrowIDCol;
+    private TableColumn<issueInfo, String> borrowIDCol;
 
     @FXML
     private TableColumn<issueInfo, Date> issuedDateCol;
@@ -57,7 +70,7 @@ public class viewIssuedMenuController {
     private Button refreshButton;
 
     @FXML
-    private TableColumn<issueInfo, Long> userIDCol;
+    private TableColumn<issueInfo, String> userIDCol;
 
     @FXML
     private Button userMenu;
@@ -85,8 +98,7 @@ public class viewIssuedMenuController {
         assert userNameCol != null : "fx:id=\"userNameCol\" was not injected: check your FXML file 'viewIssuedMenu.fxml'.";
         assert viewAllButton != null : "fx:id=\"viewAllButton\" was not injected: check your FXML file 'viewIssuedMenu.fxml'.";
 
-        if (accessToken.getRoleID()==2L)
-        {
+        if (accessToken.getRoleID() == 2L) {
             userMenu.setVisible(false);
             userMenu.setManaged(false);
             actionCol.setVisible(false);
@@ -94,7 +106,7 @@ public class viewIssuedMenuController {
     }
 
     @FXML
-    private void openBookMenu (ActionEvent event) {
+    private void openBookMenu(ActionEvent event) {
         try {
             Stage stage = (Stage) bookMenu.getScene().getWindow();
             FXMLLoader fxmlLoader = new FXMLLoader(viewIssuedMenuController.class.getResource("/com/project/client/ui/mainMenu/main.fxml"));
@@ -109,7 +121,7 @@ public class viewIssuedMenuController {
     }
 
     @FXML
-    private void openUserMenu (ActionEvent event) {
+    private void openUserMenu(ActionEvent event) {
         try {
             Stage stage = (Stage) userMenu.getScene().getWindow();
             FXMLLoader fxmlLoader = new FXMLLoader(viewIssuedMenuController.class.getResource("/com/project/client/ui/mainUserMenu/mainUserMenu.fxml"));
@@ -124,7 +136,7 @@ public class viewIssuedMenuController {
     }
 
     @FXML
-    private void openViewAllMenu (ActionEvent event) {
+    private void openViewAllMenu(ActionEvent event) {
         try {
             Stage stage = (Stage) viewAllButton.getScene().getWindow();
             FXMLLoader fxmlLoader = new FXMLLoader(MainController.class.getResource("/com/project/client/ui/mainMenu/main.fxml"));
@@ -154,9 +166,121 @@ public class viewIssuedMenuController {
             e.printStackTrace();
         }
     }
+    @FXML
+    private void setTable () throws JsonProcessingException, ParseException {
+        borrowIDCol.setCellValueFactory(new PropertyValueFactory<>("borrowId"));
+        issuedDateCol.setCellValueFactory(new PropertyValueFactory<>("issueAt"));
+        bookIDCol.setCellValueFactory(new PropertyValueFactory<>("bookId"));
+        bookNameCol.setCellValueFactory(new PropertyValueFactory<>("bookName"));
+        userIDCol.setCellValueFactory(new PropertyValueFactory<>("userId"));
+        userNameCol.setCellValueFactory(new PropertyValueFactory<>("userName"));
+        Callback<TableColumn<issueInfo, Void>, TableCell<issueInfo, Void>> cellFactory = new Callback<>() {
+            @Override
+            public TableCell<issueInfo, Void> call(final TableColumn<issueInfo, Void> param) {
+                return new TableCell<>() {
+                    private final Button returnButton = new Button("Return");
+                    final TextInputDialog issueConfirm = new TextInputDialog();
+                    {
+                        returnButton.setOnAction((ActionEvent event) ->
+                        {
+                            issueInfo data = getTableView().getItems().get(getIndex());
+                            issueConfirm.setHeaderText("Confirm that this book has been returned?");
+                            issueConfirm.showAndWait();
+                            if (issueConfirm.getEditor().getText().equals("Confirm")) {
+                                returnTheBook(Long.parseLong(data.getBorrowId()));
+                            }
+                        });
+                    }
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(returnButton);
+                        }
+                    }
+                };
+            }
+        };
+        actionCol.setCellFactory(cellFactory);
+        updateData();
+        issuedTable.setItems(issuedList);
+    }
 
+    private void updateData() throws JsonProcessingException, ParseException {
+        HttpResponse<String> response;
+        if (accessToken.getRoleID() == 2)
+        {
+            response = issueBookRESTRequest.getAllIssuedBookOfUser(accessToken.getRoleID());
+        }
+        else {
+            response = issueBookRESTRequest.getAllIssuedBook();
+        }
+        assert response != null;
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode listIssued = objectMapper.readTree(response.body());
+        List<issueInfo> issuedOrderDatabase = new ArrayList<>();
+        for (JsonNode issuedInfo : listIssued)
+        {
+            issueInfo issuedOrder = new issueInfo
+                    (
+                        issuedInfo.get("id").asText(),
+                            simpleDateFormat.parse(issuedInfo.get("issuedAt").asText()),
+                            issuedInfo.path("book").get("id").asText(),
+                            issuedInfo.path("book").get("name").asText(),
+                            issuedInfo.path("user").get("id").asText(),
+                            issuedInfo.path("user").get("username").asText()
+                    );
+            issuedOrderDatabase.add(issuedOrder);
+        }
+        ObservableList<issueInfo> issuedOrderList = issuedTable.getItems();
+        issuedOrderList.addAll(issuedOrderDatabase);
+    }
     @FXML
     private void refreshTable(ActionEvent event) {
+        issuedList.clear();
+        try {
+            setTable();
+        } catch (JsonProcessingException | ParseException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
+    private void returnTheBook(Long borrowedID) {
+        {
+            HttpResponse<String> response = issueBookRESTRequest
+                    .returnBookFromUser(borrowedID);
+            Alert alert;
+            if(response == null)
+            {
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText(null);
+                alert.setContentText("Empty response. Please try again.");
+            }
+            assert response != null;
+            if(response.statusCode() == 401)
+            {
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText(null);
+                alert.setContentText("Session timed out. Please log in again.");
+            }
+            else if (response.statusCode() == 200) {
+                alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setHeaderText(null);
+                alert.setContentText("Book has been returned to library");
+            }
+            else if (response.statusCode() == 400) {
+                alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setHeaderText(null);
+                alert.setContentText("Book is out of stock");
+            }
+            else {
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText(null);
+                alert.setContentText("An error has occurred. Please try again");
+            }
+            alert.showAndWait();
+        }
     }
 }
