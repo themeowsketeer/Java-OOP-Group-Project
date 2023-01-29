@@ -15,7 +15,7 @@ import java.net.http.HttpResponse;
 import java.util.*;
 import java.util.Random;
 
-public class AddBookController {
+public class addBookController {
 
     @FXML
     private ResourceBundle resources;

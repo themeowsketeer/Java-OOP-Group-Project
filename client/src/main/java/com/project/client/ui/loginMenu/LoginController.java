@@ -33,16 +33,12 @@ public class LoginController {
     private PasswordField passwordInput;
 
     @FXML
-    private Button registerButton;
-
-    @FXML
     private TextField usernameInput;
 
     @FXML
     void initialize() {
         assert loginButton != null : "fx:id=\"loginButton\" was not injected: check your FXML file 'login.fxml'.";
         assert passwordInput != null : "fx:id=\"passwordInput\" was not injected: check your FXML file 'login.fxml'.";
-        assert registerButton != null : "fx:id=\"registerButton\" was not injected: check your FXML file 'login.fxml'.";
         assert usernameInput != null : "fx:id=\"usernameInput\" was not injected: check your FXML file 'login.fxml'.";
         loginButton.setDefaultButton(true);
     }

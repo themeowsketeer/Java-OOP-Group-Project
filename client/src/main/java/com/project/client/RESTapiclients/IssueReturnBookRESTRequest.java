@@ -7,7 +7,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-public class issueBookRESTRequest {
+public class IssueReturnBookRESTRequest {
 
     private static final HttpClient client = HttpClient.newHttpClient();
 
@@ -72,6 +72,22 @@ public class issueBookRESTRequest {
             HttpRequest request = HttpRequest.newBuilder()
                     .POST(HttpRequest.BodyPublishers.noBody())
                     .header("Content-Type", "application/json")
+                    .header("Authorization","Bearer " + accessToken.getToken())
+                    .uri(URI.create(restUrl))
+                    .build();
+            return client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (Throwable e) {
+            System.out.println("Error: " + e);
+            e.printStackTrace();
+            return null;
+        }
+    }
+    public static HttpResponse<String> getAllReturnedBook() {
+        try {
+            String restUrl = baseUrl + "/return";
+            HttpRequest request = HttpRequest.newBuilder()
+                    .GET()
+                    .header("Accept", "application/json")
                     .header("Authorization","Bearer " + accessToken.getToken())
                     .uri(URI.create(restUrl))
                     .build();

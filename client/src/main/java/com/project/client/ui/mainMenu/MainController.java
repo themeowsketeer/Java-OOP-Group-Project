@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.client.RESTapiclients.BookRESTRequest;
-import com.project.client.RESTapiclients.issueBookRESTRequest;
+import com.project.client.RESTapiclients.IssueReturnBookRESTRequest;
 import com.project.client.object.Book;
 import com.project.client.object.accessToken;
 import javafx.collections.ObservableList;
@@ -114,6 +114,8 @@ public class MainController {
             userMenu.setVisible(false);
             userMenu.setManaged(false);
             actionCol.setVisible(false);
+            viewReturnedButton.setVisible(false);
+            viewReturnedButton.setManaged(false);
         }
     }
 
@@ -284,7 +286,7 @@ public class MainController {
 
     private void sendBookToUser(long userID, String bookID)
     {
-        HttpResponse<String> response = issueBookRESTRequest
+        HttpResponse<String> response = IssueReturnBookRESTRequest
                 .issueBookToUser(userID,bookID);
         Alert alert;
         if(response == null)

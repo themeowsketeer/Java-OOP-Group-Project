@@ -1,6 +1,6 @@
 package com.project.client.ui.issueBook;
 
-import com.project.client.RESTapiclients.issueBookRESTRequest;
+import com.project.client.RESTapiclients.IssueReturnBookRESTRequest;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -47,7 +47,7 @@ public class issueBookController {
                 alert.showAndWait();
             }
 
-            HttpResponse<String> response = issueBookRESTRequest.
+            HttpResponse<String> response = IssueReturnBookRESTRequest.
                     issueBookToUser(Long.parseLong(borrowerID), borrowedBookID);
             assert response != null;
             int responseCode = response.statusCode();

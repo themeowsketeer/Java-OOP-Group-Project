@@ -3,9 +3,10 @@ package com.project.client.ui.viewIssuedMenu;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.project.client.RESTapiclients.issueBookRESTRequest;
+import com.project.client.RESTapiclients.IssueReturnBookRESTRequest;
 import com.project.client.object.accessToken;
 import com.project.client.ui.mainMenu.MainController;
+import com.project.client.object.issueBookInfo;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,10 +22,7 @@ import java.net.URL;
 import java.net.http.HttpResponse;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import static javafx.collections.FXCollections.observableArrayList;
 
@@ -34,7 +32,7 @@ public class viewIssuedMenuController {
 
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat(isoDatePattern);
 
-    private final ObservableList<issueInfo> issuedList = observableArrayList();
+    private final ObservableList<issueBookInfo> issuedList = observableArrayList();
 
     @FXML
     private ResourceBundle resources;
@@ -43,25 +41,25 @@ public class viewIssuedMenuController {
     private URL location;
 
     @FXML
-    private TableColumn<issueInfo, Void> actionCol;
+    private TableColumn<issueBookInfo, Void> actionCol;
 
     @FXML
-    private TableColumn<issueInfo, String> bookIDCol;
+    private TableColumn<issueBookInfo, String> bookIDCol;
 
     @FXML
     private Button bookMenu;
 
     @FXML
-    private TableColumn<issueInfo, String> bookNameCol;
+    private TableColumn<issueBookInfo, String> bookNameCol;
 
     @FXML
-    private TableColumn<issueInfo, String> borrowIDCol;
+    private TableColumn<issueBookInfo, String> borrowIDCol;
 
     @FXML
-    private TableColumn<issueInfo, Date> issuedDateCol;
+    private TableColumn<issueBookInfo, Date> issuedDateCol;
 
     @FXML
-    private TableView<issueInfo> issuedTable;
+    private TableView<issueBookInfo> issuedTable;
 
     @FXML
     private Button logoutButton;
@@ -70,13 +68,13 @@ public class viewIssuedMenuController {
     private Button refreshButton;
 
     @FXML
-    private TableColumn<issueInfo, String> userIDCol;
+    private TableColumn<issueBookInfo, String> userIDCol;
 
     @FXML
     private Button userMenu;
 
     @FXML
-    private TableColumn<issueInfo, String> userNameCol;
+    private TableColumn<issueBookInfo, String> userNameCol;
 
     @FXML
     private Button viewAllButton;
@@ -174,19 +172,20 @@ public class viewIssuedMenuController {
         bookNameCol.setCellValueFactory(new PropertyValueFactory<>("bookName"));
         userIDCol.setCellValueFactory(new PropertyValueFactory<>("userId"));
         userNameCol.setCellValueFactory(new PropertyValueFactory<>("userName"));
-        Callback<TableColumn<issueInfo, Void>, TableCell<issueInfo, Void>> cellFactory = new Callback<>() {
+        Callback<TableColumn<issueBookInfo, Void>, TableCell<issueBookInfo, Void>> cellFactory = new Callback<>() {
             @Override
-            public TableCell<issueInfo, Void> call(final TableColumn<issueInfo, Void> param) {
+            public TableCell<issueBookInfo, Void> call(final TableColumn<issueBookInfo, Void> param) {
                 return new TableCell<>() {
                     private final Button returnButton = new Button("Return");
-                    final TextInputDialog issueConfirm = new TextInputDialog();
+                    final Alert issueConfirm = new Alert(Alert.AlertType.CONFIRMATION);
                     {
                         returnButton.setOnAction((ActionEvent event) ->
                         {
-                            issueInfo data = getTableView().getItems().get(getIndex());
+                            issueBookInfo data = getTableView().getItems().get(getIndex());
                             issueConfirm.setHeaderText("Confirm that this book has been returned?");
-                            issueConfirm.showAndWait();
-                            if (issueConfirm.getEditor().getText().equals("Confirm")) {
+                            issueConfirm.setContentText("Press ok to confirm / cancel to go back");
+                            Optional<ButtonType> result = issueConfirm.showAndWait();
+                            if (result.get() == ButtonType.OK) {
                                 returnTheBook(Long.parseLong(data.getBorrowId()));
                             }
                         });
@@ -212,18 +211,18 @@ public class viewIssuedMenuController {
         HttpResponse<String> response;
         if (accessToken.getRoleID() == 2)
         {
-            response = issueBookRESTRequest.getAllIssuedBookOfUser(accessToken.getRoleID());
+            response = IssueReturnBookRESTRequest.getAllIssuedBookOfUser(accessToken.getRoleID());
         }
         else {
-            response = issueBookRESTRequest.getAllIssuedBook();
+            response = IssueReturnBookRESTRequest.getAllIssuedBook();
         }
         assert response != null;
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode listIssued = objectMapper.readTree(response.body());
-        List<issueInfo> issuedOrderDatabase = new ArrayList<>();
+        List<issueBookInfo> issuedOrderDatabase = new ArrayList<>();
         for (JsonNode issuedInfo : listIssued)
         {
-            issueInfo issuedOrder = new issueInfo
+            issueBookInfo issuedOrder = new issueBookInfo
                     (
                         issuedInfo.get("id").asText(),
                             simpleDateFormat.parse(issuedInfo.get("issuedAt").asText()),
@@ -234,7 +233,7 @@ public class viewIssuedMenuController {
                     );
             issuedOrderDatabase.add(issuedOrder);
         }
-        ObservableList<issueInfo> issuedOrderList = issuedTable.getItems();
+        ObservableList<issueBookInfo> issuedOrderList = issuedTable.getItems();
         issuedOrderList.addAll(issuedOrderDatabase);
     }
     @FXML
@@ -249,7 +248,7 @@ public class viewIssuedMenuController {
 
     private void returnTheBook(Long borrowedID) {
         {
-            HttpResponse<String> response = issueBookRESTRequest
+            HttpResponse<String> response = IssueReturnBookRESTRequest
                     .returnBookFromUser(borrowedID);
             Alert alert;
             if(response == null)

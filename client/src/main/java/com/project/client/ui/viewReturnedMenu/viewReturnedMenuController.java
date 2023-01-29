@@ -1,10 +1,13 @@
 package com.project.client.ui.viewReturnedMenu;
 
-import com.project.client.object.accessToken;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.project.client.RESTapiclients.IssueReturnBookRESTRequest;
+import com.project.client.object.returnBookInfo;
 import com.project.client.ui.loginMenu.LoginController;
 import com.project.client.ui.mainMenu.MainController;
 import com.project.client.ui.mainUserMenu.mainUserMenuController;
-import com.project.client.ui.viewIssuedMenu.issueInfo;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,18 +16,28 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.net.http.HttpResponse;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import static javafx.collections.FXCollections.observableArrayList;
 
 public class viewReturnedMenuController {
 
-    private final ObservableList<issueInfo> issuedList = observableArrayList();
+    private final ObservableList<returnBookInfo> returnedList = observableArrayList();
+
+    String isoDatePattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX";
+
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat(isoDatePattern);
 
     @FXML
     private ResourceBundle resources;
@@ -33,25 +46,25 @@ public class viewReturnedMenuController {
     private URL location;
 
     @FXML
-    private TableColumn<issueInfo, Date> returnedDateCol;
+    private TableColumn<returnBookInfo, Date> returnedDateCol;
 
     @FXML
-    private TableColumn<issueInfo, Long> bookIDCol;
+    private TableColumn<returnBookInfo, Long> bookIDCol;
 
     @FXML
     private Button bookMenu;
 
     @FXML
-    private TableColumn<issueInfo, String> bookNameCol;
+    private TableColumn<returnBookInfo, String> bookNameCol;
 
     @FXML
-    private TableColumn<issueInfo, Long> borrowIDCol;
+    private TableColumn<returnBookInfo, Long> borrowIDCol;
 
     @FXML
-    private TableColumn<issueInfo, Date> issuedDateCol;
+    private TableColumn<returnBookInfo, Date> issuedDateCol;
 
     @FXML
-    private TableView<issueInfo> returnedTable;
+    private TableView<returnBookInfo> returnedTable;
 
     @FXML
     private Button logoutButton;
@@ -60,13 +73,13 @@ public class viewReturnedMenuController {
     private Button refreshButton;
 
     @FXML
-    private TableColumn<issueInfo, Long> userIDCol;
+    private TableColumn<returnBookInfo, Long> userIDCol;
 
     @FXML
     private Button userMenu;
 
     @FXML
-    private TableColumn<issueInfo, String> userNameCol;
+    private TableColumn<returnBookInfo, String> userNameCol;
 
     @FXML
     private Button viewAllButton;
@@ -87,12 +100,6 @@ public class viewReturnedMenuController {
         assert userMenu != null : "fx:id=\"userMenu\" was not injected: check your FXML file 'viewIssuedMenu.fxml'.";
         assert userNameCol != null : "fx:id=\"userNameCol\" was not injected: check your FXML file 'viewIssuedMenu.fxml'.";
         assert viewAllButton != null : "fx:id=\"viewAllButton\" was not injected: check your FXML file 'viewIssuedMenu.fxml'.";
-
-        if (accessToken.getRoleID()==2L)
-        {
-            userMenu.setVisible(false);
-            userMenu.setManaged(false);
-        }
     }
 
     @FXML
@@ -158,7 +165,47 @@ public class viewReturnedMenuController {
     }
 
     @FXML
+    private void setTable() throws ParseException, JsonProcessingException {
+        borrowIDCol.setCellValueFactory(new PropertyValueFactory<>("borrowId"));
+        issuedDateCol.setCellValueFactory(new PropertyValueFactory<>("issueAt"));
+        bookIDCol.setCellValueFactory(new PropertyValueFactory<>("bookId"));
+        bookNameCol.setCellValueFactory(new PropertyValueFactory<>("bookName"));
+        userIDCol.setCellValueFactory(new PropertyValueFactory<>("userId"));
+        userNameCol.setCellValueFactory(new PropertyValueFactory<>("userName"));
+        returnedDateCol.setCellValueFactory(new PropertyValueFactory<>("returnAt"));
+        updateData();
+        returnedTable.setItems(returnedList);
+    }
+    private void updateData() throws JsonProcessingException, ParseException {
+        HttpResponse<String> response = IssueReturnBookRESTRequest.getAllReturnedBook();
+        assert response != null;
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode listReturned = objectMapper.readTree(response.body());
+        List<returnBookInfo> returnedOrderDatabase = new ArrayList<>();
+        for (JsonNode returnedInfo : listReturned)
+        {
+            returnBookInfo returnOrder = new returnBookInfo
+                    (
+                            returnedInfo.get("id").asText(),
+                            simpleDateFormat.parse(returnedInfo.get("issuedAt").asText()),
+                            returnedInfo.path("book").get("id").asText(),
+                            returnedInfo.path("book").get("name").asText(),
+                            returnedInfo.path("user").get("id").asText(),
+                            returnedInfo.path("user").get("username").asText(),
+                            simpleDateFormat.parse(returnedInfo.get("returnedAt").asText())
+                    );
+            returnedOrderDatabase.add(returnOrder);
+        }
+        ObservableList<returnBookInfo> issuedOrderList = returnedTable.getItems();
+        issuedOrderList.addAll(returnedOrderDatabase);
+    }
+    @FXML
     private void refreshTable(ActionEvent event) {
-
+        returnedList.clear();
+        try {
+            setTable();
+        } catch (JsonProcessingException | ParseException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
