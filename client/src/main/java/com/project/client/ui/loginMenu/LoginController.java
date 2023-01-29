@@ -1,6 +1,5 @@
 package com.project.client.ui.loginMenu;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.client.RESTapiclients.LoginRESTRequest;
 import com.project.client.object.userAuth;
 import com.project.client.ui.mainMenu.MainController;
@@ -20,8 +19,6 @@ import java.net.http.HttpResponse;
 import java.util.ResourceBundle;
 
 public class LoginController {
-
-    ObjectMapper objectMapper = new ObjectMapper();
 
     @FXML
     private ResourceBundle resources;

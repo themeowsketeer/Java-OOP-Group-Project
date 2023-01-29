@@ -28,6 +28,7 @@ public class LoginRESTRequest {
                     .uri(URI.create(restUrl))
                     .build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            //Save authorization information to a global variable for further usage of rest of APIs
             authTokenSetUp(response);
             return response;
         } catch (Throwable e) {

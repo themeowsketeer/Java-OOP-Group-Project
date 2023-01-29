@@ -66,9 +66,20 @@
             <center>
                 <TableView fx:id="issuedTable" prefHeight="400.0" prefWidth="884.0" styleClass="column-header" stylesheets="@../../css/styling.css" BorderPane.alignment="CENTER">
                     <columns>
-                        <TableColumn fx:id="bookNameCol" prefWidth="300.0" text="Name" />
-                        <TableColumn fx:id="userNameCol" minWidth="0.0" prefWidth="250.0" text="Borrower" />
-                        <TableColumn fx:id="issuedCol" prefWidth="250.0" text="Issued date" />
+                        <TableColumn fx:id="borrowIDCol" prefWidth="70.0" text="Borrow ID" />
+                  <TableColumn prefWidth="250.0" text="Borrowed Book">
+                     <columns>
+                        <TableColumn fx:id="bookIDCol" prefWidth="70.0" text="Book ID" />
+                        <TableColumn fx:id="bookNameCol" prefWidth="200.0" text="Book Name" />
+                     </columns>
+                  </TableColumn>
+                  <TableColumn prefWidth="75.0" text="Borrower">
+                     <columns>
+                              <TableColumn fx:id="userIDCol" minWidth="0.0" prefWidth="70.0" text="User ID" />
+                        <TableColumn fx:id="userNameCol" prefWidth="150.0" text="Username" />
+                     </columns>
+                  </TableColumn>
+                        <TableColumn fx:id="issuedDateCol" prefWidth="250.0" text="Issued date" />
                         <TableColumn fx:id="actionCol" prefWidth="75.0" text="Action" />
                     </columns>
                 </TableView>
@@ -88,7 +99,7 @@
                                 </ImageView>
                             </graphic>
                         </Button>
-                        <Button fx:id="refreshButton" layoutX="20.0" layoutY="20.0" mnemonicParsing="false" stylesheets="@../../css/styling.css" text=" REFRESH" AnchorPane.leftAnchor="180.0" AnchorPane.topAnchor="15.0">
+                        <Button fx:id="refreshButton" layoutX="20.0" layoutY="20.0" mnemonicParsing="false" onAction="#refreshTable" stylesheets="@../../css/styling.css" text=" REFRESH" AnchorPane.leftAnchor="180.0" AnchorPane.topAnchor="15.0">
                             <padding>
                                 <Insets bottom="10.0" left="30.0" right="30.0" top="10.0" />
                             </padding>

@@ -17,6 +17,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import com.project.client.ui.issueBook.issueBookApplication;
 
 import java.io.IOException;
 import java.net.URL;
@@ -111,6 +112,7 @@ public class MainController {
             addBookButton.setManaged(false);
             userMenu.setVisible(false);
             userMenu.setManaged(false);
+            actionCol.setVisible(false);
         }
     }
 
@@ -212,7 +214,7 @@ public class MainController {
                     {
                         borrowButton.setOnAction((ActionEvent event) -> {
                             Book data = getTableView().getItems().get(getIndex());
-                            System.out.println("Book has been added to borrow list: " + data);
+                            System.out.println("Book has been added to borrow list: " + data.getId());
                         });
                     }
 
