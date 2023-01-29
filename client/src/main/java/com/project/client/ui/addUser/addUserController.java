@@ -83,38 +83,41 @@ public class addUserController {
                     birthday.isEmpty() ||
                     address.isEmpty() ||
                     password.isEmpty() ||
-                    phoneNumber.isEmpty()) {
+                    phoneNumber.isEmpty())
+            {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setHeaderText(null);
                 alert.setContentText("Please enter all fields and try again!");
                 alert.showAndWait();
             }
-            Set<Role> userRole = new HashSet<>();
-            if (role.equals("ADMIN")) {
-                userRole.add(new Role(1L,role));
-            }
-            else if (role.equals("USER")) {
-                userRole.add(new Role(2L,role));
-            }
-            Random random = new Random();
-            long userID = random.nextLong(1000);
+            else
+            {
+                Set<Role> userRole = new HashSet<>();
+                if (role.equals("ADMIN")) {
+                    userRole.add(new Role(1L, role));
+                } else if (role.equals("USER")) {
+                    userRole.add(new Role(2L, role));
+                }
+                Random random = new Random();
+                long userID = random.nextLong(1000);
 
-            User user = new User(userID,username,password,birthday,address,phoneNumber,userRole);
-            HttpResponse<String> response = UserRESTRequest.addNewUser(user);
+                User user = new User(userID, username, password, birthday, address, phoneNumber, userRole);
+                HttpResponse<String> response = UserRESTRequest.addNewUser(user);
 
-            assert response != null;
-            int responseCode = response.statusCode();
-            Alert alert;
-            if (responseCode == 201) {
-                alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setHeaderText(null);
-                alert.setContentText("User has been added.");
-            } else {
-                alert = new Alert(Alert.AlertType.ERROR);
-                alert.setHeaderText(null);
-                alert.setContentText("Please try again. Error code: " + responseCode);
+                assert response != null;
+                int responseCode = response.statusCode();
+                Alert alert;
+                if (responseCode == 201) {
+                    alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setHeaderText("Success");
+                    alert.setContentText("User has been added.");
+                } else {
+                    alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setHeaderText("Procedure failed");
+                    alert.setContentText("Please try again. Error code: " + responseCode);
+                }
+                alert.showAndWait();
             }
-            alert.showAndWait();
         }
         catch (NumberFormatException numEx)
         {

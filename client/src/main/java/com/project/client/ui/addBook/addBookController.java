@@ -100,11 +100,11 @@ public class addBookController {
             Alert alert;
             if (responseCode == 201) {
                 alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setHeaderText(null);
+                alert.setHeaderText("Success");
                 alert.setContentText("Book has been added.");
             } else {
                 alert = new Alert(Alert.AlertType.ERROR);
-                alert.setHeaderText(null);
+                alert.setHeaderText("Procedure failed");
                 alert.setContentText("Please try again.");
             }
             alert.showAndWait();

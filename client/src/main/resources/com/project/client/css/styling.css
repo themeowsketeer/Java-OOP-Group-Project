@@ -1,3 +1,4 @@
+
 .button {
     -fx-background-color: #093162;
     -fx-background-radius: 0.75em;
@@ -64,7 +65,6 @@
     -fx-cell-size: 30pt;
     -fx-alignment: center_left;
     -fx-text-fill: #999999;
-    -fx-alignment: CENTER_LEFT;
 }
 
 .table.row.cell:selected {

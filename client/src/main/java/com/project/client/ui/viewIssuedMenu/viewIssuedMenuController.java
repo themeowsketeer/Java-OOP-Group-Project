@@ -177,16 +177,19 @@ public class viewIssuedMenuController {
             public TableCell<issueBookInfo, Void> call(final TableColumn<issueBookInfo, Void> param) {
                 return new TableCell<>() {
                     private final Button returnButton = new Button("Return");
-                    final Alert issueConfirm = new Alert(Alert.AlertType.CONFIRMATION);
+                    final Alert returnConfirm = new Alert(Alert.AlertType.CONFIRMATION);
                     {
                         returnButton.setOnAction((ActionEvent event) ->
                         {
                             issueBookInfo data = getTableView().getItems().get(getIndex());
-                            issueConfirm.setHeaderText("Confirm that this book has been returned?");
-                            issueConfirm.setContentText("Press ok to confirm / cancel to go back");
-                            Optional<ButtonType> result = issueConfirm.showAndWait();
+                            returnConfirm.setHeaderText("Confirm that this book has been returned?");
+                            returnConfirm.setContentText("Press ok to confirm / cancel to go back");
+                            Optional<ButtonType> result = returnConfirm.showAndWait();
                             if (result.get() == ButtonType.OK) {
                                 returnTheBook(Long.parseLong(data.getBorrowId()));
+                            }
+                            else {
+                                returnConfirm.close();
                             }
                         });
                     }
@@ -211,7 +214,7 @@ public class viewIssuedMenuController {
         HttpResponse<String> response;
         if (accessToken.getRoleID() == 2)
         {
-            response = IssueReturnBookRESTRequest.getAllIssuedBookOfUser(accessToken.getRoleID());
+            response = IssueReturnBookRESTRequest.getAllIssuedBookOfUser(accessToken.getUserID());
         }
         else {
             response = IssueReturnBookRESTRequest.getAllIssuedBook();
@@ -251,32 +254,26 @@ public class viewIssuedMenuController {
             HttpResponse<String> response = IssueReturnBookRESTRequest
                     .returnBookFromUser(borrowedID);
             Alert alert;
-            if(response == null)
-            {
-                alert = new Alert(Alert.AlertType.ERROR);
-                alert.setHeaderText(null);
-                alert.setContentText("Empty response. Please try again.");
-            }
             assert response != null;
             if(response.statusCode() == 401)
             {
                 alert = new Alert(Alert.AlertType.ERROR);
-                alert.setHeaderText(null);
+                alert.setHeaderText("Unauthorized request");
                 alert.setContentText("Session timed out. Please log in again.");
             }
             else if (response.statusCode() == 200) {
                 alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setHeaderText(null);
+                alert.setHeaderText("Success");
                 alert.setContentText("Book has been returned to library");
             }
             else if (response.statusCode() == 400) {
                 alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setHeaderText(null);
+                alert.setHeaderText("Warning");
                 alert.setContentText("Book is out of stock");
             }
             else {
                 alert = new Alert(Alert.AlertType.ERROR);
-                alert.setHeaderText(null);
+                alert.setHeaderText("Procedure failed");
                 alert.setContentText("An error has occurred. Please try again");
             }
             alert.showAndWait();

@@ -22,6 +22,7 @@ import java.net.URL;
 import java.net.http.HttpResponse;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import static javafx.collections.FXCollections.observableArrayList;
@@ -243,8 +244,26 @@ public class MainController {
                         {
                             Book data = getTableView().getItems().get(getIndex());
                             issueConfirm.setHeaderText("To whose ID you want to issue this book: " + data.getId()+ "?");
-                            issueConfirm.showAndWait();
-                            sendBookToUser(Long.parseLong(issueConfirm.getEditor().getText()),(data.getId()));
+                            Optional<String> result = issueConfirm.showAndWait();
+                            String userId = issueConfirm.getEditor().getText();
+                            if (result.isPresent())
+                            {
+                                if (userId.equals(""))
+                                {
+                                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                                    alert.setHeaderText("Empty field expected");
+                                    alert.setContentText("Text field empty. Please try again.");
+                                    alert.showAndWait();
+                                }
+                                else
+                                {
+                                    sendBookToUser(Long.parseLong(userId),(data.getId()));
+                                }
+                            }
+                            else
+                            {
+                                issueConfirm.close();
+                            }
                         });
                     }
                     @Override
@@ -289,32 +308,32 @@ public class MainController {
         HttpResponse<String> response = IssueReturnBookRESTRequest
                 .issueBookToUser(userID,bookID);
         Alert alert;
-        if(response == null)
+        assert response != null;
+        if (response == null)
         {
             alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText(null);
-            alert.setContentText("Empty response. Please try again.");
+            alert.setHeaderText("User not found");
+            alert.setContentText("User ID not found or illegal ID expected. Please try again.");
         }
-        assert response != null;
         if(response.statusCode() == 401)
         {
             alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText(null);
+            alert.setHeaderText("Unauthorized request");
             alert.setContentText("Session timed out. Please log in again.");
         }
         else if (response.statusCode() == 200) {
             alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setHeaderText(null);
+            alert.setHeaderText("Success");
             alert.setContentText("Book has been issued to user");
         }
         else if (response.statusCode() == 400) {
             alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setHeaderText(null);
+            alert.setHeaderText("Warning");
             alert.setContentText("Book is out of stock");
         }
         else {
             alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText(null);
+            alert.setHeaderText("Procedure failed");
             alert.setContentText("An error has occurred. Please try again");
         }
         alert.showAndWait();
