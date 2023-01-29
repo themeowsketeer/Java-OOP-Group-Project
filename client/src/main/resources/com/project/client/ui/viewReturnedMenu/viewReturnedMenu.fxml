@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="568.0" prefWidth="976.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.client.ui.mainUserMenu.mainUserMenuController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="568.0" prefWidth="976.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.client.ui.viewReturnedMenu.viewReturnedMenuController">
     <top>
         <AnchorPane prefHeight="60.0" prefWidth="976.0" style="-fx-background-color: #093162;" BorderPane.alignment="CENTER">
             <children>
@@ -64,33 +64,42 @@
     <center>
         <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
             <center>
-                <TableView fx:id="userTable" prefHeight="400.0" prefWidth="884.0" styleClass="column-header" stylesheets="@../../css/styling.css" BorderPane.alignment="CENTER">
+                <TableView fx:id="returnedTable" prefHeight="400.0" prefWidth="884.0" styleClass="column-header" stylesheets="@../../css/styling.css" BorderPane.alignment="CENTER">
                     <columns>
-                        <TableColumn fx:id="userIdCol" prefWidth="75.0" text="ID" />
-                        <TableColumn fx:id="userNameCol" prefWidth="150.0" text="Username" />
-                        <TableColumn fx:id="birthdayCol" minWidth="0.0" prefWidth="200.0" text="DOB" />
-                        <TableColumn fx:id="addressCol" prefWidth="200.0" text="Address" />
-                        <TableColumn fx:id="phoneCol" prefWidth="170.0" text="Phone No." />
-                        <TableColumn fx:id="roleCol" prefWidth="100.0" text="Role" />
+                        <TableColumn fx:id="borrowIDCol" prefWidth="65.0" text="Borrow ID" />
+                        <TableColumn prefWidth="250.0" text="Borrowed Book">
+                            <columns>
+                                <TableColumn fx:id="bookIDCol" prefWidth="60.0" text="Book ID" />
+                                <TableColumn fx:id="bookNameCol" prefWidth="200.0" text="Book Name" />
+                            </columns>
+                        </TableColumn>
+                        <TableColumn prefWidth="75.0" text="Borrower">
+                            <columns>
+                                <TableColumn fx:id="userIDCol" minWidth="0.0" prefWidth="60.0" text="User ID" />
+                                <TableColumn fx:id="userNameCol" prefWidth="150.0" text="Username" />
+                            </columns>
+                        </TableColumn>
+                        <TableColumn fx:id="issuedDateCol" prefWidth="180.0" text="Issued date" />
+                        <TableColumn fx:id="returnedDateCol" prefWidth="180.0" text="Returned date" />
                     </columns>
                 </TableView>
             </center>
             <top>
                 <AnchorPane prefHeight="75.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                     <children>
-                        <Button fx:id="addUserButton" mnemonicParsing="false" onAction="#openAddUser" styleClass="rightButton" stylesheets="@../../css/styling.css" text=" ADD" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="15.0">
+                        <Button fx:id="viewAllButton" layoutX="30.0" layoutY="30.0" mnemonicParsing="false" onAction="#openViewAllMenu" prefHeight="39.0" prefWidth="150.0" stylesheets="@../../css/styling.css" text=" VIEW ALL" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="15.0">
                             <padding>
                                 <Insets bottom="10.0" left="30.0" right="30.0" top="10.0" />
                             </padding>
                             <graphic>
                                 <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@../../icon/add_white.png" />
+                                        <Image url="@../../icon/eye.png" />
                                     </image>
                                 </ImageView>
                             </graphic>
                         </Button>
-                        <Button fx:id="refreshButton" layoutX="20.0" layoutY="20.0" mnemonicParsing="false" onAction="#refreshTable" stylesheets="@../../css/styling.css" text=" REFRESH" AnchorPane.leftAnchor="140.0" AnchorPane.topAnchor="15.0">
+                        <Button fx:id="refreshButton" layoutX="20.0" layoutY="20.0" mnemonicParsing="false" onAction="#refreshTable" stylesheets="@../../css/styling.css" text=" REFRESH" AnchorPane.leftAnchor="180.0" AnchorPane.topAnchor="15.0">
                             <padding>
                                 <Insets bottom="10.0" left="30.0" right="30.0" top="10.0" />
                             </padding>

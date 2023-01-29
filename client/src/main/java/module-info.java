@@ -15,7 +15,6 @@ module com.project.client {
     opens com.project.client.ui.viewIssuedMenu to javafx.fxml, javafx.graphics;
     opens com.project.client.ui.viewReturnedMenu to javafx.fxml, javafx.graphics;
     opens com.project.client.ui.issueBook to javafx.fxml, javafx.graphics;
-    opens com.project.client.ui.returnBook to javafx.fxml, javafx.graphics;
     opens com.project.client.ui.loginMenu to javafx.fxml, javafx.graphics;
     exports com.project.client.object to com.fasterxml.jackson.databind;
     exports com.project.client.ui.addBook;
@@ -24,7 +23,6 @@ module com.project.client {
     exports com.project.client.ui.mainUserMenu;
     exports com.project.client.ui.issueBook;
     exports com.project.client.ui.viewIssuedMenu;
-    exports com.project.client.ui.returnBook;
     exports com.project.client.ui.viewReturnedMenu;
     exports com.project.client.ui.loginMenu;
 }

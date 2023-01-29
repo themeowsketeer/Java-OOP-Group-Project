@@ -46,6 +46,9 @@ public class MainController {
     private Button viewIssuedButton;
 
     @FXML
+    private Button viewReturnedButton;
+
+    @FXML
     private Button refreshButton;
 
     @FXML
@@ -87,7 +90,8 @@ public class MainController {
     void initialize() {
         // buttons
         assert addBookButton != null : "fx:id=\"addBookButton\" was not injected: check your FXML file 'main.fxml'.";
-        assert viewIssuedButton != null : "fx:id=\"viewBorrowButton\" was not injected: check your FXML file 'main.fxml'.";
+        assert viewIssuedButton != null : "fx:id=\"viewIssuedButton\" was not injected: check your FXML file 'main.fxml'.";
+        assert viewReturnedButton != null : "fx:id=\"viewReturnedButton\" was not injected: check your FXML file 'main.fxml'.";
         assert refreshButton != null : "fx:id=\"addBookButton\" was not injected: check your FXML file 'main.fxml'.";
         assert logoutButton != null : "fx:id=\"logoutButton\" was not injected: check your FXML file 'main.fxml'.";
 
@@ -151,6 +155,21 @@ public class MainController {
         try {
             Stage stage = (Stage) viewIssuedButton.getScene().getWindow();
             FXMLLoader fxmlLoader = new FXMLLoader(MainController.class.getResource("/com/project/client/ui/viewIssuedMenu/viewIssuedMenu.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
+            stage.setTitle("FRA-UAS Library");
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            System.out.println("Error: " + e);
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void openViewReturnedMenu (ActionEvent event) {
+        try {
+            Stage stage = (Stage) viewReturnedButton.getScene().getWindow();
+            FXMLLoader fxmlLoader = new FXMLLoader(MainController.class.getResource("/com/project/client/ui/viewReturnedMenu/viewReturnedMenu.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
             stage.setTitle("FRA-UAS Library");
             stage.setScene(scene);
