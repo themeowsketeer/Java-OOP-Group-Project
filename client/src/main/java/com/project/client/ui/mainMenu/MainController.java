@@ -2,9 +2,11 @@ package com.project.client.ui.mainMenu;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.client.RESTapiclients.BookRESTRequest;
 import com.project.client.RESTapiclients.IssueReturnBookRESTRequest;
+import com.project.client.RESTapiclients.UserRESTRequest;
 import com.project.client.object.Book;
 import com.project.client.object.accessToken;
 import javafx.collections.ObservableList;
@@ -20,10 +22,7 @@ import javafx.util.Callback;
 import java.io.IOException;
 import java.net.URL;
 import java.net.http.HttpResponse;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import static javafx.collections.FXCollections.observableArrayList;
 
@@ -238,27 +237,31 @@ public class MainController {
             public TableCell<Book, Void> call(final TableColumn<Book, Void> param) {
                 return new TableCell<>() {
                     private final Button borrowButton = new Button("Issue");
-                    final TextInputDialog issueConfirm = new TextInputDialog();
+
+                    private final List<String>userLightInfoList;
+
+                    {
+                        try {
+                            userLightInfoList = setUsersLightList();
+                        } catch (JsonProcessingException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+
+                    final ChoiceDialog issueConfirm = new ChoiceDialog(userLightInfoList.get(0), userLightInfoList);
                     {
                         borrowButton.setOnAction((ActionEvent event) ->
                         {
                             Book data = getTableView().getItems().get(getIndex());
-                            issueConfirm.setHeaderText("To whose ID you want to issue this book: " + data.getId()+ "?");
-                            Optional<String> result = issueConfirm.showAndWait();
-                            String userId = issueConfirm.getEditor().getText();
+                            issueConfirm.setHeaderText("To whose ID you want to issue this book: " + data.getName()+ " ?");
+                            issueConfirm.setContentText("Select user ID along username: ");
+                            Optional result = issueConfirm.showAndWait();
+                            String userInfo = (String) issueConfirm.getSelectedItem();
                             if (result.isPresent())
                             {
-                                if (userId.equals(""))
-                                {
-                                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                                    alert.setHeaderText("Empty field expected");
-                                    alert.setContentText("Text field empty. Please try again.");
-                                    alert.showAndWait();
-                                }
-                                else
-                                {
-                                    sendBookToUser(Long.parseLong(userId),(data.getId()));
-                                }
+                                String[] userInfoArr = userInfo.split(" ");
+                                String userId = userInfoArr[0];
+                                sendBookToUser(Long.parseLong(userId),(data.getId()));
                             }
                             else
                             {
@@ -302,31 +305,43 @@ public class MainController {
             throw new RuntimeException(e);
         }
     }
+    private List<String> setUsersLightList() throws JsonProcessingException {
+        List<String> usersLightList = new ArrayList<>();
+        HttpResponse<String> responseAllUser = UserRESTRequest.getUserByID(String.valueOf(0));
+        assert responseAllUser != null;
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode JSONArrayUser = objectMapper.readTree(responseAllUser.body());
+        for (JsonNode detail : JSONArrayUser)
+        {
+            String IdAndUsername = detail.get("id").asText() + " - " + detail.get("username").asText();
+            usersLightList.add(IdAndUsername);
+        }
+        return usersLightList;
+    }
 
     private void sendBookToUser(long userID, String bookID)
     {
         HttpResponse<String> response = IssueReturnBookRESTRequest
                 .issueBookToUser(userID,bookID);
         Alert alert;
-        assert response != null;
         if (response == null)
         {
             alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("User not found");
             alert.setContentText("User ID not found or illegal ID expected. Please try again.");
         }
-        if(response.statusCode() == 401)
+        if((response != null ? response.statusCode() : 0) == 401)
         {
             alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Unauthorized request");
             alert.setContentText("Session timed out. Please log in again.");
         }
-        else if (response.statusCode() == 200) {
+        else if ((response != null ? response.statusCode() : 0) == 200) {
             alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setHeaderText("Success");
             alert.setContentText("Book has been issued to user");
         }
-        else if (response.statusCode() == 400) {
+        else if ((response != null ? response.statusCode() : 0) == 400) {
             alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setHeaderText("Warning");
             alert.setContentText("Book is out of stock");

@@ -37,22 +37,22 @@ public class LoginRESTRequest {
             return null;
         }
     }
-
-    public static HttpResponse<String> registerRequest(userAuth userAuth) {
-        try {
-            String restUrl = baseUrl + "register";
-            HttpRequest request = HttpRequest.newBuilder()
-                    .POST(HttpRequest.BodyPublishers.ofString(objectMapper.writeValueAsString(userAuth)))
-                    .header("Content-Type", "application/json")
-                    .uri(URI.create(restUrl))
-                    .build();
-            return client.send(request, HttpResponse.BodyHandlers.ofString());
-        } catch (Throwable e) {
-            System.out.println("Error: " + e);
-            e.printStackTrace();
-            return null;
-        }
-    }
+// Desolated. Once used for simple registration of Librarian-role user
+//    public static HttpResponse<String> registerRequest(userAuth userAuth) {
+//        try {
+//            String restUrl = baseUrl + "register";
+//            HttpRequest request = HttpRequest.newBuilder()
+//                    .POST(HttpRequest.BodyPublishers.ofString(objectMapper.writeValueAsString(userAuth)))
+//                    .header("Content-Type", "application/json")
+//                    .uri(URI.create(restUrl))
+//                    .build();
+//            return client.send(request, HttpResponse.BodyHandlers.ofString());
+//        } catch (Throwable e) {
+//            System.out.println("Error: " + e);
+//            e.printStackTrace();
+//            return null;
+//        }
+//    }
     public static void authTokenSetUp (HttpResponse<String> userInfo) throws JsonProcessingException {
         JsonNode jsonNode = objectMapper.readTree(userInfo.body());
 
