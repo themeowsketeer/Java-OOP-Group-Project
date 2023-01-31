@@ -54,19 +54,21 @@ public class LoginController {
             alert.setContentText("Please enter all fields and try again!");
             alert.showAndWait();
         }
-        userAuth user = new userAuth(username, password);
-        HttpResponse<String> response = LoginRESTRequest.loginRequest(user);
-        if (response == null || response.statusCode() != 200) {
-            alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText(null);
-            alert.setContentText("Incorrect username or password. Please try again.");
-            alert.showAndWait();
-        } else {
-            loginSuccess(event);
-            alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setHeaderText(null);
-            alert.setContentText("Successfully logged in.");
-            alert.showAndWait();
+        else {
+            userAuth user = new userAuth(username, password);
+            HttpResponse<String> response = LoginRESTRequest.loginRequest(user);
+            if (response == null || response.statusCode() != 200) {
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText(null);
+                alert.setContentText("Incorrect username or password. Please try again.");
+                alert.showAndWait();
+            } else {
+                loginSuccess(event);
+                alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setHeaderText(null);
+                alert.setContentText("Successfully logged in.");
+                alert.showAndWait();
+            }
         }
     }
 
