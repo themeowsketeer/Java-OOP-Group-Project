@@ -1,4 +1,6 @@
 module com.project.client {
+    requires javafx.base;
+    requires javafx.graphics;
     requires javafx.controls;
     requires javafx.fxml;
     requires java.net.http;
@@ -15,6 +17,7 @@ module com.project.client {
     opens com.project.client.ui.viewIssuedMenu to javafx.fxml, javafx.graphics;
     opens com.project.client.ui.viewReturnedMenu to javafx.fxml, javafx.graphics;
     opens com.project.client.ui.loginMenu to javafx.fxml, javafx.graphics;
+    opens com.project.client;
     exports com.project.client.object to com.fasterxml.jackson.databind;
     exports com.project.client.ui.addBook;
     exports com.project.client.ui.addUser;
@@ -23,4 +26,5 @@ module com.project.client {
     exports com.project.client.ui.viewIssuedMenu;
     exports com.project.client.ui.viewReturnedMenu;
     exports com.project.client.ui.loginMenu;
+    exports com.project.client;
 }
