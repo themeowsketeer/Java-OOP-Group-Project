@@ -7,6 +7,9 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * The DAO for the book
+ */
 @Data
 @Entity
 @AllArgsConstructor

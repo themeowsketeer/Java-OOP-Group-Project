@@ -11,6 +11,9 @@ import org.mapstruct.MappingTarget;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * The mapper between the DAO and the DTO for a book
+ */
 @Mapper(
         componentModel = "spring"
 )

@@ -8,6 +8,9 @@ import lombok.Data;
 import java.util.Date;
 import java.util.Set;
 
+/**
+ * The DTO for a book
+ */
 @Data
 @Builder
 public class BookDto {

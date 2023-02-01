@@ -7,6 +7,9 @@ import org.mapstruct.Mapper;
 
 import java.util.List;
 
+/**
+ * The mapper between the DAO and the DTO for a borrowed book
+ */
 @Mapper(
         componentModel = "spring",
         injectionStrategy = InjectionStrategy.CONSTRUCTOR,

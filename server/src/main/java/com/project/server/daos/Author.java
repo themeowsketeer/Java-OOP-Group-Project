@@ -3,6 +3,9 @@ package com.project.server.daos;
 import jakarta.persistence.*;
 import lombok.*;
 
+/**
+ * The DAO for the author
+ */
 @Data
 @Entity
 @AllArgsConstructor

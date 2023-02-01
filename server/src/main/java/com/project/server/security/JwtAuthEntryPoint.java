@@ -9,6 +9,9 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
+/**
+ * Authentication entry point for jwt authentication
+ */
 @Component
 public class JwtAuthEntryPoint implements AuthenticationEntryPoint {
     @Override

@@ -20,6 +20,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 
+/**
+ * The controller for authentication service, which includes
+ * login and register
+ */
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -45,6 +49,12 @@ public class AuthController {
         this.tokenProvider = tokenProvider;
     }
 
+    /**
+     * Handle login request from the user at the endpoint: /api/auth/login
+     * @param loginDto: a JSON representation for the authentication request object
+     * @return the authentication response object which contains access token,
+     * token type, and the current user with the HTTP status OK
+     */
     @PostMapping("login")
     public ResponseEntity<AuthResponseDto> login(
             @RequestBody AuthReqDto loginDto
@@ -63,6 +73,11 @@ public class AuthController {
         return new ResponseEntity<>(new AuthResponseDto(token, mapper.map(entity)), HttpStatus.OK);
     }
 
+    /**
+     * Handle register request from the user at the enpoint: /api/auth/register
+     * @param authReqDto: a JSON representation for the authentication request object
+     * @return a response message with the HTTP status Created
+     */
     @PostMapping("register")
     public ResponseEntity<String> register(
             @RequestBody AuthReqDto authReqDto

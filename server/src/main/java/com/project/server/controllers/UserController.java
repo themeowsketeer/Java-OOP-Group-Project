@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * The controller for managing user REST API endpoints
+ */
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -22,16 +25,31 @@ public class UserController {
         this.userService = userService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
+
+    /**
+     * Handle GET request for the /api/users endpoint
+     * @return A JSON representation for the list of DTOs of the user
+     */
     @GetMapping
     public List<UserDto> getAllUsers() {
         return userService.getAll();
     }
 
+    /**
+     * Handle GET request for /api/users{id} endpoint
+     * @param id
+     * @return A JSON representation of the DTO of a user
+     */
     @GetMapping(value = "/{id}")
     public UserDto addUser(@PathVariable long id) {
         return userService.getUserById(id);
     }
 
+    /**
+     * Handle POST request for /api/users
+     * @param user A JSON representation for the user
+     * @return A JSON representation of the DTO of the added user with A response status of 201
+     */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<UserDto> addUser(

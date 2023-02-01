@@ -8,6 +8,9 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
+/**
+ * The DAO for a borrow book
+ */
 @Entity
 @Data
 @AllArgsConstructor

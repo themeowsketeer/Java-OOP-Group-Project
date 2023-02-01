@@ -6,6 +6,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+/**
+ * The repository for accessing the role table
+ */
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Long> {
     Optional<Role> findRoleByName(String name);

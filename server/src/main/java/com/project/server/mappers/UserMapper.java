@@ -9,6 +9,9 @@ import org.mapstruct.MappingTarget;
 
 import java.util.List;
 
+/**
+ * The mapper between the DAO and the DTO for a user
+ */
 @Mapper(
         componentModel = "spring"
 )

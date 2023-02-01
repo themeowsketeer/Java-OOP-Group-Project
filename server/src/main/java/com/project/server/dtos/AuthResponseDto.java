@@ -4,8 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
+/**
+ * The DTO for the authentication response
+ */
 @Data
 @AllArgsConstructor
+@Builder
 public class AuthResponseDto {
     private String accessToken;
     private String tokenType = "Bearer ";

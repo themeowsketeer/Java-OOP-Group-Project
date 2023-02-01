@@ -6,6 +6,9 @@ import lombok.Data;
 
 import java.util.Date;
 
+/**
+ * The DTO for a borrowed book
+ */
 @Data
 @AllArgsConstructor
 @Builder

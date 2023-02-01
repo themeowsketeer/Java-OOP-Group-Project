@@ -9,6 +9,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
+/**
+ * JWT provider to generate and validate token
+ */
 @Component
 public class JwtProvider {
     public String generateToken(Authentication authentication) {

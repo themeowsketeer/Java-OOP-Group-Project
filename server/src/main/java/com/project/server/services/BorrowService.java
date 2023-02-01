@@ -17,6 +17,9 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * The service layer handles the management of issuing and returning books
+ */
 @Service
 public class BorrowService {
     private final BorrowBookRepository borrowBookRepository;

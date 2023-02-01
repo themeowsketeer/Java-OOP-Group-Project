@@ -14,6 +14,9 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+/**
+ * JWT filter in the filter chain to validate and generate token for user
+ */
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Autowired

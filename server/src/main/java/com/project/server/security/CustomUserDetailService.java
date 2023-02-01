@@ -16,7 +16,9 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-
+/**
+ * The service layer provide user details for authentication
+ */
 @Service
 public class CustomUserDetailService implements UserDetailsService {
 

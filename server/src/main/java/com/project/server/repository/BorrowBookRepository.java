@@ -8,6 +8,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * The repository for accessing the borrow_book table
+ */
 @Repository
 public interface BorrowBookRepository extends JpaRepository<BorrowBook, Long> {
     List<BorrowBook> findBorrowBooksByUser(UserEntity user);

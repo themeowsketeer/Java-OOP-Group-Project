@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 ;
 import java.util.List;
 
+/**
+ * The service layer handles the logic of managing the books
+ */
 @Service
 public class BookService {
     private final BookRepository bookRepository;

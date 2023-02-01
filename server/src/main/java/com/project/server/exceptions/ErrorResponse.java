@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+/**
+ * The response object for error in the server
+ */
 @Getter
 @Setter
 @RequiredArgsConstructor

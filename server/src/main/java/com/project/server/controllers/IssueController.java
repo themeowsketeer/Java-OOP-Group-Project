@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * The controller for issue book REST API endpoint
+ * The controller for issue and return book REST API endpoint
  */
 @RestController
 @RequestMapping("api/issue")
@@ -19,7 +19,9 @@ public class IssueController {
     }
 
     /**
-     * Handle the /api/issue endpoint
+     * Handle GET request for the /api/issue endpoint
+     * @return A JSON representation of the list of DTOs of a
+     * borrowed book which includes the book, and the borrower
      */
     @GetMapping
     public List<BorrowDto> getAllIssuedBooks() {
@@ -27,9 +29,11 @@ public class IssueController {
      }
 
     /**
-     * Handle URL: /api/issue/id
+     * Handle GET request for the /api/issue/{id} endpoint
      * Example: /api/issue/1
      * @param id
+     *  * @return A JSON representation of the list of DTOs of a
+     *  borrowed book which includes the book, and the borrower
      */
      @GetMapping("/{id}")
     public List<BorrowDto> getAllIssuedBooksForUser(
@@ -39,7 +43,7 @@ public class IssueController {
      }
 
     /**
-     * Handle URL: /api/issue?userid=?&bookid=?
+     * Handle POST request for the /api/issue endpoint
      * Example URL: /api/issue?userid=5&bookid=12
      * Return one of the following status code:
      * 200 Ok: Successfully issue a book
@@ -47,6 +51,8 @@ public class IssueController {
      * 401 Unauthorized: missing query parameters
      * @param userId
      * @param bookId
+     * @return A JSON representation of the DTO of the borrowed book
+     * that is added to the database
      */
      @PostMapping
     public BorrowDto addIssuedBook(
@@ -57,7 +63,8 @@ public class IssueController {
      }
 
     /**
-     * Handle URL: /api/issue/return
+     * Handle GET request for the /api/issue/return endpoint
+     * @return A JSON representation of the list of the DTOs of the returned books
      */
     @GetMapping("/return")
     public List<BorrowDto> getReturnedBooks() {
@@ -65,12 +72,13 @@ public class IssueController {
     }
 
     /**
-     * Handle URL: /api/issue/return?borrowid=?
+     * Handle POST request for the /api/issue/return endpoint
      * Example: /api/issue/return?borrowid=1
      * 200 Ok: Successfully issue a book
      * 401 Unauthorized: missing query parameters
      * 404 Not Found: Borrow book not found
      * @param borrowId
+     * @return A JSON representation of the DTO of the returned book
      */
     @PostMapping("/return")
     public BorrowDto returnBook(

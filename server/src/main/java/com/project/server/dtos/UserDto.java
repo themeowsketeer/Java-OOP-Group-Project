@@ -10,6 +10,9 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * The DTO for the user
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
