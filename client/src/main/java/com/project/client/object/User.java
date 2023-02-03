@@ -2,6 +2,16 @@ package com.project.client.object;
 
 import java.util.Set;
 
+/**
+ * Class used to deserialize values of attributes in User instance
+ * from JSON string format.
+ * <p>
+ * Class also used to push corresponding
+ * value of each attribute to the table in User tableView instance for UI.
+ *
+ * @author Minh Duy
+ */
+
 public class User {
     private long id;
     private String username;

@@ -2,6 +2,14 @@ package com.project.client.object;
 
 import java.util.Date;
 
+/**
+ * Class used to deserialize JSON string format of a returning Book order.
+ * <p>
+ * Also used to put the data into returnedTable tableView in UI.
+ *
+ * @author Minh Duy
+ */
+
 public class returnBookInfo {
     private String borrowId;
     private Date issueAt;

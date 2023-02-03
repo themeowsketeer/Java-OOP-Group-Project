@@ -17,6 +17,12 @@ import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+/**
+ * Class that accepts information of a User object and make API calls to the server
+ * in order to add that User object to the database.
+ * @author Trọng Nhân
+ * @author Minh Duy
+ */
 public class addUserController {
 
     ObservableList<String> roleList = FXCollections.observableArrayList("ADMIN", "USER");
@@ -51,6 +57,9 @@ public class addUserController {
     @FXML
     private ChoiceBox<String> roleInput;
 
+    /**
+     * Upon initialization, perform a check on text boxes and two button
+     */
     @FXML
     void initialize() {
         // button
@@ -64,12 +73,24 @@ public class addUserController {
         assert passwordInput != null : "fx:id=\"civilIdInput\" was not injected: check your FXML file 'addUser.fxml'.";
         assert phoneInput != null : "fx:id=\"phoneInput\" was not injected: check your FXML file 'addUser.fxml'.";
         assert roleInput != null : "fx:id=\"roleInput\" was not injected: check your FXML file 'addUser.fxml'.";
+
+        /**
+         * Set up the dropdown list of Roles, as well as notify the user correct input
+         * of Date format for smooth parsing.
+         */
         roleInput.setItems(roleList);
         roleInput.setValue("USER");
         birthdayInput.setPromptText("Format: yyyy-MM-dd");
         birthdayInput.setFocusTraversable(false);
     }
 
+    /**
+     * Method used to initiate a User object with sufficient and valid information from text boxes
+     * and make API calls to server in order to add that User object to the database. Method also handle
+     * different alert pop-ups for different results, depending on status code received or type of response itself.
+     * @param event
+     * @throws NumberFormatException Exception thrown when one of the text box is left empty.
+     */
     @FXML
     private void addUser(ActionEvent event) throws NumberFormatException {
         try {
@@ -125,6 +146,10 @@ public class addUserController {
         }
     }
 
+    /**
+     * Method used to close the Add Book UI menu
+     * @param event Variable registered upon interacted by user, such as clicking.
+     */
     @FXML
     private void closeWindow(ActionEvent event) {
         Stage stage = (Stage) cancelButton.getScene().getWindow();

@@ -6,6 +6,11 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
 
+/**
+ * Class used to start up the UI for View List Of All Issued Book Order functionality
+ * @author Trọng Nhân
+ */
+
 public class viewIssuedMenuApplication extends Application {
 
     public static void main(String[] args) {

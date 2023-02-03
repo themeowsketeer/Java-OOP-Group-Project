@@ -31,10 +31,22 @@ import java.util.ResourceBundle;
 
 import static javafx.collections.FXCollections.observableArrayList;
 
+/**
+ * Class that defines actions for buttons presenting on the UI of View All Returned Book Order
+ * menu, handles API calls, deserializes JSON string format response, pushes up the information and
+ * gives alerts when unexpected results occur.
+ * @author Trọng Nhân
+ * @author Minh Duy
+ */
+
 public class viewReturnedMenuController {
 
     private final ObservableList<returnBookInfo> returnedList = observableArrayList();
 
+    /**
+     * Variable used to correctly parse a ISO-typed value of Date object from the response, to
+     * the viewing list.
+     */
     String isoDatePattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX";
 
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat(isoDatePattern);
@@ -84,7 +96,10 @@ public class viewReturnedMenuController {
     @FXML
     private Button viewAllButton;
 
-
+    /**
+     * Upon initialization, perform a check on all column of table containing returnBookInfo objects,
+     * as well as all available button.
+     */
     @FXML
     void initialize() {
         assert returnedDateCol != null : "fx:id=\"actionCol\" was not injected: check your FXML file 'viewIssuedMenu.fxml'.";
@@ -102,6 +117,10 @@ public class viewReturnedMenuController {
         assert viewAllButton != null : "fx:id=\"viewAllButton\" was not injected: check your FXML file 'viewIssuedMenu.fxml'.";
     }
 
+    /**
+     * Method used to re-direct the main UI screen to main menu, as well as table for showing all Book objects.
+     * @param event Variable registered upon interacted by user, such as clicking.
+     */
     @FXML
     private void openBookMenu (ActionEvent event) {
         try {
@@ -117,6 +136,10 @@ public class viewReturnedMenuController {
         }
     }
 
+    /**
+     * Method used to re-direct main UI screen to menu containing table for showing all User objects.
+     * @param event Variable registered upon interacted by user, such as clicking.
+     */
     @FXML
     private void openUserMenu (ActionEvent event) {
         try {
@@ -132,6 +155,10 @@ public class viewReturnedMenuController {
         }
     }
 
+    /**
+     * Method used to re-direct main UI screen to menu containing table for showing all issueBookInfo objects.
+     * @param event Variable registered upon interacted by user, such as clicking.
+     */
     @FXML
     private void openViewAllMenu (ActionEvent event) {
         try {
@@ -146,6 +173,11 @@ public class viewReturnedMenuController {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Method used to log the user out of the application and re-direct to login UI.
+     * @param event Variable registered upon interacted by user, such as clicking.
+     */
 
     @FXML
     private void logout(ActionEvent event) {
@@ -164,6 +196,11 @@ public class viewReturnedMenuController {
         }
     }
 
+    /**
+     * Method used set each column of the table to capture value from each corresponding attribute
+     * of JSON string format of returnBookInfo objects.
+     */
+
     @FXML
     private void setTable() throws ParseException, JsonProcessingException {
         borrowIDCol.setCellValueFactory(new PropertyValueFactory<>("borrowId"));
@@ -176,6 +213,13 @@ public class viewReturnedMenuController {
         updateData();
         returnedTable.setItems(returnedList);
     }
+
+    /**
+     * Method used to update the columns of table with corresponding attributes
+     * in which the returnBookInfo object provides.
+     * @throws JsonProcessingException Exception thrown when the response is not a valid JSON string format.
+     * @throws ParseException Exception thrown when Date format to parse is not recognized.
+     */
     private void updateData() throws JsonProcessingException, ParseException {
         HttpResponse<String> response = IssueReturnBookRESTRequest.getAllReturnedBook();
         assert response != null;
@@ -199,6 +243,13 @@ public class viewReturnedMenuController {
         ObservableList<returnBookInfo> issuedOrderList = returnedTable.getItems();
         issuedOrderList.addAll(returnedOrderDatabase);
     }
+
+    /**
+     * Method that refreshes the table and update its content. This method must be called
+     * upon accessing the menu for first time.
+     * @param event Variable registered upon interacted by user, such as clicking.
+     */
+
     @FXML
     private void refreshTable(ActionEvent event) {
         returnedList.clear();

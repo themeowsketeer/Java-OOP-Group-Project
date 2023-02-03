@@ -27,6 +27,14 @@ import java.util.ResourceBundle;
 
 import static javafx.collections.FXCollections.observableArrayList;
 
+/**
+ * Class that defines actions for buttons presenting on the UI of View All Added Users
+ * menu, handles API calls, deserializes JSON string format response, pushes up the information and
+ * gives alerts when unexpected results occur.
+ * @author Trọng Nhân
+ * @author Minh Duy
+ */
+
 public class mainUserMenuController {
 
     private ObservableList<User> users = observableArrayList();
@@ -73,6 +81,10 @@ public class mainUserMenuController {
     @FXML
     private TableColumn<User, String> userNameCol;
 
+    /**
+     * Upon initialization, perform a check on all column of table containing User objects,
+     * as well as all available button.
+     */
     @FXML
     void initialize() {
         // button
@@ -95,6 +107,10 @@ public class mainUserMenuController {
 
     }
 
+    /**
+     * Method used to re-direct the main UI screen to main menu, as well as table for showing all Book objects.
+     * @param event Variable registered upon interacted by user, such as clicking.
+     */
     @FXML
     private void openBookMenu (ActionEvent event) {
         try {
@@ -110,6 +126,10 @@ public class mainUserMenuController {
         }
     }
 
+    /**
+     * Method used to re-direct main UI screen to menu containing table for showing all User objects.
+     * @param event Variable registered upon interacted by user, such as clicking.
+     */
     @FXML
     private void openUserMenu (ActionEvent event) {
         try {
@@ -125,6 +145,11 @@ public class mainUserMenuController {
         }
     }
 
+    /**
+     * Method used to open a new UI menu for making request to server
+     * of adding new User object into the database.
+     * @param event Variable registered upon interacted by user, such as clicking.
+     */
     @FXML
     private void openAddUser(ActionEvent event) {
         try {
@@ -139,6 +164,11 @@ public class mainUserMenuController {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Method used to log the user out of the application and re-direct to login UI.
+     * @param event Variable registered upon interacted by user, such as clicking.
+     */
     @FXML
     private void logout(ActionEvent event) {
         try {
@@ -155,6 +185,11 @@ public class mainUserMenuController {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Method used set each column of the table to capture value from each corresponding attribute
+     * of JSON string format of User objects.
+     */
     @FXML
     private void setTable() throws JsonProcessingException {
         userIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -166,6 +201,12 @@ public class mainUserMenuController {
         updateData();
         userTable.setItems(users);
     }
+
+    /**
+     * Method used to update the columns of table with corresponding attributes
+     * in which the Uer object provides.
+     * @throws JsonProcessingException
+     */
     @JsonIgnoreProperties(ignoreUnknown = true)
     private void updateData() throws JsonProcessingException {
         HttpResponse<String> response = UserRESTRequest.getUserByID(String.valueOf(0));
@@ -176,6 +217,11 @@ public class mainUserMenuController {
         userList.addAll(userListDatabase);
     }
 
+    /**
+     * Method that refreshes the table and update its content. This method must be called
+     * upon accessing the menu for first time.
+     * @param event Variable registered upon interacted by user, such as clicking.
+     */
     @FXML
     private void refreshTable(ActionEvent event) {
         users.clear();
