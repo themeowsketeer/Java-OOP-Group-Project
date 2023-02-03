@@ -15,6 +15,12 @@ import java.net.http.HttpResponse;
 import java.util.*;
 import java.util.Random;
 
+/**
+ * Class that accepts information of a Book object and make API calls to the server
+ * in order to add that Book object to the database.
+ * @author Trọng Nhân
+ * @author Minh Duy
+ */
 public class addBookController {
 
     @FXML
@@ -44,6 +50,9 @@ public class addBookController {
     @FXML
     private TextField quantityInput;
 
+    /**
+     * Upon initialization, perform a check on text boxes and two buttons
+     */
     @FXML
     void initialize() {
         // button
@@ -58,7 +67,13 @@ public class addBookController {
         assert quantityInput != null : "fx:id=\"quantityInput\" was not injected: check your FXML file 'addBook.fxml'.";
     }
 
-
+    /**
+     * Method used to initiate a Book object with sufficient and valid information from text boxes
+     * and make API calls to server in order to add that Book object to the database. Method also handle
+     * different alert pop-ups for different results, depending on status code received or type of response itself.
+     * @param event
+     * @throws NumberFormatException Exception thrown when one of the text box is left empty.
+     */
     @FXML
     private void addBook(ActionEvent event) throws NumberFormatException {
         try {
@@ -114,6 +129,11 @@ public class addBookController {
             System.out.println("Empty space expected.");
         }
     }
+
+    /**
+     * Method used to close the Add Book UI menu
+     * @param event Variable registered upon interacted by user, such as clicking.
+     */
     @FXML
     private void closeWindow(ActionEvent event) {
         Stage stage = (Stage) cancelButton.getScene().getWindow();

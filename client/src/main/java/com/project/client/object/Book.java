@@ -3,6 +3,16 @@ package com.project.client.object;
 import java.util.Date;
 import java.util.Set;
 
+/**
+ * Class used to deserialize values of attributes in Book instance
+ * from JSON string format.
+ * <p>
+ * Class also used to push corresponding
+ * value of each attribute to the table in any Book tableView instance for UI.
+ *
+ * @author Minh Duy
+ */
+
 public class Book {
 
     private String id;

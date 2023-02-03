@@ -22,10 +22,21 @@ import javafx.util.Callback;
 import java.io.IOException;
 import java.net.URL;
 import java.net.http.HttpResponse;
+import java.text.ParseException;
 import java.util.*;
 
 import static javafx.collections.FXCollections.observableArrayList;
 
+/**
+ * Class that defines actions for buttons presenting on the UI of View All Available Book
+ * menu, handles API calls, deserializes JSON string format response, pushes up the information and
+ * gives alerts when unexpected results occur.
+ * <p>
+ * This is also the very first UI menu that greets the user upon logging in, as well as providing much
+ * access to other functionalities
+ * @author Trọng Nhân
+ * @author Minh Duy
+ */
 public class MainController {
 
     private final ObservableList<Book> book = observableArrayList();
@@ -83,6 +94,10 @@ public class MainController {
     @FXML
     private TableColumn<Book, Void> actionCol;
 
+    /**
+     * Upon initialization, perform a check on all column of table containing Book objects,
+     * as well as all available button.
+     */
     @FXML
     void initialize() {
         // buttons
@@ -107,6 +122,10 @@ public class MainController {
         assert uploadCol != null : "fx:id=\"uploadCol\" was not injected: check your FXML file 'main.fxml'.";
         assert actionCol != null : "fx:id=\"actionCol\" was not injected: check your FXML file 'main.fxml'.";
 
+        /**
+         * If the user role is USER, user cannot have access to Users List menu, View
+         * List of Return Book Order button, Borrow Book button and Add Book functionality.
+         */
         if (accessToken.getRoleID()==2L)
         {
             addBookButton.setVisible(false);
@@ -119,6 +138,10 @@ public class MainController {
         }
     }
 
+    /**
+     * Method used to re-direct the main UI screen to main menu, as well as table for showing all Book objects.
+     * @param event Variable registered upon interacted by user, such as clicking.
+     */
     @FXML
     private void openBookMenu (ActionEvent event) {
         try {
@@ -136,6 +159,10 @@ public class MainController {
         }
     }
 
+    /**
+     * Method used to re-direct main UI screen to menu containing table for showing all User objects.
+     * @param event Variable registered upon interacted by user, such as clicking.
+     */
     @FXML
     private void openUserMenu (ActionEvent event) {
         try {
@@ -153,6 +180,10 @@ public class MainController {
         }
     }
 
+    /**
+     * Method used to re-direct main UI screen to menu containing table for showing all issueBookInfo objects.
+     * @param event Variable registered upon interacted by user, such as clicking.
+     */
     @FXML
     private void openViewIssuedMenu (ActionEvent event) {
         try {
@@ -170,6 +201,10 @@ public class MainController {
         }
     }
 
+    /**
+     * Method used to re-direct main UI screen to menu containing table for showing all returnBookInfo objects.
+     * @param event Variable registered upon interacted by user, such as clicking.
+     */
     @FXML
     private void openViewReturnedMenu (ActionEvent event) {
         try {
@@ -185,6 +220,11 @@ public class MainController {
         }
     }
 
+    /**
+     * Method used to open a new UI menu for making request to server
+     * of adding new Book object into the database.
+     * @param event Variable registered upon interacted by user, such as clicking.
+     */
     @FXML
     private void openAddBook(ActionEvent event) {
         try {
@@ -202,6 +242,10 @@ public class MainController {
         }
     }
 
+    /**
+     * Method used to log the user out of the application and re-direct to login UI.
+     * @param event Variable registered upon interacted by user, such as clicking.
+     */
     @FXML
     private void logout(ActionEvent event) {
         try {
@@ -221,6 +265,12 @@ public class MainController {
         }
     }
 
+    /**
+     * Method used set each column of the table to capture value from each corresponding attribute
+     * of JSON string format of Book objects.
+     * Action column is also set up independently to only show Borrow Book buttons for any
+     * object that is available and present on the table. Unique to user with Admin role only.
+     */
     @FXML
     private void setTable() throws JsonProcessingException {
         idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -248,6 +298,10 @@ public class MainController {
                         }
                     }
 
+                    /**
+                     * Upon clicking Issue Book button, provide the user with drop-down list of
+                     * valid user to be issued with Book on same row with the button.
+                     */
                     final ChoiceDialog issueConfirm = new ChoiceDialog(userLightInfoList.get(0), userLightInfoList);
                     {
                         borrowButton.setOnAction((ActionEvent event) ->
@@ -269,6 +323,12 @@ public class MainController {
                             }
                         });
                     }
+
+                    /**
+                     * Update the button to every available object showed on table
+                     * @param item
+                     * @param empty
+                     */
                     @Override
                     public void updateItem(Void item, boolean empty) {
                         super.updateItem(item, empty);
@@ -286,6 +346,11 @@ public class MainController {
         bookTable.setItems(book);
     }
 
+    /**
+     * Method used to update the columns of table with corresponding attributes
+     * in which the issueBookInfo object provides.
+     * @throws JsonProcessingException Exception thrown when the response is not a valid JSON string format.
+     */
     private void updateData() throws JsonProcessingException {
         HttpResponse<String> response = BookRESTRequest.getBookByID(String.valueOf(0));
         assert response != null;
@@ -296,6 +361,11 @@ public class MainController {
         bookList.addAll(bookListDatabase);
     }
 
+    /**
+     * Method that refreshes the table and update its content. This method must be called
+     * upon accessing the menu for first time.
+     * @param event Variable registered upon interacted by user, such as clicking.
+     */
     @FXML
     private void refreshTable(ActionEvent event) {
         book.clear();
@@ -305,6 +375,13 @@ public class MainController {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * Method that provides the drop-down list of available user for the pop-up
+     * used when interacting with Issue Book button.
+     * @throws JsonProcessingException Exception throws when response from API call is
+     * not a valid JSON string format.
+     */
     private List<String> setUsersLightList() throws JsonProcessingException {
         List<String> usersLightList = new ArrayList<>();
         HttpResponse<String> responseAllUser = UserRESTRequest.getUserByID(String.valueOf(0));
@@ -319,6 +396,13 @@ public class MainController {
         return usersLightList;
     }
 
+    /**
+     * Method that sends request to the server in order to make a Book Issue API calls.
+     * Response provided has its status code dealt with and provides pop-up alert for each
+     * unique code.
+     * @param userID Decide which user will receive the book
+     * @param bookID Decide which book the user with corresponding user ID will receive
+     */
     private void sendBookToUser(long userID, String bookID)
     {
         HttpResponse<String> response = IssueReturnBookRESTRequest

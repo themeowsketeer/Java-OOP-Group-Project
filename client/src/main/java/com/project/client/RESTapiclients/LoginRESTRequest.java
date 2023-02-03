@@ -11,6 +11,14 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 import com.project.client.object.accessToken;
+
+/**
+ * Class that provide method to log in to the application and store access token.
+ * Token is required to access every function of the application. Otherwise, user
+ * is forced to log out and log in for a new token registered.
+ * @author Minh Duy
+ */
+
 public class LoginRESTRequest {
 
     private static final HttpClient client = HttpClient.newHttpClient();
@@ -18,6 +26,16 @@ public class LoginRESTRequest {
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
     private static final String baseUrl = "http://localhost:8080/api/auth/";
+
+    /**
+     * POST method of an API call to the server to verify user's credential and store access
+     * token to the global variable, if verification is valid and successful.
+     * @param userAuth Class packaged with username and password received from the
+     *                 login UI of the application
+     * @return JSON string format of access token and User object. If the server fails to verify
+     * valid user, NULL pointer is used.
+     * @apiNote Used method is POST.
+     */
 
     public static HttpResponse<String> loginRequest(userAuth userAuth) {
         try {
@@ -53,6 +71,14 @@ public class LoginRESTRequest {
 //            return null;
 //        }
 //    }
+
+    /**
+     * Method used to assign accessToken object with valid access token granted from response of API call from
+     * loginRequest method
+     * @param userInfo The request received from the API call of loginRequest method to log into the application
+     * @throws JsonProcessingException Exception thrown when the parameter is not in valid JSON string format,
+     * which JSON parser cannot process the body string and cause the error.
+     */
     public static void authTokenSetUp (HttpResponse<String> userInfo) throws JsonProcessingException {
         JsonNode jsonNode = objectMapper.readTree(userInfo.body());
 

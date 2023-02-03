@@ -6,6 +6,11 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
 
+/**
+ * Class used to start up the UI for Add Book functionality
+ * @author Trọng Nhân
+ */
+
 public class addBookApplication extends Application {
 
     public static void main(String[] args) {

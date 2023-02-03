@@ -6,6 +6,11 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
 
+/**
+ * Class used to start up the main menu UI, as well as View List Of All Books functionality
+ * @author Trọng Nhân
+ */
+
 public class MainApplication extends Application {
 
     public static void main(String[] args) {

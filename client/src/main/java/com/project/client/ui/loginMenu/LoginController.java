@@ -18,6 +18,14 @@ import java.net.URL;
 import java.net.http.HttpResponse;
 import java.util.ResourceBundle;
 
+/**
+ * Initial class that activates upon the initialization of the application.
+ * Class is used to handle login request, update access token and return
+ * different alerts for different unexpected results.
+ * @author Trọng Nhân
+ * @author Minh Duy
+ */
+
 public class LoginController {
 
     @FXML
@@ -35,6 +43,9 @@ public class LoginController {
     @FXML
     private TextField usernameInput;
 
+    /**
+     * Upon initialization, perform a check on two text boxes and login button
+     */
     @FXML
     void initialize() {
         assert loginButton != null : "fx:id=\"loginButton\" was not injected: check your FXML file 'login.fxml'.";
@@ -43,6 +54,12 @@ public class LoginController {
         loginButton.setDefaultButton(true);
     }
 
+    /**
+     * Method that makes API request to the server for user credentials validation.
+     * If success, alert is present. Otherwise, configure accessToken object with
+     * received access token from response.
+     * @param event Variable registered upon interacted by user, such as clicking.
+     */
     @FXML
     private void login(ActionEvent event) {
         String username = usernameInput.getText();
@@ -72,6 +89,11 @@ public class LoginController {
         }
     }
 
+    /**
+     * If login succesfully, this method is used to re-direct the main UI screen to main menu,
+     * as well as table for showing all Book objects.
+     * @param event Variable registered upon interacted by user, such as clicking.
+     */
     private void loginSuccess(ActionEvent event) {
         try {
             Stage staging = (Stage) loginButton.getScene().getWindow();

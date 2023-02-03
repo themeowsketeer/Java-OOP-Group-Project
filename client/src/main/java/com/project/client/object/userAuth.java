@@ -1,5 +1,11 @@
 package com.project.client.object;
 
+/**
+ * Class used to send login information to the server in loginMenu UI application.
+ *
+ * @author Minh Duy
+ */
+
 public class userAuth {
     private String username;
 

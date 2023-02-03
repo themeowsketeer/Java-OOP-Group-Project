@@ -1,5 +1,13 @@
 package com.project.client.object;
 
+/**
+ * Class used to distinguish accessibility between User and Librarian.
+ * <p>
+ * By default, id 1 is labelled Librarian, id 2 is labelled User.
+ *
+ * @author Minh Duy
+ */
+
 public class Role {
     private Long id;
     private String name;
@@ -43,6 +51,15 @@ public class Role {
         result = 31 * result + (getName() != null ? getName().hashCode() : 0);
         return result;
     }
+
+    /**
+     * Overloaded toString function that display role name only.
+     * <p>
+     * Default parsing only uses toString method of the class, thus simple method to get
+     * role name cannot be used.
+     *
+     * @return Role name. Used for mainUserMenu UI application to simply display User's Role
+     */
 
     @Override
     public String toString() {

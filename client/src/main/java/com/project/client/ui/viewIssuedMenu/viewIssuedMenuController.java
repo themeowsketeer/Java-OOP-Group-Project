@@ -26,8 +26,20 @@ import java.util.*;
 
 import static javafx.collections.FXCollections.observableArrayList;
 
+/**
+ * Class that defines actions for buttons presenting on the UI of View All Issued Book Order
+ * menu, handles API calls, deserializes JSON string format response, pushes up the information and
+ * gives alerts when unexpected results occur.
+ * @author Trọng Nhân
+ * @author Minh Duy
+ */
+
 public class viewIssuedMenuController {
 
+    /**
+     * Variable used to correctly parse a ISO-typed value of Date object from the response, to
+     * the viewing list.
+     */
     String isoDatePattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX";
 
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat(isoDatePattern);
@@ -79,7 +91,10 @@ public class viewIssuedMenuController {
     @FXML
     private Button viewAllButton;
 
-
+    /**
+     * Upon initialization, perform a check on all column of table containing issueBookInfo objects,
+     * as well as all available button.
+     */
     @FXML
     void initialize() {
         assert actionCol != null : "fx:id=\"actionCol\" was not injected: check your FXML file 'viewIssuedMenu.fxml'.";
@@ -96,6 +111,9 @@ public class viewIssuedMenuController {
         assert userNameCol != null : "fx:id=\"userNameCol\" was not injected: check your FXML file 'viewIssuedMenu.fxml'.";
         assert viewAllButton != null : "fx:id=\"viewAllButton\" was not injected: check your FXML file 'viewIssuedMenu.fxml'.";
 
+        /**
+         * If the user role is USER, user cannot have access to Users List menu and Return Book button
+         */
         if (accessToken.getRoleID() == 2L) {
             userMenu.setVisible(false);
             userMenu.setManaged(false);
@@ -103,6 +121,10 @@ public class viewIssuedMenuController {
         }
     }
 
+    /**
+     * Method used to re-direct the main UI screen to main menu, as well as table for showing all Book objects.
+     * @param event Variable registered upon interacted by user, such as clicking.
+     */
     @FXML
     private void openBookMenu(ActionEvent event) {
         try {
@@ -118,6 +140,10 @@ public class viewIssuedMenuController {
         }
     }
 
+    /**
+     * Method used to re-direct main UI screen to menu containing table for showing all User objects.
+     * @param event Variable registered upon interacted by user, such as clicking.
+     */
     @FXML
     private void openUserMenu(ActionEvent event) {
         try {
@@ -133,6 +159,10 @@ public class viewIssuedMenuController {
         }
     }
 
+    /**
+     * Method used to re-direct the main UI screen to main menu, as well as table for showing all Book objects.
+     * @param event Variable registered upon interacted by user, such as clicking.
+     */
     @FXML
     private void openViewAllMenu(ActionEvent event) {
         try {
@@ -148,6 +178,10 @@ public class viewIssuedMenuController {
         }
     }
 
+    /**
+     * Method used to log the user out of the application and re-direct to login UI.
+     * @param event Variable registered upon interacted by user, such as clicking.
+     */
     @FXML
     private void logout(ActionEvent event) {
         try {
@@ -164,6 +198,12 @@ public class viewIssuedMenuController {
             e.printStackTrace();
         }
     }
+    /**
+     * Method used set each column of the table to capture value from each corresponding attribute
+     * of JSON string format of issueBookInfo objects.
+     * Action column is also set up independently to only show Return Book buttons for any
+     * object that is available and present on the table. Unique to user with Admin role only.
+     */
     @FXML
     private void setTable () throws JsonProcessingException, ParseException {
         borrowIDCol.setCellValueFactory(new PropertyValueFactory<>("borrowId"));
@@ -193,6 +233,12 @@ public class viewIssuedMenuController {
                             }
                         });
                     }
+
+                    /**
+                     * Update the button to every available object showed on table
+                     * @param item
+                     * @param empty
+                     */
                     @Override
                     public void updateItem(Void item, boolean empty) {
                         super.updateItem(item, empty);
@@ -210,6 +256,12 @@ public class viewIssuedMenuController {
         issuedTable.setItems(issuedList);
     }
 
+    /**
+     * Method used to update the columns of table with corresponding attributes
+     * in which the issueBookInfo object provides.
+     * @throws JsonProcessingException Exception thrown when the response is not a valid JSON string format.
+     * @throws ParseException Exception thrown when Date format to parse is not recognized.
+     */
     private void updateData() throws JsonProcessingException, ParseException {
         HttpResponse<String> response;
         if (accessToken.getRoleID() == 2)
@@ -239,6 +291,12 @@ public class viewIssuedMenuController {
         ObservableList<issueBookInfo> issuedOrderList = issuedTable.getItems();
         issuedOrderList.addAll(issuedOrderDatabase);
     }
+
+    /**
+     * Method that refreshes the table and update its content. This method must be called
+     * upon accessing the menu for first time.
+     * @param event Variable registered upon interacted by user, such as clicking.
+     */
     @FXML
     private void refreshTable(ActionEvent event) {
         issuedList.clear();
@@ -249,6 +307,12 @@ public class viewIssuedMenuController {
         }
     }
 
+    /**
+     * Method that sends request to the server in order to make a Book Return API calls.
+     * Response provided has its status code dealt with and provides pop-up alert for each
+     * unique code.
+     * @param borrowedID Decide which issue order ID the user wants to make API request to the server with
+     */
     private void returnTheBook(Long borrowedID) {
         {
             HttpResponse<String> response = IssueReturnBookRESTRequest
