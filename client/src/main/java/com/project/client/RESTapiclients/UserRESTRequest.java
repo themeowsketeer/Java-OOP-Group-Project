@@ -26,7 +26,7 @@ public class UserRESTRequest {
     /**
      * Default URL of the local server to get User objects
      */
-    private static final String baseUrl = "http://localhost:8080/api/users";
+    private static final String baseUrl = "https://library-java.fly.dev/api/users";
 
     /**
      * GET method of an API call to receive information of User objects in JSON string format

@@ -25,7 +25,7 @@ public class BookRESTRequest {
     /**
      * Default URL of the local server to get Book objects
      */
-    private static final String baseUrl = "http://localhost:8080/api/books";
+    private static final String baseUrl = "https://library-java.fly.dev/api/books";
 
     /**
      * GET method of an API call to receive information of Book objects in JSON string format

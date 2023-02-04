@@ -21,7 +21,7 @@ public class IssueReturnBookRESTRequest {
     /**
      * Default URL of the local server to request issueBookInfo objects.
      */
-    private static final String baseUrl = "http://localhost:8080/api/issue";
+    private static final String baseUrl = "https://library-java.fly.dev/api/issue";
 
     /**
      * GET method of an API call to receive information of every issueBookInfo objects in JSON string format.

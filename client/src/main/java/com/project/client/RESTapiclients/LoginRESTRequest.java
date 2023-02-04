@@ -25,7 +25,7 @@ public class LoginRESTRequest {
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
-    private static final String baseUrl = "http://localhost:8080/api/auth/";
+    private static final String baseUrl = "https://library-java.fly.dev/api/auth/";
 
     /**
      * POST method of an API call to the server to verify user's credential and store access
