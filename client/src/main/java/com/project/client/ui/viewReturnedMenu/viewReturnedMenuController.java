@@ -240,8 +240,7 @@ public class viewReturnedMenuController {
                     );
             returnedOrderDatabase.add(returnOrder);
         }
-        ObservableList<returnBookInfo> issuedOrderList = returnedTable.getItems();
-        issuedOrderList.addAll(returnedOrderDatabase);
+        returnedTable.getItems().addAll(returnedOrderDatabase);
     }
 
     /**

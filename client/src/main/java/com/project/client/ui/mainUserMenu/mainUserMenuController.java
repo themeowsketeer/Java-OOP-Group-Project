@@ -37,7 +37,7 @@ import static javafx.collections.FXCollections.observableArrayList;
 
 public class mainUserMenuController {
 
-    private ObservableList<User> users = observableArrayList();
+    private final ObservableList<User> users = observableArrayList();
 
     @FXML
     private ResourceBundle resources;
@@ -205,7 +205,8 @@ public class mainUserMenuController {
     /**
      * Method used to update the columns of table with corresponding attributes
      * in which the Uer object provides.
-     * @throws JsonProcessingException
+     * @throws JsonProcessingException Exception throws when there's an error during processing JSON data,
+     * such as data is NULL pointer
      */
     @JsonIgnoreProperties(ignoreUnknown = true)
     private void updateData() throws JsonProcessingException {
@@ -213,8 +214,7 @@ public class mainUserMenuController {
         assert response != null;
         ObjectMapper objectMapper = new ObjectMapper();
         List<User> userListDatabase = objectMapper.readValue(response.body(), new TypeReference<>() {});
-        ObservableList<User> userList = userTable.getItems();
-        userList.addAll(userListDatabase);
+        userTable.getItems().addAll(userListDatabase);
     }
 
     /**

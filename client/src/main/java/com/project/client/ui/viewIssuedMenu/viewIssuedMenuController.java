@@ -236,8 +236,8 @@ public class viewIssuedMenuController {
 
                     /**
                      * Update the button to every available object showed on table
-                     * @param item
-                     * @param empty
+                     * @param item Variable represents the table's status
+                     * @param empty Check variable whether the item is empty
                      */
                     @Override
                     public void updateItem(Void item, boolean empty) {
@@ -288,8 +288,7 @@ public class viewIssuedMenuController {
                     );
             issuedOrderDatabase.add(issuedOrder);
         }
-        ObservableList<issueBookInfo> issuedOrderList = issuedTable.getItems();
-        issuedOrderList.addAll(issuedOrderDatabase);
+        issuedTable.getItems().addAll(issuedOrderDatabase);
     }
 
     /**

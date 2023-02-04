@@ -22,7 +22,6 @@ import javafx.util.Callback;
 import java.io.IOException;
 import java.net.URL;
 import java.net.http.HttpResponse;
-import java.text.ParseException;
 import java.util.*;
 
 import static javafx.collections.FXCollections.observableArrayList;
@@ -357,8 +356,7 @@ public class MainController {
         ObjectMapper objectMapper = new ObjectMapper();
         List<Book> bookListDatabase = objectMapper.readValue(response.body(), new TypeReference<>() {
         });
-        ObservableList<Book> bookList = bookTable.getItems();
-        bookList.addAll(bookListDatabase);
+        bookTable.getItems().addAll(bookListDatabase);
     }
 
     /**
