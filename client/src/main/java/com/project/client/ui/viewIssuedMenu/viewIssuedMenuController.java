@@ -225,7 +225,7 @@ public class viewIssuedMenuController {
                             returnConfirm.setHeaderText("Confirm that this book has been returned?");
                             returnConfirm.setContentText("Press ok to confirm / cancel to go back");
                             Optional<ButtonType> result = returnConfirm.showAndWait();
-                            if (result.get() == ButtonType.OK) {
+                            if (ButtonType.OK == result.get()) {
                                 returnTheBook(Long.parseLong(data.getBorrowId()));
                             }
                             else {
@@ -271,24 +271,31 @@ public class viewIssuedMenuController {
         else {
             response = IssueReturnBookRESTRequest.getAllIssuedBook();
         }
-        assert response != null;
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode listIssued = objectMapper.readTree(response.body());
-        List<issueBookInfo> issuedOrderDatabase = new ArrayList<>();
-        for (JsonNode issuedInfo : listIssued)
+        if (response == null || response.body().equals("[]"))
         {
-            issueBookInfo issuedOrder = new issueBookInfo
-                    (
-                        issuedInfo.get("id").asText(),
-                            simpleDateFormat.parse(issuedInfo.get("issuedAt").asText()),
-                            issuedInfo.path("book").get("id").asText(),
-                            issuedInfo.path("book").get("name").asText(),
-                            issuedInfo.path("user").get("id").asText(),
-                            issuedInfo.path("user").get("username").asText()
-                    );
-            issuedOrderDatabase.add(issuedOrder);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText("Warning");
+            alert.setContentText("This user has yet been issued any books");
+            alert.showAndWait();
         }
-        issuedTable.getItems().addAll(issuedOrderDatabase);
+        else {
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode listIssued = objectMapper.readTree(response.body());
+            List<issueBookInfo> issuedOrderDatabase = new ArrayList<>();
+            for (JsonNode issuedInfo : listIssued) {
+                issueBookInfo issuedOrder = new issueBookInfo
+                        (
+                                issuedInfo.get("id").asText(),
+                                simpleDateFormat.parse(issuedInfo.get("issuedAt").asText()),
+                                issuedInfo.path("book").get("id").asText(),
+                                issuedInfo.path("book").get("name").asText(),
+                                issuedInfo.path("user").get("id").asText(),
+                                issuedInfo.path("user").get("username").asText()
+                        );
+                issuedOrderDatabase.add(issuedOrder);
+            }
+            issuedTable.getItems().addAll(issuedOrderDatabase);
+        }
     }
 
     /**
