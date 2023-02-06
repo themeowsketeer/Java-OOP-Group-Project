@@ -421,7 +421,7 @@ public class MainController {
         else if ((response != null ? response.statusCode() : 0) == 200) {
             alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setHeaderText("Success");
-            alert.setContentText("Book has been issued to user");
+            alert.setContentText("Book ID " + bookID + " has been issued to user ID " + userID);
         }
         else if ((response != null ? response.statusCode() : 0) == 400) {
             alert = new Alert(Alert.AlertType.INFORMATION);

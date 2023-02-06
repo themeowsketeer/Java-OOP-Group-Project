@@ -334,7 +334,7 @@ public class viewIssuedMenuController {
             else if (response.statusCode() == 200) {
                 alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setHeaderText("Success");
-                alert.setContentText("Book has been returned to library");
+                alert.setContentText("Book in borrowing order ID " + borrowedID + " has been returned to library");
             }
             else if (response.statusCode() == 400) {
                 alert = new Alert(Alert.AlertType.INFORMATION);

@@ -1,6 +1,7 @@
 package com.project.client.ui.loginMenu;
 
 import com.project.client.RESTapiclients.LoginRESTRequest;
+import com.project.client.object.accessToken;
 import com.project.client.object.userAuth;
 import com.project.client.ui.mainMenu.MainController;
 import javafx.event.ActionEvent;
@@ -69,28 +70,40 @@ public class LoginController {
             alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText(null);
             alert.setContentText("Please enter all fields and try again!");
-            alert.showAndWait();
         }
         else {
-            userAuth user = new userAuth(username, password);
-            HttpResponse<String> response = LoginRESTRequest.loginRequest(user);
+            userAuth userLogin = new userAuth(username, password);
+            HttpResponse<String> response = LoginRESTRequest.loginRequest(userLogin);
             if (response == null || response.statusCode() != 200) {
                 alert = new Alert(Alert.AlertType.ERROR);
                 alert.setHeaderText(null);
                 alert.setContentText("Incorrect username or password. Please try again.");
-                alert.showAndWait();
             } else {
                 loginSuccess(event);
+                String role;
+                if (accessToken.getRoleID() == 1L)
+                {
+                    role = "Admin.";
+                }
+                else
+                {
+                    role = "User.";
+                }
                 alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setHeaderText(null);
-                alert.setContentText("Successfully logged in.");
-                alert.showAndWait();
+                alert.setContentText(
+                        "Successfully logged in as user "
+                        + userLogin.getUsername() +
+                        ", access role: "
+                        + role
+                );
             }
         }
+        alert.showAndWait();
     }
 
     /**
-     * If login succesfully, this method is used to re-direct the main UI screen to main menu,
+     * If login successfully, this method is used to re-direct the main UI screen to main menu,
      * as well as table for showing all Book objects.
      * @param event Variable registered upon interacted by user, such as clicking.
      */
