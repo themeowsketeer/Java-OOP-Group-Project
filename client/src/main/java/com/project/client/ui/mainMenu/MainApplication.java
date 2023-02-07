@@ -21,10 +21,12 @@ public class MainApplication extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("main.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(this
+                .getClass()
+                .getResource("main.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 976, 568);
-        stage.getIcons().add(new Image(Objects.requireNonNull(MainApplication
-                        .class
+        stage.getIcons().add(new Image(Objects.requireNonNull(this
+                        .getClass()
                         .getResource("/com/project/client/icon/logo_white_blue.png"))
                 .openStream()));
         stage.setTitle("FRA-UAS Library");
