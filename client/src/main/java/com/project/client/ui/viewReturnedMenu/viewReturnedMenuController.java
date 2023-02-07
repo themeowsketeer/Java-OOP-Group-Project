@@ -5,9 +5,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.client.RESTapiclients.IssueReturnBookRESTRequest;
 import com.project.client.object.returnBookInfo;
-import com.project.client.ui.loginMenu.LoginController;
-import com.project.client.ui.mainMenu.MainController;
-import com.project.client.ui.mainUserMenu.mainUserMenuController;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -24,10 +22,7 @@ import java.net.URL;
 import java.net.http.HttpResponse;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import static javafx.collections.FXCollections.observableArrayList;
 
@@ -125,8 +120,14 @@ public class viewReturnedMenuController {
     private void openBookMenu (ActionEvent event) {
         try {
             Stage stage = (Stage) bookMenu.getScene().getWindow();
-            FXMLLoader fxmlLoader = new FXMLLoader(MainController.class.getResource("/com/project/client/ui/mainMenu/main.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(this
+                    .getClass()
+                    .getResource("/com/project/client/ui/mainMenu/main.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
+            stage.getIcons().add(new Image(Objects.requireNonNull(this
+                            .getClass()
+                            .getResource("/com/project/client/icon/logo_white_blue.png"))
+                    .openStream()));
             stage.setTitle("FRA-UAS Library");
             stage.setScene(scene);
             stage.show();
@@ -144,8 +145,14 @@ public class viewReturnedMenuController {
     private void openUserMenu (ActionEvent event) {
         try {
             Stage stage = (Stage) userMenu.getScene().getWindow();
-            FXMLLoader fxmlLoader = new FXMLLoader(mainUserMenuController.class.getResource("/com/project/client/ui/mainUserMenu/mainUserMenu.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(this
+                    .getClass()
+                    .getResource("/com/project/client/ui/mainUserMenu/mainUserMenu.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
+            stage.getIcons().add(new Image(Objects.requireNonNull(this
+                            .getClass()
+                            .getResource("/com/project/client/icon/logo_white_blue.png"))
+                    .openStream()));
             stage.setTitle("FRA-UAS Library");
             stage.setScene(scene);
             stage.show();
@@ -163,8 +170,14 @@ public class viewReturnedMenuController {
     private void openViewAllMenu (ActionEvent event) {
         try {
             Stage stage = (Stage) viewAllButton.getScene().getWindow();
-            FXMLLoader fxmlLoader = new FXMLLoader(MainController.class.getResource("/com/project/client/ui/mainMenu/main.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(this
+                    .getClass()
+                    .getResource("/com/project/client/ui/mainMenu/main.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
+            stage.getIcons().add(new Image(Objects.requireNonNull(this
+                            .getClass()
+                            .getResource("/com/project/client/icon/logo_white_blue.png"))
+                    .openStream()));
             stage.setTitle("FRA-UAS Library");
             stage.setScene(scene);
             stage.show();
@@ -184,9 +197,15 @@ public class viewReturnedMenuController {
         try {
             Stage staging = (Stage) logoutButton.getScene().getWindow();
             staging.close();
-            FXMLLoader fxmlLoader = new FXMLLoader(LoginController.class.getResource("/com/project/client/ui/loginMenu/login.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(this
+                    .getClass()
+                    .getResource("/com/project/client/ui/loginMenu/login.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 600, 400);
             Stage stage = new Stage();
+            stage.getIcons().add(new Image(Objects.requireNonNull(this
+                            .getClass()
+                            .getResource("/com/project/client/icon/logo_white_blue.png"))
+                    .openStream()));
             stage.setTitle("Login");
             stage.setScene(scene);
             stage.show();

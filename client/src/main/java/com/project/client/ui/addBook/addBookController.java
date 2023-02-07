@@ -71,7 +71,7 @@ public class addBookController {
      * Method used to initiate a Book object with sufficient and valid information from text boxes
      * and make API calls to server in order to add that Book object to the database. Method also handle
      * different alert pop-ups for different results, depending on status code received or type of response itself.
-     * @param event
+     * @param event Variable registered upon interacted by user, such as clicking.
      * @throws NumberFormatException Exception thrown when one of the text box is left empty.
      */
     @FXML

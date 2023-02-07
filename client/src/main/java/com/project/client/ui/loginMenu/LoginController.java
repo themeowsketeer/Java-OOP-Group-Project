@@ -3,7 +3,6 @@ package com.project.client.ui.loginMenu;
 import com.project.client.RESTapiclients.LoginRESTRequest;
 import com.project.client.object.accessToken;
 import com.project.client.object.userAuth;
-import com.project.client.ui.mainMenu.MainController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,11 +11,13 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
 import java.net.http.HttpResponse;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 /**
@@ -111,9 +112,15 @@ public class LoginController {
         try {
             Stage staging = (Stage) loginButton.getScene().getWindow();
             staging.close();
-            FXMLLoader fxmlLoader = new FXMLLoader(MainController.class.getResource("main.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(this
+                    .getClass()
+                    .getResource("/com/project/client/ui/mainMenu/main.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 976, 568);
             Stage stage = new Stage();
+            stage.getIcons().add(new Image(Objects.requireNonNull(this
+                            .getClass()
+                            .getResource("/com/project/client/icon/logo_white_blue.png"))
+                    .openStream()));
             stage.setTitle("FRA-UAS Library");
             stage.setScene(scene);
             stage.show();
