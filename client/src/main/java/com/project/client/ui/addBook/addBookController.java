@@ -118,6 +118,7 @@ public class addBookController {
                     alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setHeaderText("Success");
                     alert.setContentText("Book has been added.");
+                    closeWindow(event);
                 } else {
                     alert = new Alert(Alert.AlertType.ERROR);
                     alert.setHeaderText("Procedure failed");

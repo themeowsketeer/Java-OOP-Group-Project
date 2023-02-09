@@ -314,7 +314,7 @@ public class MainController {
                 return new TableCell<>() {
                     private final Button borrowButton = new Button("Issue");
 
-                    private List<String>userLightInfoList;
+                    private List<String> userLightInfoList;
 
                     /**
                      * Upon clicking Issue Book button, provide the user with drop-down list of
@@ -329,16 +329,15 @@ public class MainController {
                                 throw new RuntimeException(e);
                             }
                             ChoiceDialog<String> issueConfirm = new ChoiceDialog<>(userLightInfoList.get(0), userLightInfoList);
-                            Book data = getTableView().getItems().get(getIndex());
-                            issueConfirm.setHeaderText("To whose ID you want to issue this book: " + data.getName()+ " ?");
+                            Book bookData = getTableView().getItems().get(getIndex());
+                            issueConfirm.setHeaderText("To whose ID you want to issue this book: " + bookData.getName()+ " ?");
                             issueConfirm.setContentText("Select user ID along username: ");
                             Optional<String> result = issueConfirm.showAndWait();
-                            String userInfo = issueConfirm.getSelectedItem();
                             if (result.isPresent())
                             {
-                                String[] userInfoArr = userInfo.split(" ");
+                                String[] userInfoArr = issueConfirm.getSelectedItem().split(" ");
                                 String userId = userInfoArr[0];
-                                sendBookToUser(Long.parseLong(userId),(data.getId()));
+                                sendBookToUser(Long.parseLong(userId),(bookData.getId()));
                             }
                             else
                             {
@@ -378,8 +377,7 @@ public class MainController {
         HttpResponse<String> response = BookRESTRequest.getBookByID(String.valueOf(0));
         assert response != null;
         ObjectMapper objectMapper = new ObjectMapper();
-        List<Book> bookListDatabase = objectMapper.readValue(response.body(), new TypeReference<>() {
-        });
+        List<Book> bookListDatabase = objectMapper.readValue(response.body(), new TypeReference<>() {});
         bookTable.getItems().addAll(bookListDatabase);
     }
 
