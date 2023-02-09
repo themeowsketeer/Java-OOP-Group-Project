@@ -98,31 +98,33 @@ public class addBookController {
                 alert.setContentText("Please enter all fields and try again!");
                 alert.showAndWait();
             }
-            Random random = new Random();
+            else {
+                Random random = new Random();
 
-            Date now = new Date();
-            String bookID = String.valueOf(random.nextInt(1000));
-            Book book = new Book(bookID,
-                    name,
-                    authorList,
-                    Long.parseLong(releasedYear),
-                    Integer.parseInt(edition), Integer.parseInt(quantity),
-                    now);
-            HttpResponse<String> response = BookRESTRequest.addNewBook(book);
-            assert response != null;
-            int responseCode = response.statusCode();
+                Date now = new Date();
+                String bookID = String.valueOf(random.nextInt(1000));
+                Book book = new Book(bookID,
+                        name,
+                        authorList,
+                        Long.parseLong(releasedYear),
+                        Integer.parseInt(edition), Integer.parseInt(quantity),
+                        now);
+                HttpResponse<String> response = BookRESTRequest.addNewBook(book);
+                assert response != null;
+                int responseCode = response.statusCode();
 
-            Alert alert;
-            if (responseCode == 201) {
-                alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setHeaderText("Success");
-                alert.setContentText("Book has been added.");
-            } else {
-                alert = new Alert(Alert.AlertType.ERROR);
-                alert.setHeaderText("Procedure failed");
-                alert.setContentText("Please try again.");
+                Alert alert;
+                if (responseCode == 201) {
+                    alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setHeaderText("Success");
+                    alert.setContentText("Book has been added.");
+                } else {
+                    alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setHeaderText("Procedure failed");
+                    alert.setContentText("Please try again.");
+                }
+                alert.showAndWait();
             }
-            alert.showAndWait();
         }
         catch (NumberFormatException numEx)
         {

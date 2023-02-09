@@ -314,29 +314,26 @@ public class MainController {
                 return new TableCell<>() {
                     private final Button borrowButton = new Button("Issue");
 
-                    private final List<String>userLightInfoList;
-
-                    {
-                        try {
-                            userLightInfoList = setUsersLightList();
-                        } catch (JsonProcessingException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
+                    private List<String>userLightInfoList;
 
                     /**
                      * Upon clicking Issue Book button, provide the user with drop-down list of
                      * valid user to be issued with Book on same row with the button.
                      */
-                    final ChoiceDialog issueConfirm = new ChoiceDialog(userLightInfoList.get(0), userLightInfoList);
                     {
                         borrowButton.setOnAction((ActionEvent event) ->
                         {
+                            try {
+                                userLightInfoList = setUsersLightList();
+                            } catch (JsonProcessingException e) {
+                                throw new RuntimeException(e);
+                            }
+                            ChoiceDialog<String> issueConfirm = new ChoiceDialog<>(userLightInfoList.get(0), userLightInfoList);
                             Book data = getTableView().getItems().get(getIndex());
                             issueConfirm.setHeaderText("To whose ID you want to issue this book: " + data.getName()+ " ?");
                             issueConfirm.setContentText("Select user ID along username: ");
-                            Optional result = issueConfirm.showAndWait();
-                            String userInfo = (String) issueConfirm.getSelectedItem();
+                            Optional<String> result = issueConfirm.showAndWait();
+                            String userInfo = issueConfirm.getSelectedItem();
                             if (result.isPresent())
                             {
                                 String[] userInfoArr = userInfo.split(" ");
